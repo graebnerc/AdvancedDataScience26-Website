@@ -1,0 +1,31 @@
+---
+title: "Title"
+subtitle: "Subtitle"
+---
+
+# 📑 The course in brief
+
+**Focus:** 
+
+...
+
+**How:** 
+
+...
+
+**Prerequisites:**
+
+...
+
+# 🎯 Learning Objectives
+
+-	...
+
+
+
+-----------------
+
+
+<a href=https://elearning.uni-flensburg.de/moodle/course/view.php?id=XXXXX>
+    <button class="button-61">The main course on moodle</button>
+</a>

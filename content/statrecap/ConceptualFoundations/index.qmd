@@ -1,0 +1,18 @@
+---
+title: "1: What is Statistics all about? Conceptual Foundations"
+date: '2025-05-10'
+---
+
+```{r}
+#| code-summary: "Packages used for R examples"
+library(kableExtra)
+```
+
+
+# Introduction
+
+The intro to a blog based page...
+
+# Next steps
+
+- [Back to the recap overview](../../statrecap.qmd)

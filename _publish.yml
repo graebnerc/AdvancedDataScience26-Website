@@ -1,0 +1,4 @@
+- source: project
+  netlify:
+    - id: '41d6e5d3-9ffb-43ea-ae05-3db4e002b30f'
+      url: 'https://researchmethodology25fall.netlify.app'

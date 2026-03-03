@@ -1,0 +1,63 @@
+---
+title: "🗓️ Session 2: First steps in R"
+date: "2025-03-21"
+date-modified: last-modified
+---
+
+Abstract
+
+## 👨‍🏫 Lecture Slides 
+
+Either click on the slide area below or click 
+[here]() to download the slides.
+
+```{=html}
+<div class="embed-container">
+  <iframe 
+  src="/content/material/slides/E2-Basics-Functions.pdf" 
+  style="border: 0.5px" 
+  width="80%"
+  height="80%"
+  ></iframe>
+</div>
+```
+
+::: {.callout-tip collapse="true"}
+## The R script of this session
+<script src="https://gist.github.com/graebnerc/ade2efa9b3e6a31f237924d49c9b78ed.js"></script>
+:::
+
+## 🎥 Accompanying lecture videos 
+
+All the videos are available via this [playlist]().
+
+```{=html}
+<div class="embed-container">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/videoseries?si=ATCNZhcnP9HlPYDc&amp;list=PLZDawQMrG1RLPfd_e-ktZ_IIg9Kkbr16a" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+```
+
+## 📚 Mandatory Reading
+
+- [Chapter 2](https://r4ds.hadley.nz/workflow-basics) in @r4ds.
+
+### 🏆 Further readings
+
+- [Chapter 4](https://r4ds.hadley.nz/workflow-style) in @r4ds.
+
+## ✍️ Coursework
+
+- Do this
+
+::: {.callout-tip collapse="true"}
+## Quick code for starting the exercises
+```{r}
+#| eval: false
+learnr::run_tutorial(
+  name = "Basics", 
+  package = "DataScienceExercises", 
+  shiny_args=list("launch.browser"=TRUE))
+```
+:::
+
+- If you have questions or problems, please post them in the Moodle forum

@@ -1,0 +1,24 @@
+---
+title: "Material overview"
+---
+
+## 📚 General references
+
+The following textbooks offer a good general reference to the course
+content:
+
+- Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). *R for data science: Import, tidy, transform, visualize, and model data* (2nd edition). O'Reilly. [https://r4ds.hadley.nz/](https://r4ds.hadley.nz/)
+
+## 🔖 Session-specific material
+
+::: {.callout-note collapse="true"}
+## How to do the statistics recap?
+For information on how to do the recap, read 
+[this tutorial](/content/statrecap.qmd).
+:::
+
+
+|   Session    | Topic                                                         |       Exercise code                      |
+|:------------:|:--------------------------------------------------------------|:----------------------------------------:|
+|   [1](#s1)   | [First session page](/content/material/session00.qmd)         |          `Basics`                        |
+
