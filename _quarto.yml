@@ -52,6 +52,9 @@ website:
           - href: content/material/session09/index.qmd
             text: "Session 9 — Recap"
 
+  resources:
+    - "content/material/session*/slides.html"
+
   navbar:
     background: primary
   page-footer:

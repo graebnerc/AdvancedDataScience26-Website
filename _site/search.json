@@ -209,74 +209,32 @@
     ]
   },
   {
-    "objectID": "content/material/session01/slides.html#what-is-this-course",
-    "href": "content/material/session01/slides.html#what-is-this-course",
-    "title": "Welcome, Recap & Tooling Upgrade",
+    "objectID": "content/material/session01/solution.html",
+    "href": "content/material/session01/solution.html",
+    "title": "Session 1 — Exercise Solution",
     "section": "",
-    "text": "Building on what you know: R, Quarto, basic linear regression — all from Research Methodology (Fall 2025)\nWhat we add:\n\nRegression done properly: multiple predictors, binary outcomes, diagnostics\nCausal thinking: why correlation ≠ causation, and what to do about it\nPanel data, modern tools, professional communication\nLearn to use tools such as GitHub, which are essential for today’s working environment\n\nGuiding idea: Every session starts with a business question\n\n\nNot: “Today we learn logistic regression”\nBut: “Which firms are likely to exit the market — and can we predict it?”"
+    "text": "This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.\nAs discussed in Békés and Kézdi (2021), regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see Wooldridge (2020)."
   },
   {
-    "objectID": "content/material/session01/slides.html#full-course-schedule",
-    "href": "content/material/session01/slides.html#full-course-schedule",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "Full course schedule",
-    "text": "Full course schedule\n\n\n\n\n\n\n\n\n\n#\nDate\nTitle\n\n\n\n\n1\nThu, 12 Mar\nWelcome, recap & tooling upgrade ← today\n\n\n—\n19 + 26 Mar\nTake-home task 1\n\n\n2\nThu, 09 Apr\nMultiple regression: going beyond the basics\n\n\n—\n16 + 23 Apr\nTake-home task 2\n\n\n3\nThu, 30 Apr\nModelling binary and categorical outcomes\n\n\n4\nThu, 07 May\nWhat can go wrong: biases and diagnostics\n\n\n—\nThu, 14 May\nNo lecture\n\n\n5\nThu, 21 May\nCausation vs. correlation: thinking like an economist\n\n\n6\nThu, 28 May\nPanel data and fixed effects\n\n\n7\nThu, 04 Jun\nCoding smarter: R and AI tools\n\n\n8\nThu, 11 Jun\nCommunicating data: advanced visualization\n\n\n9\nThu, 18 Jun\nRecap and looking ahead"
+    "objectID": "content/material/session01/solution.html#introduction",
+    "href": "content/material/session01/solution.html#introduction",
+    "title": "Session 1 — Exercise Solution",
+    "section": "",
+    "text": "This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.\nAs discussed in Békés and Kézdi (2021), regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see Wooldridge (2020)."
   },
   {
-    "objectID": "content/material/session01/slides.html#assessment",
-    "href": "content/material/session01/slides.html#assessment",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "Assessment",
-    "text": "Assessment\nTake-home tasks (mandatory, pass/fail)\n\nTwo structured analyses submitted as Quarto HTML reports\nAssigned during the conference/unavailable periods — that time is for you\nSubmit via GitHub Classroom\n\n. . .\n\n\n\nTask\nDue\nTopic\n\n\n\n\nTask 1\n02 April, 08:00\nRegression basics\n\n\nTask 2\n30 April, 08:00\nExtending a regression\n\n\n\n. . .\nFinal exam\n\nOpen-book, on-site, individual\nDetails confirmed later in the semester"
+    "objectID": "content/material/session01/solution.html#data",
+    "href": "content/material/session01/solution.html#data",
+    "title": "Session 1 — Exercise Solution",
+    "section": "2 Data",
+    "text": "2 Data\nThe analysis uses data from the World Bank covering 182 countries in 2017. The key variables are GDP per capita (in USD) and life expectancy at birth (in years). The foundational empirical relationship between income and health was documented by Preston (1975)."
   },
   {
-    "objectID": "content/material/session01/slides.html#how-this-course-works",
-    "href": "content/material/session01/slides.html#how-this-course-works",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "How this course works",
-    "text": "How this course works\n\nWhere you code: GitHub Codespaces — RStudio in your browser, zero installation\n\nAlternative: install R Studio and packages locally as in the previous course\n\n. . .\nWhere you ask questions: GitHub Discussions on the course repository (not email, not Moodle — so everyone benefits from the answer)\nWhere you submit: GitHub Classroom for tasks; Moodle for final exam\n. . .\nWhat you need:\n\nA GitHub account (free)\nGitHub Student Developer Pack (recommended — free professional tools)\nNothing else except exitement 😉"
-  },
-  {
-    "objectID": "content/material/session01/slides.html#todays-plan",
-    "href": "content/material/session01/slides.html#todays-plan",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "Today’s plan",
-    "text": "Today’s plan\n\n\n\n\nTime\nBlock\n\n\n\n\n16:00–16:20\nWelcome, course overview, assessment\n\n\n16:20–17:00\nQuarto upgrade: live demo document\n\n\n17:00–17:15\nQuestions and break\n\n\n17:15–18:15\nStudent exercise\n\n\n18:15–19:00\nIntroduce Task 1, Q&A\n\n\n\n\n. . .\nThe exercise today is about workflow setup, not data analysis.\n→ No dataset required — we are building a Quarto template for later"
-  },
-  {
-    "objectID": "content/material/session01/slides.html#quarto-in-this-course",
-    "href": "content/material/session01/slides.html#quarto-in-this-course",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "Quarto in this course",
-    "text": "Quarto in this course\nWhy Quarto matters:\n\nCode and text in one place — no copy-pasting numbers into Word\nResults update automatically when data or code changes\nRenders to HTML, PDF, Word — same source file\n\n. . .\nThe standard we set today applies to every submission:\n\nProper YAML front matter\nNumbered sections, table of contents\nBibliography with BibTeX citations\nClean, commented code chunks"
-  },
-  {
-    "objectID": "content/material/session01/slides.html#git-the-four-things-you-need",
-    "href": "content/material/session01/slides.html#git-the-four-things-you-need",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "Git: the four things you need",
-    "text": "Git: the four things you need\n\n\n\n\n\nflowchart LR\n  A[\"📁&lt;br/&gt;Working directory\"] --&gt;|\"Stage (Git pane)\"| B[\"📋&lt;br/&gt;Staging area\"]\n  B --&gt;|\"Commit (+ message)\"| C[\"💾&lt;br/&gt;Local repository\"]\n  C --&gt;|\"Push\"| D[\"☁️&lt;br/&gt;GitHub (remote)\"]\n  D --&gt;|\"Pull\"| A\n\n  style A fill:#f4f6f8,stroke:#00395B\n  style B fill:#f4f6f8,stroke:#69AACD\n  style C fill:#f4f6f8,stroke:#00395B\n  style D fill:#00395B,color:#ffffff,stroke:#00395B\n\n\n\n\n\n\nYou only need these four actions. No branching, no merging.\nAll of this happens in the RStudio Git pane — no command line.\n\nFor a full introduction: GitHub Skills — Introduction to GitHub"
-  },
-  {
-    "objectID": "content/material/session01/slides.html#take-home-task-1",
-    "href": "content/material/session01/slides.html#take-home-task-1",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "Take-home task 1",
-    "text": "Take-home task 1\nYou are an analyst producing a briefing on global development patterns.\n. . .\nDataset: World Bank — life expectancy and GDP per capita, 182 countries, 2017 Download from OSF: osf.io/pguwf\nFive tasks:\n\nLoad and explore — summary statistics, two plots\nSimple regression: life expectancy ~ GDP per capita — interpret the coefficient\nLog-transform GDP — does fit improve? Why?\nAdd one variable, compare models with a modelsummary table\nWrite a 150-word plain-language summary for a non-technical reader\n\n. . .\nDeadline: 02 April 2026, 08:00 Submit: GitHub Classroom (link will be added soon)\nGitHub Classroom link — to be added"
-  },
-  {
-    "objectID": "content/material/session01/slides.html#the-break-weeks",
-    "href": "content/material/session01/slides.html#the-break-weeks",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "The break weeks",
-    "text": "The break weeks\n19 and 16 March, 16 and 23 April\nThis time is intentional and structured:\n\nWork on Take-home Task 1 and 2 at your own pace\nReview material from the prior course if anything feels rusty\nPost questions in GitHub Discussions — I will check regularly\n\n. . .\n\n\n\n\n\n\nTip\n\n\n\nIf something in Task 1 feels unfamiliar, that is a signal — not a problem. The two weeks are designed for exactly this."
-  },
-  {
-    "objectID": "content/material/session01/slides.html#see-you-on-9-april",
-    "href": "content/material/session01/slides.html#see-you-on-9-april",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "See you on 9 April",
-    "text": "See you on 9 April\nNext session: Thu, 09 April — Multiple regression: going beyond the basics\nQuestions during the break? GitHub Discussions on the course repository\nTask 1 deadline: 02 April 2026, 08:00\n. . .\nGood luck — and welcome to the course.\n\n\n\n\nPDF export (Chrome/Edge): click ☰ bottom-left → Tools → PDF Export Mode → print. Alternative: add ?print-pdf to the URL, then print."
+    "objectID": "content/material/session01/solution.html#results",
+    "href": "content/material/session01/solution.html#results",
+    "title": "Session 1 — Exercise Solution",
+    "section": "3 Results",
+    "text": "3 Results\nThe main finding from the literature is that richer countries tend to have higher life expectancy — but the relationship is non-linear: gains in life expectancy per additional dollar of income shrink as countries become wealthier. A log transformation of GDP per capita helps capture this pattern.\n\n\nCode\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nCode\nggplot(mpg, aes(x = displ, y = hwy, colour = class)) +\n  geom_point(alpha = 0.7) +\n  labs(\n    x = \"Engine displacement (litres)\",\n    y = \"Highway fuel economy (mpg)\",\n    colour = \"Vehicle class\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nFigure 1: Engine displacement and fuel economy by vehicle class (mpg dataset)."
   },
   {
     "objectID": "content/material/session01/exercise.html",
@@ -936,47 +894,5 @@
       "Sessions",
       "Session 8 — Data Visualization"
     ]
-  },
-  {
-    "objectID": "content/material/session01/solution.html",
-    "href": "content/material/session01/solution.html",
-    "title": "Session 1 — Exercise Solution",
-    "section": "",
-    "text": "This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.\nAs discussed in Békés and Kézdi (2021), regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see Wooldridge (2020)."
-  },
-  {
-    "objectID": "content/material/session01/solution.html#introduction",
-    "href": "content/material/session01/solution.html#introduction",
-    "title": "Session 1 — Exercise Solution",
-    "section": "",
-    "text": "This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.\nAs discussed in Békés and Kézdi (2021), regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see Wooldridge (2020)."
-  },
-  {
-    "objectID": "content/material/session01/solution.html#data",
-    "href": "content/material/session01/solution.html#data",
-    "title": "Session 1 — Exercise Solution",
-    "section": "2 Data",
-    "text": "2 Data\nThe analysis uses data from the World Bank covering 182 countries in 2017. The key variables are GDP per capita (in USD) and life expectancy at birth (in years). The foundational empirical relationship between income and health was documented by Preston (1975)."
-  },
-  {
-    "objectID": "content/material/session01/solution.html#results",
-    "href": "content/material/session01/solution.html#results",
-    "title": "Session 1 — Exercise Solution",
-    "section": "3 Results",
-    "text": "3 Results\nThe main finding from the literature is that richer countries tend to have higher life expectancy — but the relationship is non-linear: gains in life expectancy per additional dollar of income shrink as countries become wealthier. A log transformation of GDP per capita helps capture this pattern.\n\n\nCode\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nCode\nggplot(mpg, aes(x = displ, y = hwy, colour = class)) +\n  geom_point(alpha = 0.7) +\n  labs(\n    x = \"Engine displacement (litres)\",\n    y = \"Highway fuel economy (mpg)\",\n    colour = \"Vehicle class\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nFigure 1: Engine displacement and fuel economy by vehicle class (mpg dataset)."
-  },
-  {
-    "objectID": "content/material/session01/slides.html",
-    "href": "content/material/session01/slides.html",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "",
-    "text": "Building on what you know: R, Quarto, basic linear regression — all from Research Methodology (Fall 2025)\nWhat we add:\n\nRegression done properly: multiple predictors, binary outcomes, diagnostics\nCausal thinking: why correlation ≠ causation, and what to do about it\nPanel data, modern tools, professional communication\nLearn to use tools such as GitHub, which are essential for today’s working environment\n\nGuiding idea: Every session starts with a business question\n\n\nNot: “Today we learn logistic regression”\nBut: “Which firms are likely to exit the market — and can we predict it?”"
-  },
-  {
-    "objectID": "content/material/session01/slides.html#quarto-upgrade-live-demo-document",
-    "href": "content/material/session01/slides.html#quarto-upgrade-live-demo-document",
-    "title": "Welcome, Recap & Tooling Upgrade",
-    "section": "Quarto upgrade: live demo document",
-    "text": "Quarto upgrade: live demo document\n\nI will develop a Quarto document as a demo\nWe will also use it to demonstrate how GitHub classroom works\nYou do not need to make any notes, everything will be made available\nYou can do the test for GitHub classroom yourself at home using the link from the website"
   }
 ]
