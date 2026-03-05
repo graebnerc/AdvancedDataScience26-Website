@@ -1,0 +1,59 @@
+---
+title: "Session 1 — Exercise Solution"
+subtitle: "Setting Up a Reproducible Workflow"
+author: "Your Name"
+date: today
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-tools: true
+  docx:
+    toc: true
+    number-sections: true
+bibliography: references.bib
+---
+
+## Introduction
+
+This report examines the relationship between economic development and health
+outcomes across countries. Understanding this relationship is relevant for
+international businesses assessing market conditions and risk in emerging
+economies.
+
+As discussed in @BekezKezdi2021, regression analysis allows us to estimate the
+average association between two variables while holding other factors constant.
+For a formal econometric treatment of these methods, see @Wooldridge2020.
+
+## Data
+
+The analysis uses data from the World Bank covering 182 countries in 2017.
+The key variables are GDP per capita (in USD) and life expectancy at birth
+(in years). The foundational empirical relationship between income and health
+was documented by @Preston1975.
+
+## Results
+
+The main finding from the literature is that richer countries tend to have
+higher life expectancy — but the relationship is non-linear: gains in life
+expectancy per additional dollar of income shrink as countries become wealthier.
+A log transformation of GDP per capita helps capture this pattern.
+
+```{r}
+#| label: fig-example
+#| fig-cap: "Engine displacement and fuel economy by vehicle class (mpg dataset)."
+
+library(tidyverse)
+
+ggplot(mpg, aes(x = displ, y = hwy, colour = class)) +
+  geom_point(alpha = 0.7) +
+  labs(
+    x = "Engine displacement (litres)",
+    y = "Highway fuel economy (mpg)",
+    colour = "Vehicle class"
+  ) +
+  theme_minimal()
+```
+
+## References

@@ -42,6 +42,13 @@ I do not answer questions via email.
 | [References](references.bib) | BibTeX file with all citations used in session materials |
 
 ::: {.callout-tip collapse="true"}
+## Demo assignment to test GitHub Classroom
+[Here](https://classroom.github.com/a/PRWNjriG) is the link to the demo assignment in Github classroom.
+
+Remember: there is no submit button, your last commit before the deadline automatically counts as submission.
+:::
+
+::: {.callout-tip collapse="true"}
 ## Downloading the source (.qmd) files
 The demo document and exercise sheet have a **`</> Code`** button in the top-right corner. Click it and select **"View Source"** to see the raw `.qmd` file. Copy the full text, paste it into a new file in RStudio, and save it with a `.qmd` extension — you now have a fully working local copy.
 :::

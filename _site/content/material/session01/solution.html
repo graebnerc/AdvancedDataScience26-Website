@@ -8,7 +8,7 @@
 
 <meta name="author" content="Claudius Gräbner-Radkowitsch">
 
-<title>Welcome, Recap &amp; Tooling Upgrade – Adv. Data Science 2026</title>
+<title>Session 1 — Exercise Solution – Adv. Data Science 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,7 +21,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -69,17 +123,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script src="../../../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<meta property="og:title" content="Welcome, Recap &amp; Tooling Upgrade – Adv. Data Science 2026">
-<meta property="og:description" content="Session 1 — 12 March 2026">
+<meta property="og:title" content="Session 1 — Exercise Solution – Adv. Data Science 2026">
+<meta property="og:description" content="Setting Up a Reproducible Workflow">
+<meta property="og:image" content="solution_files/figure-html/fig-example-1.png">
 <meta property="og:site_name" content="Adv. Data Science 2026">
 </head>
 
-<body class="nav-sidebar docked nav-fixed slimcontent quarto-light">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -105,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Welcome, Recap &amp; Tooling Upgrade</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Session 1 — Exercise Solution</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -227,51 +279,37 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-this-course" id="toc-what-is-this-course" class="nav-link active" data-scroll-target="#what-is-this-course">What is this course?</a></li>
-  <li><a href="#full-course-schedule" id="toc-full-course-schedule" class="nav-link" data-scroll-target="#full-course-schedule">Full course schedule</a></li>
-  <li><a href="#assessment" id="toc-assessment" class="nav-link" data-scroll-target="#assessment">Assessment</a></li>
-  <li><a href="#how-this-course-works" id="toc-how-this-course-works" class="nav-link" data-scroll-target="#how-this-course-works">How this course works</a></li>
-  <li><a href="#todays-plan" id="toc-todays-plan" class="nav-link" data-scroll-target="#todays-plan">Today’s plan</a></li>
-  <li><a href="#quarto-in-this-course" id="toc-quarto-in-this-course" class="nav-link" data-scroll-target="#quarto-in-this-course">Quarto in this course</a></li>
-  <li><a href="#git-the-four-things-you-need" id="toc-git-the-four-things-you-need" class="nav-link" data-scroll-target="#git-the-four-things-you-need">Git: the four things you need</a></li>
-  <li><a href="#quarto-upgrade-live-demo-document" id="toc-quarto-upgrade-live-demo-document" class="nav-link" data-scroll-target="#quarto-upgrade-live-demo-document">Quarto upgrade: live demo document</a></li>
-  <li><a href="#take-home-task-1" id="toc-take-home-task-1" class="nav-link" data-scroll-target="#take-home-task-1">Take-home task 1</a></li>
-  <li><a href="#the-break-weeks" id="toc-the-break-weeks" class="nav-link" data-scroll-target="#the-break-weeks">The break weeks</a></li>
-  <li><a href="#see-you-on-9-april" id="toc-see-you-on-9-april" class="nav-link" data-scroll-target="#see-you-on-9-april">See you on 9 April</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2</span> Data</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3</span> Results</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4</span> References</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="solution.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Welcome, Recap &amp; Tooling Upgrade</h1>
-<p class="subtitle lead">Session 1 — 12 March 2026</p>
+<div class="quarto-title-block"><div><h1 class="title">Session 1 — Exercise Solution</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<p class="subtitle lead">Setting Up a Reproducible Workflow</p>
 </div>
 
 
-<div class="quarto-title-meta-author">
-  <div class="quarto-title-meta-heading">Author</div>
-  <div class="quarto-title-meta-heading">Affiliation</div>
-  
-    <div class="quarto-title-meta-contents">
-    <p class="author">Prof.&nbsp;Dr.&nbsp;Claudius Gräbner-Radkowitsch </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            Europa-Universität Flensburg
-          </p>
-      </div>
-  </div>
 
 <div class="quarto-title-meta">
 
-      
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your Name </p>
+          </div>
+  </div>
+    
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">12 03 2026</p>
+      <p class="date">05 03 2026</p>
     </div>
   </div>
   
@@ -283,317 +321,80 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="what-is-this-course" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-this-course">What is this course?</h2>
-<p><strong>Building on what you know:</strong> R, Quarto, basic linear regression — all from <em>Research Methodology</em> (Fall 2025)</p>
-<p><strong>What we add:</strong></p>
-<ul>
-<li>Regression done properly: multiple predictors, binary outcomes, diagnostics</li>
-<li>Causal thinking: why correlation ≠ causation, and what to do about it</li>
-<li>Panel data, modern tools, professional communication</li>
-<li>Learn to use tools such as GitHub, which are essential for today’s working environment</li>
-</ul>
-<p><strong>Guiding idea:</strong> Every session starts with a <strong>business question</strong></p>
-<div class="incremental">
-<ul class="incremental">
-<li><em>Not:</em> “Today we learn logistic regression”</li>
-<li><em>But:</em> “Which firms are likely to exit the market — and can we predict it?”</li>
-</ul>
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.</p>
+<p>As discussed in <span class="citation" data-cites="BekezKezdi2021">Békés and Kézdi (<a href="#ref-BekezKezdi2021" role="doc-biblioref">2021</a>)</span>, regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see <span class="citation" data-cites="Wooldridge2020">Wooldridge (<a href="#ref-Wooldridge2020" role="doc-biblioref">2020</a>)</span>.</p>
+</section>
+<section id="data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="data"><span class="header-section-number">2</span> Data</h2>
+<p>The analysis uses data from the World Bank covering 182 countries in 2017. The key variables are GDP per capita (in USD) and life expectancy at birth (in years). The foundational empirical relationship between income and health was documented by <span class="citation" data-cites="Preston1975">Preston (<a href="#ref-Preston1975" role="doc-biblioref">1975</a>)</span>.</p>
+</section>
+<section id="results" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="results"><span class="header-section-number">3</span> Results</h2>
+<p>The main finding from the literature is that richer countries tend to have higher life expectancy — but the relationship is non-linear: gains in life expectancy per additional dollar of income shrink as countries become wealthier. A log transformation of GDP per capita helps capture this pattern.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<hr>
-</section>
-<section id="full-course-schedule" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="full-course-schedule">Full course schedule</h2>
-<p><br></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 5%">
-<col style="width: 18%">
-<col style="width: 77%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">#</th>
-<th>Date</th>
-<th>Title</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td>Thu, 12 Mar</td>
-<td><strong>Welcome, recap &amp; tooling upgrade</strong> ← today</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">—</td>
-<td>19 + 26 Mar</td>
-<td><em>Take-home task 1</em></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td>Thu, 09 Apr</td>
-<td>Multiple regression: going beyond the basics</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">—</td>
-<td>16 + 23 Apr</td>
-<td><em>Take-home task 2</em></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td>Thu, 30 Apr</td>
-<td>Modelling binary and categorical outcomes</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td>Thu, 07 May</td>
-<td>What can go wrong: biases and diagnostics</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">—</td>
-<td>Thu, 14 May</td>
-<td><em>No lecture</em></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">5</td>
-<td>Thu, 21 May</td>
-<td>Causation vs.&nbsp;correlation: thinking like an economist</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">6</td>
-<td>Thu, 28 May</td>
-<td>Panel data and fixed effects</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">7</td>
-<td>Thu, 04 Jun</td>
-<td>Coding smarter: R and AI tools</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">8</td>
-<td>Thu, 11 Jun</td>
-<td>Communicating data: advanced visualization</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">9</td>
-<td>Thu, 18 Jun</td>
-<td>Recap and looking ahead</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="assessment" class="level2">
-<h2 class="anchored" data-anchor-id="assessment">Assessment</h2>
-<p><strong>Take-home tasks</strong> (mandatory, pass/fail)</p>
-<ul>
-<li>Two structured analyses submitted as Quarto HTML reports</li>
-<li>Assigned during the conference/unavailable periods — that time is for you</li>
-<li>Submit via <strong>GitHub Classroom</strong></li>
-</ul>
-<p>. . .</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Task</th>
-<th>Due</th>
-<th>Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Task 1</td>
-<td>02 April, 08:00</td>
-<td>Regression basics</td>
-</tr>
-<tr class="even">
-<td>Task 2</td>
-<td>30 April, 08:00</td>
-<td>Extending a regression</td>
-</tr>
-</tbody>
-</table>
-<p>. . .</p>
-<p><strong>Final exam</strong></p>
-<ul>
-<li>Open-book, on-site, individual</li>
-<li>Details confirmed later in the semester</li>
-</ul>
-<hr>
-</section>
-<section id="how-this-course-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-course-works">How this course works</h2>
-<p><br></p>
-<p><strong>Where you code:</strong> GitHub Codespaces — RStudio in your browser, zero installation</p>
-<ul>
-<li>Alternative: install R Studio and packages locally as in the previous course</li>
-</ul>
-<p>. . .</p>
-<p><strong>Where you ask questions:</strong> GitHub Discussions on the <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions">course repository</a> <em>(not email, not Moodle — so everyone benefits from the answer)</em></p>
-<p><strong>Where you submit:</strong> GitHub Classroom for tasks; Moodle for final exam</p>
-<p>. . .</p>
-<p><strong>What you need:</strong></p>
-<ul>
-<li>A GitHub account (free)</li>
-<li>GitHub Student Developer Pack (recommended — free professional tools)</li>
-<li>Nothing else except exitement 😉</li>
-</ul>
-<hr>
-</section>
-<section id="todays-plan" class="level2">
-<h2 class="anchored" data-anchor-id="todays-plan">Today’s plan</h2>
-<p><br></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Time</th>
-<th>Block</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>16:00–16:20</td>
-<td>Welcome, course overview, assessment</td>
-</tr>
-<tr class="even">
-<td>16:20–17:00</td>
-<td>Quarto upgrade: live demo document</td>
-</tr>
-<tr class="odd">
-<td>17:00–17:15</td>
-<td>Questions and break</td>
-</tr>
-<tr class="even">
-<td>17:15–18:15</td>
-<td>Student exercise</td>
-</tr>
-<tr class="odd">
-<td>18:15–19:00</td>
-<td>Introduce Task 1, Q&amp;A</td>
-</tr>
-</tbody>
-</table>
-<p><br></p>
-<p>. . .</p>
-<p>The exercise today is about <strong>workflow setup</strong>, not data analysis.</p>
-<p>→ No dataset required — we are building a Quarto template for later</p>
-<hr>
-</section>
-<section id="quarto-in-this-course" class="level2">
-<h2 class="anchored" data-anchor-id="quarto-in-this-course">Quarto in this course</h2>
-<p><strong>Why Quarto matters:</strong></p>
-<ul>
-<li>Code and text in one place — no copy-pasting numbers into Word</li>
-<li>Results update automatically when data or code changes</li>
-<li>Renders to HTML, PDF, Word — same source file</li>
-</ul>
-<p>. . .</p>
-<p><strong>The standard we set today applies to every submission:</strong></p>
-<ul>
-<li>Proper YAML front matter</li>
-<li>Numbered sections, table of contents</li>
-<li>Bibliography with BibTeX citations</li>
-<li>Clean, commented code chunks</li>
-</ul>
-<hr>
-</section>
-<section id="git-the-four-things-you-need" class="level2">
-<h2 class="anchored" data-anchor-id="git-the-four-things-you-need">Git: the four things you need</h2>
-<div class="cell" data-layout-align="default">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy, <span class="at">colour =</span> class)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Engine displacement (litres)"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Highway fuel economy (mpg)"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"Vehicle class"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-  A["📁&lt;br/&gt;Working directory"] --&gt;|"Stage (Git pane)"| B["📋&lt;br/&gt;Staging area"]
-  B --&gt;|"Commit (+ message)"| C["💾&lt;br/&gt;Local repository"]
-  C --&gt;|"Push"| D["☁️&lt;br/&gt;GitHub (remote)"]
-  D --&gt;|"Pull"| A
-
-  style A fill:#f4f6f8,stroke:#00395B
-  style B fill:#f4f6f8,stroke:#69AACD
-  style C fill:#f4f6f8,stroke:#00395B
-  style D fill:#00395B,color:#ffffff,stroke:#00395B
-</pre>
+<div id="fig-example" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="solution_files/figure-html/fig-example-1.png" class="img-fluid figure-img" width="672">
 </div>
-<p></p></figure><p></p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Engine displacement and fuel economy by vehicle class (mpg dataset).
+</figcaption>
+</figure>
 </div>
 </div>
 </div>
-<p><strong>You only need these four actions.</strong> No branching, no merging.</p>
-<p>All of this happens in the <strong>RStudio Git pane</strong> — no command line.</p>
-<div class="fragment">
-<p>For a full introduction: <a href="https://github.com/skills/introduction-to-github">GitHub Skills — Introduction to GitHub</a></p>
-</div>
-<hr>
 </section>
-<section id="quarto-upgrade-live-demo-document" class="level2">
-<h2 class="anchored" data-anchor-id="quarto-upgrade-live-demo-document">Quarto upgrade: live demo document</h2>
-<ul>
-<li>I will develop a Quarto document as a demo</li>
-<li>We will also use it to demonstrate how GitHub classroom works</li>
-<li>You do not need to make any notes, everything will be made available</li>
-<li>You can do the test for GitHub classroom yourself at home using the link from the website</li>
-</ul>
+<section id="references" class="level2" data-number="4">
+
+
+
+<!-- -->
+
+
 </section>
-<section id="take-home-task-1" class="level2">
-<h2 class="anchored" data-anchor-id="take-home-task-1">Take-home task 1</h2>
-<p><strong>You are an analyst producing a briefing on global development patterns.</strong></p>
-<p>. . .</p>
-<p><strong>Dataset:</strong> World Bank — life expectancy and GDP per capita, 182 countries, 2017 Download from OSF: <a href="https://osf.io/pguwf/">osf.io/pguwf</a></p>
-<p><strong>Five tasks:</strong></p>
-<ol type="1">
-<li>Load and explore — summary statistics, two plots</li>
-<li>Simple regression: life expectancy ~ GDP per capita — interpret the coefficient</li>
-<li>Log-transform GDP — does fit improve? Why?</li>
-<li>Add one variable, compare models with a <code>modelsummary</code> table</li>
-<li>Write a 150-word plain-language summary for a non-technical reader</li>
-</ol>
-<p>. . .</p>
-<p><strong>Deadline:</strong> 02 April 2026, 08:00 <strong>Submit:</strong> GitHub Classroom (link will be added soon)</p>
-<p><span class="muted">GitHub Classroom link — to be added</span></p>
-<hr>
-</section>
-<section id="the-break-weeks" class="level2">
-<h2 class="anchored" data-anchor-id="the-break-weeks">The break weeks</h2>
-<p><strong>19 and 16 March, 16 and 23 April</strong></p>
-<p>This time is <strong>intentional and structured:</strong></p>
-<ul>
-<li>Work on Take-home Task 1 and 2 at your own pace</li>
-<li>Review material from the prior course if anything feels rusty</li>
-<li>Post questions in <strong>GitHub Discussions</strong> — I will check regularly</li>
-</ul>
-<p>. . .</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If something in Task 1 feels unfamiliar, that is a signal — not a problem. The two weeks are designed for exactly this.</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="see-you-on-9-april" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="see-you-on-9-april">See you on 9 April</h2>
-<p><strong>Next session:</strong> Thu, 09 April — <em>Multiple regression: going beyond the basics</em></p>
-<p><strong>Questions during the break?</strong> <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions">GitHub Discussions</a> on the course repository</p>
-<p><strong>Task 1 deadline:</strong> 02 April 2026, 08:00</p>
-<p>. . .</p>
-<p>Good luck — and welcome to the course.</p>
 
-
-
-<div class="no-row-height column-margin column-container"><div class="margin-aside">
-<p><strong>PDF export (Chrome/Edge):</strong> click ☰ bottom-left → Tools → PDF Export Mode → print. Alternative: add <code>?print-pdf</code> to the URL, then print.</p>
-</div></div></section>
-
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">4 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-BekezKezdi2021" class="csl-entry" role="listitem">
+Békés, G. and Kézdi, G. (2021) <em>Data analysis for business, economics, and policy</em>, Cambridge University Press, available at <a href="https://gabors-data-analysis.com">https://gabors-data-analysis.com</a>.
+</div>
+<div id="ref-Preston1975" class="csl-entry" role="listitem">
+Preston, S. H. (1975) <span>“<a href="https://doi.org/10.2307/2173509">The changing relation between mortality and level of economic development</a>,”</span> <em>Population Studies</em> 29(2): 231–248.
+</div>
+<div id="ref-Wooldridge2020" class="csl-entry" role="listitem">
+Wooldridge, J. M. (2020) <em>Introductory econometrics: A modern approach</em>, 7th Ed., Cengage Learning.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -664,6 +465,57 @@ Tip
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -998,7 +850,68 @@ Tip
       }
     }
   });
-  </script>
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Session 1 — Exercise Solution"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Setting Up a Reproducible Workflow"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Your Name"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">  docx:</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>This report examines the relationship between economic development and health</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>outcomes across countries. Understanding this relationship is relevant for</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>international businesses assessing market conditions and risk in emerging</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>economies.</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>As discussed in @BekezKezdi2021, regression analysis allows us to estimate the</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>average association between two variables while holding other factors constant.</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>For a formal econometric treatment of these methods, see @Wooldridge2020.</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>The analysis uses data from the World Bank covering 182 countries in 2017.</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>The key variables are GDP per capita (in USD) and life expectancy at birth</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>(in years). The foundational empirical relationship between income and health</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>was documented by @Preston1975.</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Results</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>The main finding from the literature is that richer countries tend to have</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>higher life expectancy — but the relationship is non-linear: gains in life</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>expectancy per additional dollar of income shrink as countries become wealthier.</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>A log transformation of GDP per capita helps capture this pattern.</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-example</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Engine displacement and fuel economy by vehicle class (mpg dataset)."</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(<span class="at">x =</span> displ, <span class="at">y =</span> hwy, <span class="at">colour =</span> class)) <span class="sc">+</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Engine displacement (litres)"</span>,</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Highway fuel economy (mpg)"</span>,</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"Vehicle class"</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
