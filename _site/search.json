@@ -1,0 +1,762 @@
+[
+  {
+    "objectID": "content/material/session09/index.html",
+    "href": "content/material/session09/index.html",
+    "title": "Session 9: Recap and Looking Ahead",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 18 June 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 9 — Recap"
+    ]
+  },
+  {
+    "objectID": "content/material/session09/index.html#learning-goals",
+    "href": "content/material/session09/index.html#learning-goals",
+    "title": "Session 9: Recap and Looking Ahead",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nConsolidate key concepts from the full course arc (description → association → causation → communication)\nReflect on the inference vs. prediction distinction: when do we estimate to understand, and when to forecast?\nDiscuss what comes next: an introduction to machine learning thinking and where to go from here\nPrepare for the final exam: what to expect and how to approach it",
+    "crumbs": [
+      "Sessions",
+      "Session 9 — Recap"
+    ]
+  },
+  {
+    "objectID": "content/material/session09/index.html#course-arc-recap",
+    "href": "content/material/session09/index.html#course-arc-recap",
+    "title": "Session 9: Recap and Looking Ahead",
+    "section": "Course arc recap",
+    "text": "Course arc recap\n\n\n\n\n\n\n\nSessions\nTheme\n\n\n\n\n1–4\nRegression toolkit: multiple predictors, binary outcomes, diagnostics\n\n\n5\nCausal thinking: confounding, selection bias, the identification problem\n\n\n6\nPanel data: fixed effects and unobserved heterogeneity\n\n\n7–8\nModern workflow: AI-assisted coding and data communication\n\n\n9\nConsolidation: inference vs. prediction, looking ahead",
+    "crumbs": [
+      "Sessions",
+      "Session 9 — Recap"
+    ]
+  },
+  {
+    "objectID": "content/material/session09/index.html#the-inference-vs.-prediction-distinction",
+    "href": "content/material/session09/index.html#the-inference-vs.-prediction-distinction",
+    "title": "Session 9: Recap and Looking Ahead",
+    "section": "The inference vs. prediction distinction",
+    "text": "The inference vs. prediction distinction\nOne of the most important conceptual lines in applied data science: are we estimating a coefficient to understand a relationship, or are we building a model to make forecasts? These require different choices — in model complexity, evaluation criteria, and how we report results. This session addresses the distinction conceptually, without a dedicated technical session on machine learning.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 9 — Recap"
+    ]
+  },
+  {
+    "objectID": "content/material/session07/index.html",
+    "href": "content/material/session07/index.html",
+    "title": "Session 7: Coding Smarter — R and AI Tools",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 04 June 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 7 — Coding with AI"
+    ]
+  },
+  {
+    "objectID": "content/material/session07/index.html#business-question",
+    "href": "content/material/session07/index.html#business-question",
+    "title": "Session 7: Coding Smarter — R and AI Tools",
+    "section": "Business question",
+    "text": "Business question\nDoes working from home improve or reduce employee performance — and can we use AI tools to analyse this efficiently?",
+    "crumbs": [
+      "Sessions",
+      "Session 7 — Coding with AI"
+    ]
+  },
+  {
+    "objectID": "content/material/session07/index.html#learning-goals",
+    "href": "content/material/session07/index.html#learning-goals",
+    "title": "Session 7: Coding Smarter — R and AI Tools",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nUse AI tools effectively for R coding, debugging, and documentation\nUnderstand the limitations and risks of AI-generated code (hallucinations, silent errors)\nDevelop a critical and efficient AI-assisted workflow\nVerify and test AI output rather than trusting it blindly",
+    "crumbs": [
+      "Sessions",
+      "Session 7 — Coding with AI"
+    ]
+  },
+  {
+    "objectID": "content/material/session07/index.html#dataset",
+    "href": "content/material/session07/index.html#dataset",
+    "title": "Session 7: Coding Smarter — R and AI Tools",
+    "section": "Dataset",
+    "text": "Dataset\nworking-from-home — 249 employees from a randomised controlled experiment at a Chinese travel agency (Bloom et al., 2015). Performance (calls per minute), WFH assignment, tenure, demographics.",
+    "crumbs": [
+      "Sessions",
+      "Session 7 — Coding with AI"
+    ]
+  },
+  {
+    "objectID": "content/material/session07/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session07/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 7: Coding Smarter — R and AI Tools",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nUsing AI to write, debug, and improve Quarto documents: prompt strategies, reviewing AI-generated prose, using AI for formatting and cross-referencing.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 7 — Coding with AI"
+    ]
+  },
+  {
+    "objectID": "content/material/session05/index.html",
+    "href": "content/material/session05/index.html",
+    "title": "Session 5: Causation vs. Correlation — Thinking Like an Economist",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 21 May 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 5 — Causation vs. Correlation"
+    ]
+  },
+  {
+    "objectID": "content/material/session05/index.html#business-question",
+    "href": "content/material/session05/index.html#business-question",
+    "title": "Session 5: Causation vs. Correlation — Thinking Like an Economist",
+    "section": "Business question",
+    "text": "Business question\nIs there a gender wage gap among market analysts — and if so, what explains it?",
+    "crumbs": [
+      "Sessions",
+      "Session 5 — Causation vs. Correlation"
+    ]
+  },
+  {
+    "objectID": "content/material/session05/index.html#learning-goals",
+    "href": "content/material/session05/index.html#learning-goals",
+    "title": "Session 5: Causation vs. Correlation — Thinking Like an Economist",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nDistinguish causal from associational claims\nUnderstand confounding and selection bias through concrete business examples\nSee how adding controls changes an estimated gap — and what that means\nCritically evaluate causal claims in reports and media",
+    "crumbs": [
+      "Sessions",
+      "Session 5 — Causation vs. Correlation"
+    ]
+  },
+  {
+    "objectID": "content/material/session05/index.html#dataset",
+    "href": "content/material/session05/index.html#dataset",
+    "title": "Session 5: Causation vs. Correlation — Thinking Like an Economist",
+    "section": "Dataset",
+    "text": "Dataset\ncps-earnings — 149,316 US workers from the 2014 Current Population Survey: hourly wage, gender, age, education, occupation. The gender wage gap is a textbook case for illustrating confounding.",
+    "crumbs": [
+      "Sessions",
+      "Session 5 — Causation vs. Correlation"
+    ]
+  },
+  {
+    "objectID": "content/material/session05/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session05/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 5: Causation vs. Correlation — Thinking Like an Economist",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nStructuring an analytical narrative in Quarto: how to move from exploratory output to a coherent argument in a written report.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 5 — Causation vs. Correlation"
+    ]
+  },
+  {
+    "objectID": "content/material/session03/index.html",
+    "href": "content/material/session03/index.html",
+    "title": "Session 3: Modelling Binary and Categorical Outcomes",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 30 April 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 3 — Binary Outcomes"
+    ]
+  },
+  {
+    "objectID": "content/material/session03/index.html#business-question",
+    "href": "content/material/session03/index.html#business-question",
+    "title": "Session 3: Modelling Binary and Categorical Outcomes",
+    "section": "Business question",
+    "text": "Business question\nCan we predict which firms are likely to exit the market in the next year?",
+    "crumbs": [
+      "Sessions",
+      "Session 3 — Binary Outcomes"
+    ]
+  },
+  {
+    "objectID": "content/material/session03/index.html#learning-goals",
+    "href": "content/material/session03/index.html#learning-goals",
+    "title": "Session 3: Modelling Binary and Categorical Outcomes",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nUnderstand when and why OLS breaks down for binary outcomes\nRun and interpret logistic regression with glm()\nTranslate log-odds into meaningful business insights (predicted probabilities, marginal effects)",
+    "crumbs": [
+      "Sessions",
+      "Session 3 — Binary Outcomes"
+    ]
+  },
+  {
+    "objectID": "content/material/session03/index.html#dataset",
+    "href": "content/material/session03/index.html#dataset",
+    "title": "Session 3: Modelling Binary and Categorical Outcomes",
+    "section": "Dataset",
+    "text": "Dataset\nbisnode-firms — 19,036 firms in manufacturing and services: firm exit (binary), size, financial indicators, management variables.",
+    "crumbs": [
+      "Sessions",
+      "Session 3 — Binary Outcomes"
+    ]
+  },
+  {
+    "objectID": "content/material/session03/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session03/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 3: Modelling Binary and Categorical Outcomes",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nInline R code for automatic result reporting: embedding model outputs directly in text so numbers update automatically when the data or model changes.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 3 — Binary Outcomes"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html",
+    "href": "content/material/session01/index.html",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 12 March 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#business-question",
+    "href": "content/material/session01/index.html#business-question",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Business question",
+    "text": "Business question\nHow do we set up a professional, reproducible research workflow — and why does it matter?",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#learning-goals",
+    "href": "content/material/session01/index.html#learning-goals",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nUnderstand course structure, expectations, and assessment\nRefresh key R and Quarto skills from the prior course\nSet up a clean, reproducible project workflow (.Rproj, relative paths, folder structure)\nUpgrade Quarto skills: YAML front matter, multiple output formats, bibliography with BibTeX\nUnderstand the basics of Git version control via the RStudio Git pane",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#session-flow",
+    "href": "content/material/session01/index.html#session-flow",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Session flow",
+    "text": "Session flow\n\n\n\nTime\nActivity\n\n\n\n\n16:00–16:20\nWelcome, course overview, assessment\n\n\n16:20–17:00\nQuarto upgrade walkthrough + live demo\n\n\n17:00–17:15\nGit orientation\n\n\n17:15–18:15\nStudent exercise\n\n\n18:15–19:00\nIntroduce Take-home Task 1, Q&A",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session01/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nDocument structure, YAML front matter (title, author, date, format, toc, number-sections), bibliography with BibTeX (.bib files, @citation syntax).",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#take-home-task-1",
+    "href": "content/material/session01/index.html#take-home-task-1",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Take-home task 1",
+    "text": "Take-home task 1\nAssigned at the end of this session. See the task handout for full instructions.\n\nDataset: World Bank Life Expectancy (182 countries, GDP per capita and life expectancy, 2017)\nDue: Thursday, 02 April 2026, 08:00\nSubmission: Rendered Quarto HTML report\n\n\n\n\n\n\n\nImportant\n\n\n\nMaterial (slides, exercise sheet, task handout) will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html",
+    "href": "content/material/SeminarDescription.html",
+    "title": "Seminar Description",
+    "section": "",
+    "text": "This seminar equips second-year master’s students with the practical data science and econometric skills needed for applied research in international business. It builds directly on Theoretical and Empirical Research Methodology (Fall 2025), in which students learned R, Quarto, and basic linear regression.\nThe course follows a deliberate arc: from strengthening regression skills, through causal thinking, to modern data communication. The emphasis throughout is on intuition, real-world application, and reproducible workflow — not mathematical derivation.",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html#overall-goal",
+    "href": "content/material/SeminarDescription.html#overall-goal",
+    "title": "Seminar Description",
+    "section": "",
+    "text": "This seminar equips second-year master’s students with the practical data science and econometric skills needed for applied research in international business. It builds directly on Theoretical and Empirical Research Methodology (Fall 2025), in which students learned R, Quarto, and basic linear regression.\nThe course follows a deliberate arc: from strengthening regression skills, through causal thinking, to modern data communication. The emphasis throughout is on intuition, real-world application, and reproducible workflow — not mathematical derivation.",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html#course-information",
+    "href": "content/material/SeminarDescription.html#course-information",
+    "title": "Seminar Description",
+    "section": "2 Course Information",
+    "text": "2 Course Information\n\n\n\n2.1 Logistics\n\nProgramme: M.A. International Business Studies, Year 2\nInstitution: Europa-Universität Flensburg\nInstructor: Prof. Dr. Claudius Gräbner-Radkowitsch\nTime: Thursdays, 16:00–19:00\nPeriod: 12 March – 18 June 2026\nIn-person sessions: 9 (including recap)\n\n\n\n\n2.2 Tools\n\nLanguage: R\nIDE: RStudio (via GitHub Codespaces)\nReporting: Quarto (HTML and Word output)\nKey packages: tidyverse, ggplot2, modelsummary, fixest, lmtest, sandwich, patchwork, plm\nBibliography: BibTeX / Zotero",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html#prior-knowledge",
+    "href": "content/material/SeminarDescription.html#prior-knowledge",
+    "title": "Seminar Description",
+    "section": "3 Prior Knowledge",
+    "text": "3 Prior Knowledge\nStudents have completed Theoretical and Empirical Research Methodology (Fall 2025), which covered:\n\nR programming and RStudio (data wrangling, basic visualisation with ggplot2)\nQuarto for reproducible reports\nFoundational statistics: probability, sampling theory, hypothesis testing\nSimple and basic multiple linear regression (introduction only)\n\nKey implication: All methods are introduced via business questions and intuition — never via formal derivations.",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html#pedagogical-approach",
+    "href": "content/material/SeminarDescription.html#pedagogical-approach",
+    "title": "Seminar Description",
+    "section": "4 Pedagogical Approach",
+    "text": "4 Pedagogical Approach\nEach 3-hour in-person session follows this structure:\n\n\n\nTime\nActivity\n\n\n\n\n60 min\nConcept introduction: intuition, visuals, real examples\n\n\n30 min\nLive coding demonstration\n\n\n60 min\nHands-on student exercise with a real dataset\n\n\n30 min\nDebrief, interpretation, Q&A\n\n\n\nCore principles:\n\nAlways lead with a business question, not a method\nPrioritise interpretation over estimation\nUse consistent datasets across multiple sessions where possible\nEmbed Quarto communication skills progressively",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html#thematic-arc",
+    "href": "content/material/SeminarDescription.html#thematic-arc",
+    "title": "Seminar Description",
+    "section": "5 Thematic Arc",
+    "text": "5 Thematic Arc\nThe course follows a progression from description → association → causation → communication:\n\nRegression toolkit (Sessions 2–4): Deepen regression skills — multiple predictors, binary outcomes, diagnostics\nCausal thinking (Session 5): What separates a valid causal claim from a spurious correlation\nPanel methods (Session 6): Using longitudinal structure to control for unobservables\nModern workflow (Sessions 7–8): AI-assisted coding and professional data communication\nRecap & outlook (Session 9): Consolidation and the inference vs. prediction distinction",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html#assessment",
+    "href": "content/material/SeminarDescription.html#assessment",
+    "title": "Seminar Description",
+    "section": "6 Assessment",
+    "text": "6 Assessment\n\n6.1 Final Exam\nAn open-book, on-site exam (details to be confirmed). Students may bring any materials but work individually on their own laptops.\n\n\n6.2 Take-Home Tasks (mandatory, pass/fail)\nTwo structured exercises submitted as rendered Quarto HTML reports during instructor-unavailable periods. Pass criteria: all tasks attempted, code runs without errors, results are interpreted in plain language.\n\n\n\n\n\n\n\n\nTask\nDataset\nDue\n\n\n\n\nTask 1 — Regression basics\nworldbank-lifeexpectancy\n02 April 2026, 08:00\n\n\nTask 2 — Extending a regression\nfootball\n30 April 2026, 08:00",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html#datasets",
+    "href": "content/material/SeminarDescription.html#datasets",
+    "title": "Seminar Description",
+    "section": "7 Datasets",
+    "text": "7 Datasets\nAll datasets come from the open-access repository of Békés & Kézdi (2021), available at gabors-data-analysis.com.\n\n\n\n\n\n\n\n\nSession\nDataset\nBusiness Question\n\n\n\n\n2\nhotels-vienna\nWhat features drive hotel prices in Vienna?\n\n\n3\nbisnode-firms\nWhich firms are likely to exit the market?\n\n\n4\nhotels-europe\nDo regression assumptions hold across 46 cities?\n\n\n5\ncps-earnings\nWhat explains the gender wage gap?\n\n\n6\nwms-management-survey\nDoes management quality predict firm performance?\n\n\n7\nworking-from-home\nDoes WFH improve employee performance?\n\n\n8\nworldbank-lifeexpectancy + world-bank-immunization\nHow do health outcomes relate to income globally?\n\n\nTask 1\nworldbank-lifeexpectancy\nHow does income relate to life expectancy?\n\n\nTask 2\nfootball\nWhat predicts team performance in the Premier League?",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "content/material/SeminarDescription.html#key-reference",
+    "href": "content/material/SeminarDescription.html#key-reference",
+    "title": "Seminar Description",
+    "section": "8 Key Reference",
+    "text": "8 Key Reference\nBékés, G., & Kézdi, G. (2021). Data Analysis for Business, Economics, and Policy. Cambridge University Press.",
+    "crumbs": [
+      "Material",
+      "Seminar Description"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Data Science and Econometrics for International Business",
+    "section": "",
+    "text": "What: A hands-on seminar equipping second-year master’s students with the practical data science and econometric skills needed for applied research in international business. The course follows a deliberate arc — from strengthening regression skills, through causal thinking, to modern data communication.\nHow: Every session starts with a business question, not a method name. Concepts are introduced through intuition and real examples, followed by live coding and a 60-minute hands-on exercise with real data.\nPrerequisites: R, Quarto, tidyverse, and basic linear regression (covered in Theoretical and Empirical Research Methodology, Fall 2025).",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#the-course-in-brief",
+    "href": "index.html#the-course-in-brief",
+    "title": "Data Science and Econometrics for International Business",
+    "section": "",
+    "text": "What: A hands-on seminar equipping second-year master’s students with the practical data science and econometric skills needed for applied research in international business. The course follows a deliberate arc — from strengthening regression skills, through causal thinking, to modern data communication.\nHow: Every session starts with a business question, not a method name. Concepts are introduced through intuition and real examples, followed by live coding and a 60-minute hands-on exercise with real data.\nPrerequisites: R, Quarto, tidyverse, and basic linear regression (covered in Theoretical and Empirical Research Methodology, Fall 2025).",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#key-information",
+    "href": "index.html#key-information",
+    "title": "Data Science and Econometrics for International Business",
+    "section": "Key information",
+    "text": "Key information\n\n\n\n\n\n\n\nTime\nThursdays, 16:00–19:00\n\n\nPeriod\n12 March – 18 June 2026\n\n\nIn-person sessions\n9 (including recap)\n\n\nTools\nR, RStudio (via GitHub Codespaces), Quarto\n\n\nMain reference\nBékés & Kézdi (2021), Data Analysis for Business, Economics, and Policy",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#learning-objectives",
+    "href": "index.html#learning-objectives",
+    "title": "Data Science and Econometrics for International Business",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of the course, students will be able to:\n\nInterpret multiple regression output and communicate results to a non-technical audience\nRecognise when and why standard OLS breaks down, and apply appropriate fixes\nDistinguish causal from associational claims and critically evaluate causal arguments\nApply panel data methods with fixed effects using fixest\nUse AI tools critically and effectively for R coding and debugging\nProduce publication-ready figures and reports in Quarto\n\n\n Moodle (link to be added)",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "content/index.html",
+    "href": "content/index.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "This course uses three tools throughout:\n\nR — statistical computing language (you already know this from the prior course)\nQuarto — reproducible document and report system\nGitHub Codespaces — browser-based RStudio environment, zero installation required",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#tools",
+    "href": "content/index.html#tools",
+    "title": "Getting Started",
+    "section": "",
+    "text": "This course uses three tools throughout:\n\nR — statistical computing language (you already know this from the prior course)\nQuarto — reproducible document and report system\nGitHub Codespaces — browser-based RStudio environment, zero installation required",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#coding-environment-github-codespaces",
+    "href": "content/index.html#coding-environment-github-codespaces",
+    "title": "Getting Started",
+    "section": "Coding environment: GitHub Codespaces",
+    "text": "Coding environment: GitHub Codespaces\nYou do not need to install anything locally. The course uses GitHub Codespaces, which gives you a full RStudio environment running in your browser.\nAll required R packages (tidyverse, plm, and others added during the semester) come pre-installed in the shared course environment.\nTo access:\n\nGo to the course material repository on GitHub (link shared in Session 1)\nClick the green Code button → Codespaces → Create codespace on main\nRStudio opens in your browser — you are ready to work\n\n\n\n\n\n\n\nTip\n\n\n\nIf you prefer to work locally in your own RStudio installation, that is fine too. Install R 4.4+, RStudio, and run install.packages(c(\"tidyverse\", \"plm\", \"modelsummary\", \"fixest\", \"lmtest\", \"sandwich\", \"patchwork\")).",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#git-in-this-course-four-things-you-need",
+    "href": "content/index.html#git-in-this-course-four-things-you-need",
+    "title": "Getting Started",
+    "section": "Git in this course: four things you need",
+    "text": "Git in this course: four things you need\nYou interact with Git via the RStudio Git pane — no command line required.\n\n\n\nAction\nWhat it does\n\n\n\n\nPull\nGet the latest version from GitHub\n\n\nStage\nSelect which changed files to include in your snapshot\n\n\nCommit\nSave a snapshot with a short description message\n\n\nPush\nSend your snapshot to GitHub\n\n\n\nThat is all you need. No branching, no merging. For a full introduction, see the GitHub Skills: Introduction to GitHub tutorial.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#questions-and-discussion",
+    "href": "content/index.html#questions-and-discussion",
+    "title": "Getting Started",
+    "section": "Questions and discussion",
+    "text": "Questions and discussion\nAll course questions go through GitHub Discussions on the material repository (link shared in Session 1). This keeps the discussion visible to everyone and searchable.\nMoodle is used for official announcements and grades only.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#material",
+    "href": "content/index.html#material",
+    "title": "Getting Started",
+    "section": "Material",
+    "text": "Material\nAn overview of all sessions and materials is on the Schedule & Overview page. Session pages are added progressively as the course proceeds.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html",
+    "href": "content/material/index.html",
+    "title": "Schedule & Overview",
+    "section": "",
+    "text": "The main textbook for this course is:\n\nBékés, G., & Kézdi, G. (2021). Data Analysis for Business, Economics, and Policy. Cambridge University Press. gabors-data-analysis.com\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#general-reference",
+    "href": "content/material/index.html#general-reference",
+    "title": "Schedule & Overview",
+    "section": "",
+    "text": "The main textbook for this course is:\n\nBékés, G., & Kézdi, G. (2021). Data Analysis for Business, Economics, and Policy. Cambridge University Press. gabors-data-analysis.com\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#full-schedule",
+    "href": "content/material/index.html#full-schedule",
+    "title": "Schedule & Overview",
+    "section": "Full schedule",
+    "text": "Full schedule\n\n\n\n#\nDate\nTitle\nDataset\nNotes\n\n\n\n\n1\nThu, 12 Mar\nWelcome, recap & tooling upgrade\n—\n\n\n\n—\nThu, 19 Mar\nTake-home task 1 (part 1)\nworldbank-lifeexpectancy\nInstructor at conference\n\n\n—\nThu, 26 Mar\nTake-home task 1 (part 2)\n—\nInstructor at conference\n\n\n—\nThu, 02 Apr\nEaster break\n—\nNo session\n\n\n2\nThu, 09 Apr\nMultiple regression: going beyond the basics\nhotels-vienna\n\n\n\n—\nThu, 16 Apr\nTake-home task 2 (part 1)\nfootball\nInstructor unavailable\n\n\n—\nThu, 23 Apr\nTake-home task 2 (part 2)\n—\nInstructor unavailable\n\n\n3\nThu, 30 Apr\nModelling binary and categorical outcomes\nbisnode-firms\n\n\n\n4\nThu, 07 May\nWhat can go wrong: biases and diagnostics\nhotels-europe\n\n\n\n—\nThu, 14 May\nNo lecture\n—\n\n\n\n5\nThu, 21 May\nCausation vs. correlation: thinking like an economist\ncps-earnings\n\n\n\n6\nThu, 28 May\nPanel data and fixed effects\nwms-management-survey\n\n\n\n7\nThu, 04 Jun\nCoding smarter: R and AI tools\nworking-from-home\n\n\n\n8\nThu, 11 Jun\nCommunicating data: advanced visualization\nworldbank-lifeexpectancy + world-bank-immunization\n\n\n\n9\nThu, 18 Jun\nRecap and looking ahead\n—",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#take-home-tasks",
+    "href": "content/material/index.html#take-home-tasks",
+    "title": "Schedule & Overview",
+    "section": "Take-home tasks",
+    "text": "Take-home tasks\nTwo mandatory tasks are assigned during instructor-unavailable periods and submitted as rendered Quarto HTML reports. They are graded pass/fail and use separate datasets from in-person sessions.\n\n\n\n\n\n\n\n\n\nTask\nAssigned\nDue\nDataset\n\n\n\n\nTask 1 — Regression basics\nEnd of Session 1 (12 Mar)\n02 Apr, 08:00\nworldbank-lifeexpectancy\n\n\nTask 2 — Extending a regression\nEnd of Session 2 (09 Apr)\n30 Apr, 08:00\nfootball",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#quarto-skills-progressive-overview",
+    "href": "content/material/index.html#quarto-skills-progressive-overview",
+    "title": "Schedule & Overview",
+    "section": "Quarto skills — progressive overview",
+    "text": "Quarto skills — progressive overview\n\n\n\nSession\nSkill introduced\n\n\n\n\n1\nDocument structure, YAML, bibliography with BibTeX\n\n\nTask 1\nFirst full Quarto report submitted independently\n\n\n2\nRegression tables with modelsummary\n\n\nTask 2\nRegression table formatting, model comparison\n\n\n3\nInline R code for automatic result reporting\n\n\n4\nDiagnostic plots, figure captions, cross-references\n\n\n5\nStructuring an analytical narrative\n\n\n6\nPanel model output with fixest\n\n\n7\nAI-assisted Quarto: debugging, improving prose\n\n\n8\nPublication-ready figures, multi-format export, Word output",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html",
+    "href": "content/material/session02/index.html",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 09 April 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#business-question",
+    "href": "content/material/session02/index.html#business-question",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Business question",
+    "text": "Business question\nWhat features drive hotel prices in Vienna, once we control for location?",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#learning-goals",
+    "href": "content/material/session02/index.html#learning-goals",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nInterpret multiple regression output with confidence\nUnderstand the role of control variables and what “holding constant” means\nCompare model fit and interpret standardised coefficients\nCommunicate regression results to a non-technical audience",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#dataset",
+    "href": "content/material/session02/index.html#dataset",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Dataset",
+    "text": "Dataset\nhotels-vienna — 428 hotels in Vienna: price, distance from city centre, star rating, review scores.",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session02/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nRegression tables with modelsummary: formatting, captions, model comparison.",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#take-home-task-2",
+    "href": "content/material/session02/index.html#take-home-task-2",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Take-home task 2",
+    "text": "Take-home task 2\nAssigned at the end of this session. See the task handout for full instructions.\n\nDataset: English Premier League results and manager data (2008/09–2018/19)\nDue: Thursday, 30 April 2026, 08:00\nSubmission: Rendered Quarto HTML report\n\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html",
+    "href": "content/material/session04/index.html",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 07 May 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#business-question",
+    "href": "content/material/session04/index.html#business-question",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Business question",
+    "text": "Business question\nDoes the hotel price–distance relationship hold across all European cities, or does it break down in some?",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#learning-goals",
+    "href": "content/material/session04/index.html#learning-goals",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nIdentify key OLS assumption violations in practice\nDetect multicollinearity, heteroskedasticity, and influential outliers\nUnderstand omitted variable bias intuitively\nApply robust standard errors using lmtest and sandwich",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#dataset",
+    "href": "content/material/session04/index.html#dataset",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Dataset",
+    "text": "Dataset\nhotels-europe — 148,021 hotel-date observations across 46 European cities and 10 dates. The larger and more heterogeneous sample makes OLS assumption violations more visible.",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session04/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nEmbedding diagnostic plots in a report: figure captions, cross-references (@fig-), and layout options for multi-panel figures.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session06/index.html",
+    "href": "content/material/session06/index.html",
+    "title": "Session 6: Panel Data and Fixed Effects",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 28 May 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 6 — Panel Data"
+    ]
+  },
+  {
+    "objectID": "content/material/session06/index.html#business-question",
+    "href": "content/material/session06/index.html#business-question",
+    "title": "Session 6: Panel Data and Fixed Effects",
+    "section": "Business question",
+    "text": "Business question\nDoes better management quality lead to better firm performance — and does this relationship hold within countries?",
+    "crumbs": [
+      "Sessions",
+      "Session 6 — Panel Data"
+    ]
+  },
+  {
+    "objectID": "content/material/session06/index.html#learning-goals",
+    "href": "content/material/session06/index.html#learning-goals",
+    "title": "Session 6: Panel Data and Fixed Effects",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nUnderstand the logic of panel data (units observed over time)\nApply fixed effects estimation to control for unobserved unit-level heterogeneity\nDistinguish within- vs. between-variation and interpret each\nUse fixest for efficient fixed effects estimation",
+    "crumbs": [
+      "Sessions",
+      "Session 6 — Panel Data"
+    ]
+  },
+  {
+    "objectID": "content/material/session06/index.html#dataset",
+    "href": "content/material/session06/index.html#dataset",
+    "title": "Session 6: Panel Data and Fixed Effects",
+    "section": "Dataset",
+    "text": "Dataset\nwms-management-survey — manufacturing firms across 24 countries, 2004–2015 (World Management Survey). Management quality scores, firm characteristics, performance indicators.",
+    "crumbs": [
+      "Sessions",
+      "Session 6 — Panel Data"
+    ]
+  },
+  {
+    "objectID": "content/material/session06/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session06/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 6: Panel Data and Fixed Effects",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nPresenting panel model output cleanly with fixest and modelsummary: handling multiple fixed effects, notes on standard error clustering.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 6 — Panel Data"
+    ]
+  },
+  {
+    "objectID": "content/material/session08/index.html",
+    "href": "content/material/session08/index.html",
+    "title": "Session 8: Communicating Data — Advanced Visualization",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 11 June 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 8 — Data Visualization"
+    ]
+  },
+  {
+    "objectID": "content/material/session08/index.html#business-question",
+    "href": "content/material/session08/index.html#business-question",
+    "title": "Session 8: Communicating Data — Advanced Visualization",
+    "section": "Business question",
+    "text": "Business question\nHow do health outcomes relate to income globally — and how do we show this clearly?",
+    "crumbs": [
+      "Sessions",
+      "Session 8 — Data Visualization"
+    ]
+  },
+  {
+    "objectID": "content/material/session08/index.html#learning-goals",
+    "href": "content/material/session08/index.html#learning-goals",
+    "title": "Session 8: Communicating Data — Advanced Visualization",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nCreate publication-ready figures with ggplot2 and patchwork\nVisualise uncertainty and model results effectively\nLabel outliers, annotate trends, and use colour intentionally\nAdapt output for different audiences and formats (HTML vs. Word)",
+    "crumbs": [
+      "Sessions",
+      "Session 8 — Data Visualization"
+    ]
+  },
+  {
+    "objectID": "content/material/session08/index.html#datasets",
+    "href": "content/material/session08/index.html#datasets",
+    "title": "Session 8: Communicating Data — Advanced Visualization",
+    "section": "Datasets",
+    "text": "Datasets\n\nworldbank-lifeexpectancy — 182 countries: life expectancy and GDP per capita, 2017\nworld-bank-immunization — 172 countries, 1998–2017: immunisation rates and child survival\n\nTogether these datasets enable scatter plots, line plots over time, faceted comparisons, and annotated figures — the full range of ggplot2 capabilities.",
+    "crumbs": [
+      "Sessions",
+      "Session 8 — Data Visualization"
+    ]
+  },
+  {
+    "objectID": "content/material/session08/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session08/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 8: Communicating Data — Advanced Visualization",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nPublication-ready figures: figure sizing, cross-references, captions, and exporting to Word with correct figure placement.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
+    "crumbs": [
+      "Sessions",
+      "Session 8 — Data Visualization"
+    ]
+  }
+]
