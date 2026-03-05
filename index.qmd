@@ -1,31 +1,39 @@
 ---
-title: "Title"
-subtitle: "Subtitle"
+title: "Data Science and Econometrics for International Business"
+subtitle: "M.A. International Business Studies — Spring 2026, Europa-Universität Flensburg"
 ---
 
-# 📑 The course in brief
+## The course in brief
 
-**Focus:** 
+**What:** A hands-on seminar equipping second-year master's students with the practical data science and econometric skills needed for applied research in international business studies. The course follows a deliberate arc — from strengthening regression skills, through causal thinking, to modern data communication. Skills in using tools such as Github and Quarto for Communication, which are central in the contemporary environment, will receive extra attention.
 
-...
+**How:** Every session starts with a business question, not a method name. Concepts are introduced through intuition and real examples, followed by live coding and a 60-minute hands-on exercise with real data.
 
-**How:** 
+**Prerequisites:** Basic knowledge in R, Quarto, and basic linear regression. All requirements are covered in the required course *Theoretical and Empirical Research Methodology*, the material of which is available [here](https://researchmethodology-fall25.netlify.app/).).
 
-...
+## Key information
 
-**Prerequisites:**
+| | |
+|---|---|
+| **Time** | Thursdays, 16:00–19:00 |
+| **Period** | 12 March – 18 June 2026 |
+| **In-person sessions** | 9 (including recap) |
+| **Tools** | R, RStudio (via GitHub Codespaces if desired), Quarto |
 
-...
+## Learning objectives
 
-# 🎯 Learning Objectives
+By the end of the course, students will be able to:
 
--	...
+- Use tools such as Github, which are essential in a working environment in which AI becomes increasingly important
+- Interpret multiple regression output and communicate results to a non-technical audience
+- Recognise when and why standard OLS breaks down, and apply appropriate fixes
+- Distinguish causal from associational claims and critically evaluate causal arguments
+- Apply panel data methods with fixed effects
+- Use AI tools critically and effectively for R coding and debugging
+- Produce publication-ready figures and reports in Quarto
 
+---
 
-
------------------
-
-
-<a href=https://elearning.uni-flensburg.de/moodle/course/view.php?id=XXXXX>
-    <button class="button-61">The main course on moodle</button>
+<a href="https://elearning.uni-flensburg.de/moodle/">
+  <button class="button-61">Moodle (link to be added)</button>
 </a>

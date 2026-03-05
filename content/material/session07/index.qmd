@@ -1,0 +1,32 @@
+---
+title: "Session 7: Coding Smarter — R and AI Tools"
+date: "2026-06-04"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Date:** Thursday, 04 June 2026, 16:00–19:00
+:::
+
+## Business question
+
+*Does working from home improve or reduce employee performance — and can we use AI tools to analyse this efficiently?*
+
+## Learning goals
+
+- Use AI tools effectively for R coding, debugging, and documentation
+- Understand the limitations and risks of AI-generated code (hallucinations, silent errors)
+- Develop a critical and efficient AI-assisted workflow
+- Verify and test AI output rather than trusting it blindly
+
+## Dataset
+
+**working-from-home** — 249 employees from a randomised controlled experiment at a Chinese travel agency (Bloom et al., 2015). Performance (calls per minute), WFH assignment, tenure, demographics.
+
+## Quarto skill introduced this session
+
+Using AI to write, debug, and improve Quarto documents: prompt strategies, reviewing AI-generated prose, using AI for formatting and cross-referencing.
+
+::: {.callout-important}
+Material will be available here before the session.
+:::

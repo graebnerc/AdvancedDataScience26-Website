@@ -1,0 +1,40 @@
+---
+title: "Session 2: Multiple Regression — Going Beyond the Basics"
+date: "2026-04-09"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Date:** Thursday, 09 April 2026, 16:00–19:00
+:::
+
+## Business question
+
+*What features drive hotel prices in Vienna, once we control for location?*
+
+## Learning goals
+
+- Interpret multiple regression output with confidence
+- Understand the role of control variables and what "holding constant" means
+- Compare model fit and interpret standardised coefficients
+- Communicate regression results to a non-technical audience
+
+## Dataset
+
+**hotels-vienna** — 428 hotels in Vienna: price, distance from city centre, star rating, review scores.
+
+## Quarto skill introduced this session
+
+Regression tables with `modelsummary`: formatting, captions, model comparison.
+
+## Take-home task 2
+
+Assigned at the end of this session. See the task handout for full instructions.
+
+- **Dataset:** English Premier League results and manager data (2008/09–2018/19)
+- **Due:** Thursday, 30 April 2026, 08:00
+- **Submission:** Rendered Quarto HTML report
+
+::: {.callout-important}
+Material will be available here before the session.
+:::

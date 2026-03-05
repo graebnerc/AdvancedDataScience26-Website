@@ -1,0 +1,32 @@
+---
+title: "Session 6: Panel Data and Fixed Effects"
+date: "2026-05-28"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Date:** Thursday, 28 May 2026, 16:00–19:00
+:::
+
+## Business question
+
+*Does better management quality lead to better firm performance — and does this relationship hold within countries?*
+
+## Learning goals
+
+- Understand the logic of panel data (units observed over time)
+- Apply fixed effects estimation to control for unobserved unit-level heterogeneity
+- Distinguish within- vs. between-variation and interpret each
+- Use `fixest` for efficient fixed effects estimation
+
+## Dataset
+
+**wms-management-survey** — manufacturing firms across 24 countries, 2004–2015 (World Management Survey). Management quality scores, firm characteristics, performance indicators.
+
+## Quarto skill introduced this session
+
+Presenting panel model output cleanly with `fixest` and `modelsummary`: handling multiple fixed effects, notes on standard error clustering.
+
+::: {.callout-important}
+Material will be available here before the session.
+:::

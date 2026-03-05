@@ -1,0 +1,35 @@
+---
+title: "Session 8: Communicating Data — Advanced Visualization"
+date: "2026-06-11"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Date:** Thursday, 11 June 2026, 16:00–19:00
+:::
+
+## Business question
+
+*How do health outcomes relate to income globally — and how do we show this clearly?*
+
+## Learning goals
+
+- Create publication-ready figures with `ggplot2` and `patchwork`
+- Visualise uncertainty and model results effectively
+- Label outliers, annotate trends, and use colour intentionally
+- Adapt output for different audiences and formats (HTML vs. Word)
+
+## Datasets
+
+- **worldbank-lifeexpectancy** — 182 countries: life expectancy and GDP per capita, 2017
+- **world-bank-immunization** — 172 countries, 1998–2017: immunisation rates and child survival
+
+Together these datasets enable scatter plots, line plots over time, faceted comparisons, and annotated figures — the full range of `ggplot2` capabilities.
+
+## Quarto skill introduced this session
+
+Publication-ready figures: figure sizing, cross-references, captions, and exporting to Word with correct figure placement.
+
+::: {.callout-important}
+Material will be available here before the session.
+:::

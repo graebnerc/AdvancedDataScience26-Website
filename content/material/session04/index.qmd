@@ -1,0 +1,32 @@
+---
+title: "Session 4: What Can Go Wrong — Biases and Diagnostics"
+date: "2026-05-07"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Date:** Thursday, 07 May 2026, 16:00–19:00
+:::
+
+## Business question
+
+*Does the hotel price–distance relationship hold across all European cities, or does it break down in some?*
+
+## Learning goals
+
+- Identify key OLS assumption violations in practice
+- Detect multicollinearity, heteroskedasticity, and influential outliers
+- Understand omitted variable bias intuitively
+- Apply robust standard errors using `lmtest` and `sandwich`
+
+## Dataset
+
+**hotels-europe** — 148,021 hotel-date observations across 46 European cities and 10 dates. The larger and more heterogeneous sample makes OLS assumption violations more visible.
+
+## Quarto skill introduced this session
+
+Embedding diagnostic plots in a report: figure captions, cross-references (`@fig-`), and layout options for multi-panel figures.
+
+::: {.callout-important}
+Material will be available here before the session.
+:::

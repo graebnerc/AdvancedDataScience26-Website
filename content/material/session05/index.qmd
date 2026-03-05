@@ -1,0 +1,32 @@
+---
+title: "Session 5: Causation vs. Correlation — Thinking Like an Economist"
+date: "2026-05-21"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Date:** Thursday, 21 May 2026, 16:00–19:00
+:::
+
+## Business question
+
+*Is there a gender wage gap among market analysts — and if so, what explains it?*
+
+## Learning goals
+
+- Distinguish causal from associational claims
+- Understand confounding and selection bias through concrete business examples
+- See how adding controls changes an estimated gap — and what that means
+- Critically evaluate causal claims in reports and media
+
+## Dataset
+
+**cps-earnings** — 149,316 US workers from the 2014 Current Population Survey: hourly wage, gender, age, education, occupation. The gender wage gap is a textbook case for illustrating confounding.
+
+## Quarto skill introduced this session
+
+Structuring an analytical narrative in Quarto: how to move from exploratory output to a coherent argument in a written report.
+
+::: {.callout-important}
+Material will be available here before the session.
+:::

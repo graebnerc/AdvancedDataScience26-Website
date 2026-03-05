@@ -1,17 +1,15 @@
 project:
   type: "website"
-  title: "Name of the course (Fall 2025)"
+  title: "Data Science and Econometrics for International Business (Spring 2026)"
   output-dir: _site
-  render: # Add here all folders that should be rendered
+  render:
     - "index.qmd"
     - "content/*.qmd"
     - "content/material/*.qmd"
     - "content/material/session*/*.qmd"
-    - "content/statrecap/*.qmd"
-    - "content/statrecap/*/*.qmd"
 
 website:
-  title: "The course" # Title of website shown on top left
+  title: "Adv. Data Science 2026"
   page-navigation: true
   reader-mode: true
   open-graph: true
@@ -23,25 +21,41 @@ website:
     style: docked
     contents:
       - href: index.qmd
-        text: "🏠 Home"
+        text: "Home"
       - href: content/index.qmd
-        text: "🏢 Getting Started"
-      - section: "🗓️ Material"
+        text: "Getting Started"
+      - section: "Material"
         contents:
-         - href: content/material/index.qmd
-           text: Overview
-         - href: content/material/SeminarDescription.qmd
-           text: Seminar Description
-         - href: content/material/session00.qmd
-           text: Session 00
-      - href: content/statrecap.qmd
-        text: "💻 Name of blog based content"
+          - href: content/material/index.qmd
+            text: Overview & Schedule
+          - href: content/material/SeminarDescription.qmd
+            text: Seminar Description
+      - section: "Sessions"
+        contents:
+          - href: content/material/session01/index.qmd
+            text: "Session 1 — Welcome & Tooling"
+          - href: content/material/session02/index.qmd
+            text: "Session 2 — Multiple Regression"
+          - href: content/material/session03/index.qmd
+            text: "Session 3 — Binary Outcomes"
+          - href: content/material/session04/index.qmd
+            text: "Session 4 — Biases & Diagnostics"
+          - href: content/material/session05/index.qmd
+            text: "Session 5 — Causation vs. Correlation"
+          - href: content/material/session06/index.qmd
+            text: "Session 6 — Panel Data"
+          - href: content/material/session07/index.qmd
+            text: "Session 7 — Coding with AI"
+          - href: content/material/session08/index.qmd
+            text: "Session 8 — Data Visualization"
+          - href: content/material/session09/index.qmd
+            text: "Session 9 — Recap"
 
   navbar:
     background: primary
   page-footer:
     background: light
-    left: "Copyright 2025, Claudius Gräbner-Radkowitsch" 
+    left: "Copyright 2026, Claudius Gräbner-Radkowitsch"
 
 bibliography: references/references.bib
 csl: references/jepp.csl
@@ -56,17 +70,14 @@ format:
       affiliation: EUF and JKU
       affiliation-url: https://www.uni-flensburg.de/en/pluralist-economics
     date-format: "DD MM YYYY"
-
     email-obfuscation: javascript
     link-external-newwindow: true
     link-external-icon: false
-
     theme:
-      light: 
+      light:
         - journal
-        - css/custom.scss # Change the default colour
+        - css/custom.scss
     toc: true
 
 execute:
   freeze: auto
-

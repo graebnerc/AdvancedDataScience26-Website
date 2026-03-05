@@ -1,0 +1,31 @@
+---
+title: "Session 3: Modelling Binary and Categorical Outcomes"
+date: "2026-04-30"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Date:** Thursday, 30 April 2026, 16:00–19:00
+:::
+
+## Business question
+
+*Can we predict which firms are likely to exit the market in the next year?*
+
+## Learning goals
+
+- Understand when and why OLS breaks down for binary outcomes
+- Run and interpret logistic regression with `glm()`
+- Translate log-odds into meaningful business insights (predicted probabilities, marginal effects)
+
+## Dataset
+
+**bisnode-firms** — 19,036 firms in manufacturing and services: firm exit (binary), size, financial indicators, management variables.
+
+## Quarto skill introduced this session
+
+Inline R code for automatic result reporting: embedding model outputs directly in text so numbers update automatically when the data or model changes.
+
+::: {.callout-important}
+Material will be available here before the session.
+:::

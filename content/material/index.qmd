@@ -1,24 +1,46 @@
 ---
-title: "Material overview"
+title: "Schedule & Overview"
 ---
 
-## 📚 General references
+## General reference
 
-The following textbooks offer a good general reference to the course
-content:
+The main textbook for this course is:
 
-- Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). *R for data science: Import, tidy, transform, visualize, and model data* (2nd edition). O'Reilly. [https://r4ds.hadley.nz/](https://r4ds.hadley.nz/)
+> Békés, G., & Kézdi, G. (2021). *Data Analysis for Business, Economics, and Policy*. Cambridge University Press. [gabors-data-analysis.com](https://gabors-data-analysis.com)
 
-## 🔖 Session-specific material
+A complementary reference for R and tidyverse:
 
-::: {.callout-note collapse="true"}
-## How to do the statistics recap?
-For information on how to do the recap, read 
-[this tutorial](/content/statrecap.qmd).
-:::
+> Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). *R for Data Science* (2nd ed.). O'Reilly. [r4ds.hadley.nz](https://r4ds.hadley.nz/)
 
+---
 
-|   Session    | Topic                                                         |       Exercise code                      |
-|:------------:|:--------------------------------------------------------------|:----------------------------------------:|
-|   [1](#s1)   | [First session page](/content/material/session00.qmd)         |          `Basics`                        |
+## Full schedule
 
+| # | Date | Title | Communication skill |
+|:---:|---|---|---|
+| 1 | Thu, 12 Mar | [Welcome, recap & tooling upgrade](session01/index.qmd) | Document structure, YAML, BibTeX bibliography |
+| — | Thu, 19 Mar | *Take-home task 1 (part 1)* | First full Quarto report submitted independently |
+| — | Thu, 26 Mar | *Take-home task 1 (part 2)* | |
+| — | Thu, 02 Apr | *Easter break* | |
+| 2 | Thu, 09 Apr | [Multiple regression: going beyond the basics](session02/index.qmd) | Regression tables with `modelsummary` |
+| — | Thu, 16 Apr | *Take-home task 2 (part 1)* | Regression table formatting, model comparison |
+| — | Thu, 23 Apr | *Take-home task 2 (part 2)* | |
+| 3 | Thu, 30 Apr | [Modelling binary and categorical outcomes](session03/index.qmd) | Inline R code for automatic result reporting |
+| 4 | Thu, 07 May | [What can go wrong: biases and diagnostics](session04/index.qmd) | Diagnostic plots, figure captions, cross-references |
+| — | Thu, 14 May | *No lecture* | |
+| 5 | Thu, 21 May | [Causation vs. correlation: thinking like an economist](session05/index.qmd) | Structuring an analytical narrative |
+| 6 | Thu, 28 May | [Panel data and fixed effects](session06/index.qmd) | Panel model output with `fixest` |
+| 7 | Thu, 04 Jun | [Coding smarter: R and AI tools](session07/index.qmd) | AI-assisted Quarto: debugging, improving prose |
+| 8 | Thu, 11 Jun | [Communicating data: advanced visualization](session08/index.qmd) | Publication-ready figures, multi-format export, Word output |
+| 9 | Thu, 18 Jun | [Recap and looking ahead](session09/index.qmd) | |
+
+---
+
+## Take-home tasks
+
+Two mandatory tasks are assigned during instructor-unavailable periods and submitted as rendered Quarto HTML reports. They are graded **pass/fail** and use separate datasets from in-person sessions.
+
+| Task | Assigned | Due |
+|---|---|---|
+| Task 1 — Regression basics | End of Session 1 (12 Mar) | 02 Apr, 08:00 |
+| Task 2 — Extending a regression | End of Session 2 (09 Apr) | 30 Apr, 08:00 |

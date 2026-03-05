@@ -1,0 +1,43 @@
+---
+title: "Session 1: Welcome, Recap & Tooling Upgrade"
+date: "2026-03-12"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Date:** Thursday, 12 March 2026, 16:00–19:00
+:::
+
+## Learning goals
+
+- Understand course structure, expectations, and assessment
+- Refresh key R and Quarto skills from the prior course
+- Set up a clean, reproducible project workflow (`.Rproj`, relative paths, folder structure)
+- Upgrade Quarto skills: YAML front matter, multiple output formats, bibliography with BibTeX
+- Understand the basics of Git version control via the RStudio Git pane
+
+## Session flow
+
+| Time | Activity |
+|---|---|
+| 16:00–16:20 | Welcome, course overview, assessment |
+| 16:20–17:00 | Quarto upgrade walkthrough + live demo |
+| 17:00–17:15 | Git orientation |
+| 17:15–18:15 | Student exercise |
+| 18:15–19:00 | Introduce Take-home Task 1, Q&A |
+
+## Quarto skill introduced this session
+
+Document structure, YAML front matter (`title`, `author`, `date`, `format`, `toc`, `number-sections`), bibliography with BibTeX (`.bib` files, `@citation` syntax).
+
+## Take-home task 1
+
+Assigned at the end of this session. See the task handout for full instructions.
+
+- **Dataset:** World Bank Life Expectancy (182 countries, GDP per capita and life expectancy, 2017)
+- **Due:** Thursday, 02 April 2026, 08:00
+- **Submission:** Rendered Quarto HTML report
+
+::: {.callout-important}
+Material (slides, exercise sheet, task handout) will be available here before the session.
+:::
