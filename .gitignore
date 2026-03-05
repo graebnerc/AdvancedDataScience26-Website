@@ -72,3 +72,6 @@ venv.bak/
 
 
 **/*.quarto_ipynb
+
+# Instructor-only files — not for distribution
+**/solution.qmd

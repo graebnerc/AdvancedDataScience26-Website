@@ -16,9 +16,7 @@ This course uses three tools throughout:
 
 You need a **GitHub account** to access course materials and submit take-home tasks.
 
-If you do not have one yet, create a free account at [github.com](https://github.com). Once you have an account, we strongly recommend registering for the **GitHub Student Developer Pack**, which gives you access to a range of professional tools for free:
-
-[education.github.com/pack](https://education.github.com/pack)
+If you do not have one yet, create a free account at [github.com](https://github.com). Once you have an account, we strongly recommend registering for the [GitHub Student Developer Pack](https://education.github.com/pack), which gives you access to a range of professional tools for free:
 
 The Student Pack also unlocks **GitHub Codespaces** — a browser-based RStudio environment that requires zero local installation. This is the recommended way to work in this course.
 
@@ -26,7 +24,7 @@ The Student Pack also unlocks **GitHub Codespaces** — a browser-based RStudio 
 
 **Option A — GitHub Codespaces (recommended):** No installation needed. All required R packages come pre-installed.
 
-1. Go to the course material repository on GitHub (link shared in Session 1)
+1. Go to the [course material repository](https://github.com/data-science-ma/AdvancedDataScience26-Material) on GitHub
 2. Click the green **Code** button → **Codespaces** → **Create codespace on main**
 3. RStudio opens in your browser — you are ready to work
 

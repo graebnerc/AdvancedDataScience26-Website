@@ -51,8 +51,6 @@ Students have completed *Theoretical and Empirical Research Methodology* (Fall 2
 - Foundational statistics: probability, sampling theory, hypothesis testing
 - Simple and basic multiple linear regression (introduction only)
 
-**Key implication:** All methods are introduced via business questions and intuition — never via formal derivations.
-
 ## Git and GitHub
 
 A key skill developed in this course is working with **Git and GitHub** — the version control and collaboration infrastructure that underlies virtually all professional data work, and that is increasingly essential in an environment where AI tools are integrated into everyday coding workflows.
@@ -61,7 +59,7 @@ Students are expected to create a free GitHub account before Session 1 and to re
 
 ## Pedagogical Approach
 
-Each 3-hour in-person session follows this structure:
+Each 3-hour in-person session follows roughly the following structure:
 
 | Time | Activity |
 |---|---|
@@ -72,8 +70,8 @@ Each 3-hour in-person session follows this structure:
 
 Core principles:
 
-- Always lead with a business question, not a method
-- Prioritise interpretation over estimation
+- Always lead with a business question
+- Prioritise interpretation over mathematical derivation
 - Use consistent datasets across multiple sessions where possible
 - Embed Quarto communication skills progressively
 
@@ -101,19 +99,3 @@ Two structured exercises submitted as rendered Quarto HTML reports during instru
 |---|---|---|
 | Task 1 — Regression basics | worldbank-lifeexpectancy | 02 April 2026, 08:00 |
 | Task 2 — Extending a regression | football | 30 April 2026, 08:00 |
-
-## Datasets
-
-Most datasets used in this course come from the open-access repository of Békés & Kézdi (2021), available at [gabors-data-analysis.com](https://gabors-data-analysis.com). Additional data is drawn from publicly available sources including the [World Bank World Development Indicators](https://databank.worldbank.org/source/world-development-indicators) and [Eurostat](https://ec.europa.eu/eurostat/data/database).
-
-| Session | Dataset | Business Question |
-|---|---|---|
-| 2 | hotels-vienna | What features drive hotel prices in Vienna? |
-| 3 | bisnode-firms | Which firms are likely to exit the market? |
-| 4 | hotels-europe | Do regression assumptions hold across 46 cities? |
-| 5 | cps-earnings | What explains the gender wage gap? |
-| 6 | wms-management-survey | Does management quality predict firm performance? |
-| 7 | working-from-home | Does WFH improve employee performance? |
-| 8 | worldbank-lifeexpectancy + world-bank-immunization | How do health outcomes relate to income globally? |
-| Task 1 | worldbank-lifeexpectancy | How does income relate to life expectancy? |
-| Task 2 | football | What predicts team performance in the Premier League? |

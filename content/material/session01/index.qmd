@@ -16,6 +16,12 @@ date-modified: last-modified
 - Upgrade Quarto skills: YAML front matter, multiple output formats, bibliography with BibTeX
 - Understand the basics of Git version control via the RStudio Git pane
 
+::: {.callout-important}
+All questions should be posted on the dedicated [discussion page](https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions).
+This allows all students to benefit from responses and allows you to help each other. 
+I do not answer questions via email.
+:::
+
 ## Session flow
 
 | Time | Activity |
@@ -26,18 +32,43 @@ date-modified: last-modified
 | 17:15–18:15 | Student exercise |
 | 18:15–19:00 | Introduce Take-home Task 1, Q&A |
 
-## Quarto skill introduced this session
+## Materials
 
-Document structure, YAML front matter (`title`, `author`, `date`, `format`, `toc`, `number-sections`), bibliography with BibTeX (`.bib` files, `@citation` syntax).
+| File | Description |
+|---|---|
+| [Slides](slides.qmd) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Demo document](demo.qmd) | Live coding document built during the session; use as a model for your own reports |
+| [Exercise sheet](exercise.qmd) | In-session exercise — setting up a reproducible Quarto workflow |
+| [References](references.bib) | BibTeX file with all citations used in session materials |
+
+::: {.callout-tip collapse="true"}
+## Downloading the source (.qmd) files
+The demo document and exercise sheet have a **`</> Code`** button in the top-right corner. Click it and select **"View Source"** to see the raw `.qmd` file. Copy the full text, paste it into a new file in RStudio, and save it with a `.qmd` extension — you now have a fully working local copy.
+:::
+
+::: {.callout-tip collapse="true"}
+## Saving slides as PDF
+**Option A (recommended):** Open the slides in Chrome or Edge, click ☰ (bottom-left) → Tools → PDF Export Mode, then **File → Print → Save as PDF**.
+
+**Option B:** Add `?print-pdf` to the end of the URL, then **File → Print → Save as PDF**. Enable "Background graphics" in the print options for correct styling.
+:::
+
+## Recap exercises
+
+- Browse the [previous course](https://researchmethodology-fall25.netlify.app/) and make sure you understand the content on linear regression (especially [session 10](https://researchmethodology-fall25.netlify.app/content/material/session10))
+- After registering at GitHub, do the following two exercises of the [First day on GitHub](https://learn.github.com/skills) section:^[
+For further readings see the [Github Quickstart Guide](https://docs.github.com/en/get-started/start-your-journey))
+]
+  - Introduction to GitHub
+  - Commmunicate using Markdown
+- Check out the [discussion space](https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions) on the GitHub material repository and write a short post (such as a self-introduction) into the `General` space
 
 ## Take-home task 1
 
-Assigned at the end of this session. See the task handout for full instructions.
+Assigned at the end of this session.
 
-- **Dataset:** World Bank Life Expectancy (182 countries, GDP per capita and life expectancy, 2017)
+- **Topic:** Regression basics — income and life expectancy across countries
+- **Dataset:** World Bank Life Expectancy (182 countries, 2017) — [download from OSF](https://osf.io/pguwf/)
 - **Due:** Thursday, 02 April 2026, 08:00
-- **Submission:** Rendered Quarto HTML report
+- **Submission:** GitHub Classroom (link distributed in session)
 
-::: {.callout-important}
-Material (slides, exercise sheet, task handout) will be available here before the session.
-:::

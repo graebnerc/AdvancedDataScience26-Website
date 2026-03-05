@@ -37,3 +37,7 @@ By the end of the course, students will be able to:
 <a href="https://elearning.uni-flensburg.de/moodle/">
   <button class="button-61">Moodle (link to be added)</button>
 </a>
+
+<a href="https://github.com/data-science-ma/AdvancedDataScience26-Material">
+  <button class="button-61">GitHub Material Repo</button>
+</a>

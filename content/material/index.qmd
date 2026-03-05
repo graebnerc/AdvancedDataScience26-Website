@@ -6,11 +6,19 @@ title: "Schedule & Overview"
 
 The main textbook for this course is:
 
-> Békés, G., & Kézdi, G. (2021). *Data Analysis for Business, Economics, and Policy*. Cambridge University Press. [gabors-data-analysis.com](https://gabors-data-analysis.com)
+> TBD
 
 A complementary reference for R and tidyverse:
 
 > Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). *R for Data Science* (2nd ed.). O'Reilly. [r4ds.hadley.nz](https://r4ds.hadley.nz/)
+
+> Ismay, C., & Kim, A. Y.-S. (2020). *Statistical inference via data science: A ModernDive, into R and the tidyverse*. CRC Press, Taylor and Francis Group. [https://moderndive.com/index.html](https://moderndive.com/index.html)
+
+For more advanced details on the fundamentals of programming in R, I recommend the following:
+
+> Wickham, H. (2019). *Advanced R* (Second edition). CRC Press/Taylor & Francis Group. [https://adv-r.hadley.nz/](https://adv-r.hadley.nz/)
+
+> James, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). *An introduction to statistical learning: With applications in R* (Second edition). Springer. [https://www.statlearning.com/](https://www.statlearning.com/)
 
 ---
 
@@ -33,6 +41,26 @@ A complementary reference for R and tidyverse:
 | 7 | Thu, 04 Jun | [Coding smarter: R and AI tools](session07/index.qmd) | AI-assisted Quarto: debugging, improving prose |
 | 8 | Thu, 11 Jun | [Communicating data: advanced visualization](session08/index.qmd) | Publication-ready figures, multi-format export, Word output |
 | 9 | Thu, 18 Jun | [Recap and looking ahead](session09/index.qmd) | |
+
+---
+
+
+## Datasets
+
+Most datasets used in this course come from the open-access repository of Békés & Kézdi (2021), available at [gabors-data-analysis.com](https://gabors-data-analysis.com). Additional data is drawn from publicly available sources including the [World Bank World Development Indicators](https://databank.worldbank.org/source/world-development-indicators) and [Eurostat](https://ec.europa.eu/eurostat/data/database).
+
+| Session | Dataset | Business Question |
+|---|---|---|
+| 2 | hotels-vienna | What features drive hotel prices in Vienna? |
+| 3 | bisnode-firms | Which firms are likely to exit the market? |
+| 4 | hotels-europe | Do regression assumptions hold across 46 cities? |
+| 5 | cps-earnings | What explains the gender wage gap? |
+| 6 | wms-management-survey | Does management quality predict firm performance? |
+| 7 | working-from-home | Does WFH improve employee performance? |
+| 8 | worldbank-lifeexpectancy + world-bank-immunization | How do health outcomes relate to income globally? |
+| Task 1 | worldbank-lifeexpectancy | How does income relate to life expectancy? |
+| Task 2 | football | What predicts team performance in the Premier League? |
+
 
 ---
 

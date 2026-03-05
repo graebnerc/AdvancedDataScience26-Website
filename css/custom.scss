@@ -1,6 +1,115 @@
 /*-- scss:defaults --*/
 
-$blue:    #00395B !default;
-$grey:    #6F6F6F !default;
-$lightblue:    #69aacd !default;
+// -------------------------------------------------------
+// EUF Brand Colours
+// -------------------------------------------------------
+$euf-kobaltblau:  #00395B;   // Primary — dark blue
+$euf-staubgrau:   #6F6F6F;   // Primary — grey
+$euf-white:       #FFFFFF;
+$euf-red-orange:  #E65032;   // Secondary
+$euf-steel-blue:  #69AACD;   // Secondary
+$euf-green:       #5FB46E;   // Secondary
+
+// -------------------------------------------------------
+// Bootstrap / Quarto theme overrides
+// -------------------------------------------------------
+$primary:         $euf-kobaltblau;
+$secondary:       $euf-steel-blue;
+$body-color:      #222222;
+$link-color:      $euf-steel-blue;
+$link-hover-color: $euf-kobaltblau;
+
+// -------------------------------------------------------
+// Typography — Fira Sans (replace with FF DAX if licensed)
+// -------------------------------------------------------
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+$font-family-sans-serif: 'Fira Sans', system-ui, -apple-system, sans-serif;
+$headings-font-family:   'Fira Sans', system-ui, -apple-system, sans-serif;
+$headings-font-weight:   600;
+$headings-color:         $euf-kobaltblau;
+
 /*-- scss:rules --*/
+
+// -------------------------------------------------------
+// CSS custom properties (available throughout the site)
+// -------------------------------------------------------
+:root {
+  --euf-kobaltblau: #{$euf-kobaltblau};
+  --euf-staubgrau:  #{$euf-staubgrau};
+  --euf-red-orange: #{$euf-red-orange};
+  --euf-steel-blue: #{$euf-steel-blue};
+  --euf-green:      #{$euf-green};
+}
+
+// -------------------------------------------------------
+// Navbar
+// -------------------------------------------------------
+.navbar {
+  background-color: $euf-kobaltblau !important;
+  .navbar-brand, .nav-link {
+    color: $euf-white !important;
+  }
+  .nav-link:hover {
+    color: $euf-steel-blue !important;
+  }
+}
+
+// -------------------------------------------------------
+// Sidebar
+// -------------------------------------------------------
+.sidebar-navigation {
+  background-color: #f4f6f8;
+}
+
+.sidebar-item.active > .sidebar-item-text {
+  color: $euf-kobaltblau;
+  font-weight: 600;
+}
+
+.sidebar-item-text:hover {
+  color: $euf-kobaltblau;
+}
+
+// -------------------------------------------------------
+// Callout blocks — brand colour accents
+// -------------------------------------------------------
+.callout-note    { border-left-color: $euf-steel-blue  !important; }
+.callout-tip     { border-left-color: $euf-green       !important; }
+.callout-warning { border-left-color: $euf-red-orange  !important; }
+.callout-important { border-left-color: $euf-red-orange !important; }
+
+// -------------------------------------------------------
+// Tables
+// -------------------------------------------------------
+.table thead th {
+  background-color: $euf-kobaltblau;
+  color: $euf-white;
+}
+
+// -------------------------------------------------------
+// Buttons
+// -------------------------------------------------------
+.button-61 {
+  background-color: $euf-kobaltblau;
+  color: $euf-white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1.2rem;
+  font-family: $font-family-sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  &:hover {
+    background-color: $euf-steel-blue;
+    color: $euf-white;
+  }
+}
+
+// -------------------------------------------------------
+// Page footer
+// -------------------------------------------------------
+.page-footer {
+  border-top: 2px solid $euf-steel-blue;
+  color: $euf-staubgrau;
+  font-size: 0.85rem;
+}
