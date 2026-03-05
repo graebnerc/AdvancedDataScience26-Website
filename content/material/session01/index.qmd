@@ -36,7 +36,7 @@ I do not answer questions via email.
 
 | File | Description |
 |---|---|
-| [Slides](slides.qmd) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Slides](slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
 | [Demo document](demo.qmd) | Live coding document built during the session; use as a model for your own reports |
 | [Exercise sheet](exercise.qmd) | In-session exercise — setting up a reproducible Quarto workflow |
 | [References](references.bib) | BibTeX file with all citations used in session materials |
