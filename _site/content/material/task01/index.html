@@ -8,7 +8,7 @@
 
 <meta name="author" content="Claudius Gräbner-Radkowitsch">
 
-<title>Session 2: Multiple Regression — Going Beyond the Basics – Adv. Data Science 2026</title>
+<title>Take-Home Task 1: Earnings, Age, and Hours Worked – Adv. Data Science 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../content/material/session03/index.html" rel="next">
-<link href="../../../content/material/session01/index.html" rel="prev">
+<link href="../../../content/material/task02/index.qmd" rel="next">
+<link href="../../../content/material/session09/index.html" rel="prev">
 <link href="../../../figures/icons/course_favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Session 2: Multiple Regression — Going Beyond the Basics – Adv. Data Science 2026">
+<meta property="og:title" content="Take-Home Task 1: Earnings, Age, and Hours Worked – Adv. Data Science 2026">
 <meta property="og:description" content="">
 <meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
 <meta property="og:site_name" content="Adv. Data Science 2026">
@@ -105,7 +105,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../content/material/session01/index.html">Sessions</a></li><li class="breadcrumb-item"><a href="../../../content/material/session02/index.html">Session 2 — Multiple Regression</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../content/material/task01/index.html">Take-home Tasks</a></li><li class="breadcrumb-item"><a href="../../../content/material/task01/index.html">Task 1 — Earnings &amp; Age</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -169,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/material/session02/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../content/material/session02/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Session 2 — Multiple Regression</span></a>
   </div>
 </li>
@@ -228,7 +228,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/material/task01/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../content/material/task01/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Task 1 — Earnings &amp; Age</span></a>
   </div>
 </li>
@@ -250,20 +250,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#business-question" id="toc-business-question" class="nav-link active" data-scroll-target="#business-question">Business question</a></li>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link" data-scroll-target="#learning-goals">Learning goals</a></li>
+  <li><a href="#what-this-task-is-about" id="toc-what-this-task-is-about" class="nav-link active" data-scroll-target="#what-this-task-is-about">What this task is about</a></li>
   <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
-  <li><a href="#quarto-skill-introduced-this-session" id="toc-quarto-skill-introduced-this-session" class="nav-link" data-scroll-target="#quarto-skill-introduced-this-session">Quarto skill introduced this session</a></li>
-  <li><a href="#take-home-task-2" id="toc-take-home-task-2" class="nav-link" data-scroll-target="#take-home-task-2">Take-home task 2</a></li>
+  <li><a href="#how-to-access-the-task" id="toc-how-to-access-the-task" class="nav-link" data-scroll-target="#how-to-access-the-task">How to access the task</a></li>
+  <li><a href="#how-to-work-on-the-task" id="toc-how-to-work-on-the-task" class="nav-link" data-scroll-target="#how-to-work-on-the-task">How to work on the task</a></li>
+  <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting help</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../content/material/session01/index.html">Sessions</a></li><li class="breadcrumb-item"><a href="../../../content/material/session02/index.html">Session 2 — Multiple Regression</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../content/material/task01/index.html">Take-home Tasks</a></li><li class="breadcrumb-item"><a href="../../../content/material/task01/index.html">Task 1 — Earnings &amp; Age</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Session 2: Multiple Regression — Going Beyond the Basics</h1>
+<h1 class="title">Take-Home Task 1: Earnings, Age, and Hours Worked</h1>
 </div>
 
 
@@ -289,14 +290,14 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">09 04 2026</p>
+      <p class="date">12 03 2026</p>
     </div>
   </div>
   
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">05 03 2026</p>
+      <p class="date-modified">06 03 2026</p>
     </div>
   </div>
     
@@ -317,51 +318,125 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Date:</strong> Thursday, 09 April 2026, 16:00–19:00</p>
+<p><strong>Assigned:</strong> end of Session 1, Thursday 12 March 2026 <strong>Due:</strong> Thursday, 02 April 2026, 08:00 <strong>Grading:</strong> Pass / fail</p>
 </div>
 </div>
-<section id="business-question" class="level2">
-<h2 class="anchored" data-anchor-id="business-question">Business question</h2>
-<p><em>What features drive hotel prices in Vienna, once we control for location?</em></p>
-</section>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning goals</h2>
-<ul>
-<li>Interpret multiple regression output with confidence</li>
-<li>Understand the role of control variables and what “holding constant” means</li>
-<li>Compare model fit and interpret standardised coefficients</li>
-<li>Communicate regression results to a non-technical audience</li>
-</ul>
+<section id="what-this-task-is-about" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-task-is-about">What this task is about</h2>
+<p>You are given data from a large U.S. labour market survey and asked to investigate how weekly earnings of market research analysts vary with age, hours worked, and educational attainment. You will build a series of regression models, interpret the results in plain language, and reflect critically on what your models leave out.</p>
+<p>This task consolidates the regression skills from the prior course and from Session 1, and asks you to apply them independently on a new dataset with a new research question. If you want to re-read important prerequisites, check out the regression tutorial from Session 10 of our <a href="https://researchmethodology-fall25.netlify.app/content/material/session10">previous course</a>.</p>
 </section>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p><strong>hotels-vienna</strong> — 428 hotels in Vienna: price, distance from city centre, star rating, review scores.</p>
+<p>The data come from the 2014 Merged Outgoing Rotation Group (MORG) of the U.S. Current Population Survey — a large, nationally representative survey of employed individuals. The file is included directly in your assignment repository; you do not need to download anything separately.</p>
+<p>Full documentation: <a href="https://gabors-data-analysis.com/datasets/cps-earnings/">gabors-data-analysis.com/datasets/cps-earnings</a></p>
 </section>
-<section id="quarto-skill-introduced-this-session" class="level2">
-<h2 class="anchored" data-anchor-id="quarto-skill-introduced-this-session">Quarto skill introduced this session</h2>
-<p>Regression tables with <code>modelsummary</code>: formatting, captions, model comparison.</p>
-</section>
-<section id="take-home-task-2" class="level2">
-<h2 class="anchored" data-anchor-id="take-home-task-2">Take-home task 2</h2>
-<p>Assigned at the end of this session. See the task handout for full instructions.</p>
-<ul>
-<li><strong>Dataset:</strong> English Premier League results and manager data (2008/09–2018/19)</li>
-<li><strong>Due:</strong> Thursday, 30 April 2026, 08:00</li>
-<li><strong>Submission:</strong> Rendered Quarto HTML report</li>
-</ul>
+<section id="how-to-access-the-task" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-access-the-task">How to access the task</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+<span class="screen-reader-only">Important</span>GitHub Classroom link
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Material will be available here before the session.</p>
+<p><strong><a href="https://classroom.github.com/a/CoZWbdrk">Accept the assignment on GitHub Classroom</a></strong></p>
+<p>Clicking the link creates your personal copy of the assignment repository. All your work goes there — your submission is the last commit pushed before the deadline.</p>
 </div>
 </div>
+</section>
+<section id="how-to-work-on-the-task" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-work-on-the-task">How to work on the task</h2>
+<p>When you accept the assignment you get your own GitHub repository with the task file (<code>TaskDescription.qmd</code>), the data, and everything else you need. You have two options for where to run R:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Option A — Work locally (RStudio on your own machine)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Clone your repository to your computer</li>
+<li>Open <code>AdvancedDataScience26-Task1.Rproj</code> in RStudio</li>
+<li>Open <code>TaskDescription.qmd</code> and work through each section</li>
+<li>Replace all placeholder text with your own code and answers; delete instructor comments and placeholder text before submitting</li>
+<li>Render to HTML: <strong>Ctrl/Cmd + Shift + K</strong></li>
+<li>Commit and push — your last commit before 23:59 on 02 April is your submission</li>
+</ol>
+<p>If you need a refresher on cloning, committing, and pushing, see the Session 1 materials.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Option B — Work in a Codespace (no local installation needed)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>On your repository page, click the green <strong>Code</strong> button → <strong>Open with Codespaces → New codespace</strong></li>
+<li>Wait a few minutes for the environment to build — R, Quarto, and all required packages are installed automatically</li>
+<li>RStudio opens in your browser; log in with username <code>rstudio</code> / password <code>rstudio</code></li>
+<li>Open <code>TaskDescription.qmd</code> and work through each section exactly as you would in RStudio on your own machine</li>
+<li>Render with <strong>Ctrl/Cmd + Shift + K</strong>; commit and push via the Git pane</li>
+</ol>
+<p>Codespace hours are free for students through GitHub Education. But hours are limited so please close the codespace if you are not using it. Also, make sure you have applied for the student benefits as explained <a href="https://docs.github.com/en/education/about-github-education/github-education-for-students/apply-to-github-education-as-a-student">here</a>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="grading" class="level2">
+<h2 class="anchored" data-anchor-id="grading">Grading</h2>
+<p>This task is graded <strong>pass / fail</strong>. A pass requires all of the following:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Criterion</th>
+<th>What we look for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>All sections attempted</strong></td>
+<td>No section is left blank or contains only placeholder text</td>
+</tr>
+<tr class="even">
+<td><strong>Code runs without errors</strong></td>
+<td>The rendered HTML is produced by actually running the code</td>
+</tr>
+<tr class="odd">
+<td><strong>Results are interpreted</strong></td>
+<td>Numbers are explained in plain language — a bare table with no text does not count</td>
+</tr>
+<tr class="even">
+<td><strong>Reflection questions answered</strong></td>
+<td>Both reflections contain a reasoned argument, not just a variable name</td>
+</tr>
+</tbody>
+</table>
+<p>If you are stuck on a specific step, use the <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions">discussion space</a>. If nothing helps, say so explicitly in your document and describe what you tried. A honest account of where you got stuck, combined with a good-faith attempt, counts toward a pass. Leaving a section blank does not.</p>
+</section>
+<section id="getting-help" class="level2">
+<h2 class="anchored" data-anchor-id="getting-help">Getting help</h2>
+<p>Post questions in the course <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions">discussion space</a>. Check whether your question has already been answered before posting. You are encouraged to help each other; sharing complete code solutions is the only thing that is not allowed.</p>
 
 
 </section>
@@ -774,13 +849,13 @@ Important
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../content/material/session01/index.html" class="pagination-link" aria-label="Session 1 — Welcome &amp; Tooling">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Session 1 — Welcome &amp; Tooling</span>
+      <a href="../../../content/material/session09/index.html" class="pagination-link" aria-label="Session 9 — Recap">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Session 9 — Recap</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../content/material/session03/index.html" class="pagination-link" aria-label="Session 3 — Binary Outcomes">
-        <span class="nav-page-text">Session 3 — Binary Outcomes</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../content/material/task02/index.qmd" class="pagination-link" aria-label="Task 2 — Football &amp; Regression">
+        <span class="nav-page-text">Task 2 — Football &amp; Regression</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
