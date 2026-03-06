@@ -44,7 +44,7 @@ The file you need is `hotels-vienna.csv`. Place it in the `data/` subfolder next
 #| label: load-data
 #| message: false
 
-hotels <- read_csv("data/hotels-vienna.csv")
+hotels <- read_csv("data/hotels-vienna.csv")  |> filter(distance>0)
 ```
 
 ## Explore the data
@@ -120,28 +120,33 @@ In 2–3 sentences: do the regression lines run roughly parallel, or do they dif
 
 Based on the scatter plot, use log-transformed price and distance in all models. In a log-log model, coefficients are elasticities: a 1% increase in distance is associated with a β% change in price.
 
+- **Model 1:** Just regress the log of `price` on the log of `distance`
+- **Model 2:** Add `stars` as additional explanatory variable
+- **Model 3:** Use `star_cat` instead of `stars` additional explanatory variable
+- **Model 4:** Extend model 3 to include interaction effects
+
 ```{r}
 #| label: model1
 
-m1 <- lm(log(price) ~ log(distance), data = hotels_clean)
+# m1 <- lm(log(price) ~ ..., data = hotels_clean)
 ```
 
 ```{r}
 #| label: model2
 
-m2 <- lm(log(price) ~ log(distance) + stars, data = hotels_clean)
+# m2 <- lm(..., data = hotels_clean)
 ```
 
 ```{r}
 #| label: model3
 
-m3 <- lm(log(price) ~ log(distance) + star_cat, data = hotels_clean)
+# m3 <- lm(..., data = hotels_clean)
 ```
 
 ```{r}
 #| label: model4
 
-m4 <- lm(log(price) ~ log(distance) * star_cat, data = hotels_clean)
+# m4 <- lm(..., data = hotels_clean)
 ```
 
 ## Model Comparison

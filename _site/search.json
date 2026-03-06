@@ -4,7 +4,7 @@
     "href": "content/material/task01/index.html",
     "title": "Take-Home Task 1: Earnings, Age, and Hours Worked",
     "section": "",
-    "text": "Note\n\n\n\nAssigned: end of Session 1, Thursday 12 March 2026 Due: Thursday, 02 April 2026, 08:00 Grading: Pass / fail",
+    "text": "Note\n\n\n\nAssigned: end of Session 1, Thursday 12 March 2026\nDue: Thursday, 02 April 2026, 23:59\nGrading: Pass / fail",
     "crumbs": [
       "Take-home Tasks",
       "Task 1 — Earnings & Age"
@@ -242,182 +242,393 @@
     ]
   },
   {
-    "objectID": "content/material/session02/index.html",
-    "href": "content/material/session02/index.html",
-    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "objectID": "content/material/session02/lecture_notes.html",
+    "href": "content/material/session02/lecture_notes.html",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
     "section": "",
-    "text": "Note\n\n\n\nDate: Thursday, 09 April 2026, 16:00–19:00",
-    "crumbs": [
-      "Sessions",
-      "Session 2 — Multiple Regression"
-    ]
+    "text": "library(tidyverse)\nlibrary(modelsummary)\nlibrary(flextable)"
   },
   {
-    "objectID": "content/material/session02/index.html#business-question",
-    "href": "content/material/session02/index.html#business-question",
-    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
-    "section": "Business question",
-    "text": "Business question\nWhat features drive hotel prices in Vienna, once we control for location?",
-    "crumbs": [
-      "Sessions",
-      "Session 2 — Multiple Regression"
-    ]
+    "objectID": "content/material/session02/lecture_notes.html#a-quick-look-at-the-raw-earnings-gap",
+    "href": "content/material/session02/lecture_notes.html#a-quick-look-at-the-raw-earnings-gap",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "3.1 A quick look at the raw earnings gap",
+    "text": "3.1 A quick look at the raw earnings gap\nBefore running any regression, let us see the raw difference. A simple group summary gives us the starting point.\n\ncps |&gt;\n  group_by(female) |&gt;\n  summarise(\n    n            = n(),\n    mean_earnwke = mean(earnwke),\n    median_earn  = median(earnwke)\n  ) |&gt; \n  flextable() |&gt; \n  theme_vanilla()\n\nfemalenmean_earnwkemedian_earn01011,417.6931,307.0011511,199.3201,115.38\n\n\nOn average, female analysts earn noticeably less. But this comparison does not hold age or hours constant. The regression will do that."
   },
   {
-    "objectID": "content/material/session02/index.html#learning-goals",
-    "href": "content/material/session02/index.html#learning-goals",
-    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
-    "section": "Learning goals",
-    "text": "Learning goals\n\nInterpret multiple regression output with confidence\nUnderstand the role of control variables and what “holding constant” means\nCompare model fit and interpret standardised coefficients\nCommunicate regression results to a non-technical audience",
-    "crumbs": [
-      "Sessions",
-      "Session 2 — Multiple Regression"
-    ]
+    "objectID": "content/material/session02/lecture_notes.html#model-3-from-the-take-home-now-including-gender",
+    "href": "content/material/session02/lecture_notes.html#model-3-from-the-take-home-now-including-gender",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "3.2 Model 3 from the take-home, now including gender",
+    "text": "3.2 Model 3 from the take-home, now including gender\nWe add female to the full model from Task 1.\n\n# Recreate age-squared (as in Task 1)\ncps &lt;- cps |&gt; mutate(age_sq = age^2)\n\n# Models from Task 1\nm1 &lt;- lm(earnwke ~ age,                             data = cps)\nm2 &lt;- lm(earnwke ~ age + age_sq,                    data = cps)\nm3 &lt;- lm(earnwke ~ age + age_sq + uhours + college, data = cps)\n\n# New model: add gender\nm4 &lt;- lm(earnwke ~ age + age_sq + uhours + college + female, data = cps)\n\nmodelsummary(m4, gof_omit = \"AIC | BIC | Log.Lik | F | RMSE\")\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                (1)\n              \n        \n        \n        \n                \n                  (Intercept)\n                  -2418.560\n                \n                \n                  \n                  (534.353)\n                \n                \n                  age\n                  86.114\n                \n                \n                  \n                  (25.741)\n                \n                \n                  age_sq\n                  -0.843\n                \n                \n                  \n                  (0.305)\n                \n                \n                  uhours\n                  36.316\n                \n                \n                  \n                  (4.762)\n                \n                \n                  college\n                  315.911\n                \n                \n                  \n                  (97.195)\n                \n                \n                  female\n                  -83.293\n                \n                \n                  \n                  (74.141)\n                \n                \n                  Num.Obs.\n                  252\n                \n                \n                  R2\n                  0.330\n                \n                \n                  R2 Adj.\n                  0.317\n                \n                \n                  AIC\n                  3912.9\n                \n                \n                  BIC\n                  3937.6\n                \n                \n                  Log.Lik.\n                  -1949.431\n                \n                \n                  F\n                  24.253\n                \n                \n                  RMSE\n                  553.85"
   },
   {
-    "objectID": "content/material/session02/index.html#dataset",
-    "href": "content/material/session02/index.html#dataset",
-    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
-    "section": "Dataset",
-    "text": "Dataset\nhotels-vienna — 428 hotels in Vienna: price, distance from city centre, star rating, review scores.",
-    "crumbs": [
-      "Sessions",
-      "Session 2 — Multiple Regression"
-    ]
+    "objectID": "content/material/session02/lecture_notes.html#interpreting-the-gender-coefficient",
+    "href": "content/material/session02/lecture_notes.html#interpreting-the-gender-coefficient",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "3.3 Interpreting the gender coefficient",
+    "text": "3.3 Interpreting the gender coefficient\nThe coefficient on female is the estimated earnings difference between female and male analysts of the same age, working the same hours, with the same education level.\nRead it like this:\n\n“Holding age, hours, and education constant, female market research analysts earn approximately and on average $ -83 per week less than their male counterparts.”\n\nNotice also what happened to the age coefficients when you added gender. Did they shift? This is the omitted variable bias story in action.\n\nNote: While isolating the gender effect is insightful and important, it might also shallow indirect effects of gender inequalities, e.g. those difference that occur because women tend to work less. To identify such more complex relationships we need to take into account interactions, a topic we turn to below."
   },
   {
-    "objectID": "content/material/session02/index.html#quarto-skill-introduced-this-session",
-    "href": "content/material/session02/index.html#quarto-skill-introduced-this-session",
-    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
-    "section": "Quarto skill introduced this session",
-    "text": "Quarto skill introduced this session\nRegression tables with modelsummary: formatting, captions, model comparison.",
-    "crumbs": [
-      "Sessions",
-      "Session 2 — Multiple Regression"
-    ]
+    "objectID": "content/material/session02/lecture_notes.html#recoding-grade92-into-three-categories",
+    "href": "content/material/session02/lecture_notes.html#recoding-grade92-into-three-categories",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "4.1 Recoding grade92 into three categories",
+    "text": "4.1 Recoding grade92 into three categories\n\ncps &lt;- cps |&gt;\n  mutate(\n    edu_cat = case_when(\n      grade92 &lt; 43  ~ \"No degree\",       # Less than bachelor's\n      grade92 &lt;= 44 ~ \"Bachelor's\",      # Bachelor's degree\n      grade92 &gt;= 45 ~ \"Graduate\"         # Master's, professional, doctoral\n    ),\n    # Set \"No degree\" as the reference category\n    edu_cat = factor(edu_cat, levels = c(\"No degree\", \"Bachelor's\", \"Graduate\"))\n  )\n\n# Check how many observations fall in each category\ncps |&gt; \n  count(edu_cat) |&gt; \n  flextable() |&gt; \n  theme_vanilla()\n\nedu_catnNo degree43Bachelor's202Graduate7"
   },
   {
-    "objectID": "content/material/session02/index.html#take-home-task-2",
-    "href": "content/material/session02/index.html#take-home-task-2",
-    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
-    "section": "Take-home task 2",
-    "text": "Take-home task 2\nAssigned at the end of this session. See the task handout for full instructions.\n\nDataset: English Premier League results and manager data (2008/09–2018/19)\nDue: Thursday, 30 April 2026, 08:00\nSubmission: Rendered Quarto HTML report\n\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
-    "crumbs": [
-      "Sessions",
-      "Session 2 — Multiple Regression"
-    ]
+    "objectID": "content/material/session02/lecture_notes.html#adding-the-three-category-education-variable",
+    "href": "content/material/session02/lecture_notes.html#adding-the-three-category-education-variable",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "4.2 Adding the three-category education variable",
+    "text": "4.2 Adding the three-category education variable\n\nm5 &lt;- lm(earnwke ~ age + age_sq + uhours + edu_cat + female, data = cps)\n\nmodelsummary(m5, gof_omit = \"AIC | BIC | Log.Lik | F | RMSE\")\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                (1)\n              \n        \n        \n        \n                \n                  (Intercept)\n                  -2370.647\n                \n                \n                  \n                  (531.433)\n                \n                \n                  age\n                  84.683\n                \n                \n                  \n                  (25.585)\n                \n                \n                  age_sq\n                  -0.838\n                \n                \n                  \n                  (0.303)\n                \n                \n                  uhours\n                  36.289\n                \n                \n                  \n                  (4.731)\n                \n                \n                  edu_catBachelor's\n                  295.116\n                \n                \n                  \n                  (97.103)\n                \n                \n                  edu_catGraduate\n                  739.085\n                \n                \n                  \n                  (228.111)\n                \n                \n                  female\n                  -74.917\n                \n                \n                  \n                  (73.778)\n                \n                \n                  Num.Obs.\n                  252\n                \n                \n                  R2\n                  0.341\n                \n                \n                  R2 Adj.\n                  0.325\n                \n                \n                  AIC\n                  3910.6\n                \n                \n                  BIC\n                  3938.8\n                \n                \n                  Log.Lik.\n                  -1947.293\n                \n                \n                  F\n                  21.172\n                \n                \n                  RMSE\n                  549.17\n                \n        \n      \n    \n\n\n\n\n4.2.1 Reading the output\nThe edu_cat coefficients each represent the earnings difference relative to the “No degree” reference group, holding all other variables constant.\n\nedu_catBachelor's: how much more (or less) a bachelor’s-educated analyst earns compared to one with no degree\nedu_catGraduate: how much more (or less) a graduate-educated analyst earns compared to one with no degree\n\nThe difference between bachelor’s and graduate earnings is not directly in the table. You calculate it by subtracting one coefficient from the other:\n\ncoefs &lt;- coef(m5)\ngrad_vs_ba &lt;- coefs[\"edu_catGraduate\"] - coefs[\"edu_catBachelor's\"]\ngrad_vs_ba\n\nedu_catGraduate \n        443.969"
   },
   {
-    "objectID": "content/material/session01/index.html",
-    "href": "content/material/session01/index.html",
-    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "objectID": "content/material/session02/lecture_notes.html#motivation",
+    "href": "content/material/session02/lecture_notes.html#motivation",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "5.1 Motivation",
+    "text": "5.1 Motivation\nSo far every model assumes the age–earnings profile is the same for men and women — only the level differs (captured by female). This is the “parallel slopes” assumption.\nBut we might expect the profile to be steeper for men: if women are more likely to take career breaks, their earnings may grow more slowly with age, and the gap may widen over a career.\nTo check, we first look at the data."
+  },
+  {
+    "objectID": "content/material/session02/lecture_notes.html#visualising-the-question",
+    "href": "content/material/session02/lecture_notes.html#visualising-the-question",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "5.2 Visualising the question",
+    "text": "5.2 Visualising the question\n\ncps |&gt;\n  mutate(gender = ifelse(female == 1, \"Female\", \"Male\")) |&gt;\n  ggplot(aes(x = age, y = earnwke, colour = gender)) +\n  geom_point(alpha = 0.3, size = 1) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  scale_colour_manual(values = c(\"Male\" = \"#00395B\", \"Female\" = \"#69AACD\")) +\n  labs(\n    x      = \"Age\",\n    y      = \"Weekly earnings (USD)\",\n    colour = NULL,\n    title  = \"Are the age–earnings slopes the same for men and women?\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 1: Age and weekly earnings by gender, market research analysts (CPS 2014)\n\n\n\n\n\nLook at the two regression lines. Are they roughly parallel? Or does one slope up more steeply than the other? The interaction model will quantify what you see here."
+  },
+  {
+    "objectID": "content/material/session02/lecture_notes.html#fitting-the-interaction",
+    "href": "content/material/session02/lecture_notes.html#fitting-the-interaction",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "5.3 Fitting the interaction",
+    "text": "5.3 Fitting the interaction\nThe * notation in lm() is shorthand: age * female expands to age + female + age:female. The age:female term is the interaction.\n\nm6 &lt;- lm(earnwke ~ age * female + age_sq + uhours + edu_cat, data = cps)\n\nmodelsummary(m6, gof_omit = \"AIC | BIC | Log.Lik | F | RMSE\")\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                (1)\n              \n        \n        \n        \n                \n                  (Intercept)\n                  -2419.504\n                \n                \n                  \n                  (538.403)\n                \n                \n                  age\n                  84.718\n                \n                \n                  \n                  (25.619)\n                \n                \n                  female\n                  76.860\n                \n                \n                  \n                  (264.996)\n                \n                \n                  age_sq\n                  -0.810\n                \n                \n                  \n                  (0.306)\n                \n                \n                  uhours\n                  36.349\n                \n                \n                  \n                  (4.738)\n                \n                \n                  edu_catBachelor's\n                  295.184\n                \n                \n                  \n                  (97.231)\n                \n                \n                  edu_catGraduate\n                  731.087\n                \n                \n                  \n                  (228.805)\n                \n                \n                  age × female\n                  -3.871\n                \n                \n                  \n                  (6.490)\n                \n                \n                  Num.Obs.\n                  252\n                \n                \n                  R2\n                  0.342\n                \n                \n                  R2 Adj.\n                  0.324\n                \n                \n                  AIC\n                  3912.2\n                \n                \n                  BIC\n                  3944.0\n                \n                \n                  Log.Lik.\n                  -1947.109\n                \n                \n                  F\n                  18.151\n                \n                \n                  RMSE\n                  548.77"
+  },
+  {
+    "objectID": "content/material/session02/lecture_notes.html#interpreting-the-interaction-coefficient",
+    "href": "content/material/session02/lecture_notes.html#interpreting-the-interaction-coefficient",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "5.4 Interpreting the interaction coefficient",
+    "text": "5.4 Interpreting the interaction coefficient\nThe model now contains three age-related terms:\n\n\n\n\n\n\n\nTerm\nWhat it measures\n\n\n\n\nage\nslope of age for men (female = 0)\n\n\nfemale\nearnings level gap at age = 0 (not meaningful by itself)\n\n\nage:female\nextra slope for women — how the age slope differs for women\n\n\n\nThe effect of one more year of age:\n\nFor men: \\(\\hat{\\beta}_\\text{age}\\)\nFor women: \\(\\hat{\\beta}_\\text{age} + \\hat{\\beta}_{\\text{age:female}}\\)\n\n\nb &lt;- coef(m6)\n\nslope_men   &lt;- b[\"age\"]\nslope_women &lt;- b[\"age\"] + b[\"age:female\"]\n\ncat(\"Age slope for men:  \", round(slope_men,   2), \"\\n\")\n\nAge slope for men:   84.72 \n\ncat(\"Age slope for women:\", round(slope_women, 2), \"\\n\")\n\nAge slope for women: 80.85 \n\ncat(\"Difference:         \", round(b[\"age:female\"], 2), \"\\n\")\n\nDifference:          -3.87 \n\n\nAlways report the group-specific slopes alongside (or instead of) the interaction coefficient itself — they are what your reader actually needs."
+  },
+  {
+    "objectID": "content/material/session02/lecture_notes.html#a-clean-comparison-table",
+    "href": "content/material/session02/lecture_notes.html#a-clean-comparison-table",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "6.1 A clean comparison table",
+    "text": "6.1 A clean comparison table\nThe table below brings together all six models. This is what a polished comparison table looks like: renamed rows, relevant fit statistics, a source note.\n\ncoef_labels &lt;- c(\n  \"age\"                = \"Age\",\n  \"age_sq\"             = \"Age²\",\n  \"uhours\"             = \"Weekly hours\",\n  \"college\"            = \"College degree\",\n  \"female\"             = \"Female\",\n  \"edu_catBachelor's\"  = \"Bachelor's degree\",\n  \"edu_catGraduate\"    = \"Graduate degree\",\n  \"age:female\"         = \"Age × Female\",\n  \"(Intercept)\"        = \"Constant\"\n)\n\nmodelsummary(\n  list(\n    \"M1: Age\"        = m1,\n    \"M2: Quadratic\"  = m2,\n    \"M3: + Controls\" = m3,\n    \"M4: + Gender\"   = m4,\n    \"M5: + Edu cat.\" = m5,\n    \"M6: Interaction\"= m6\n  ),\n  coef_map = coef_labels,\n  gof_map  = c(\"nobs\", \"r.squared\", \"adj.r.squared\"),\n  stars    = TRUE,\n  notes    = \"CPS 2014. Market research analysts and marketing specialists (occ2012 = 735), age 24–64, usual weekly hours &gt;= 20.\"\n)\n\n\n\nTable 1: Weekly earnings of market research analysts: regression results (CPS 2014)\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                M1: Age\n                M2: Quadratic\n                M3: + Controls\n                M4: + Gender\n                M5: + Edu cat.\n                M6: Interaction\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\nCPS 2014. Market research analysts and marketing specialists (occ2012 = 735), age 24–64, usual weekly hours &gt;= 20.\n        \n                \n                  Age\n                  14.365***\n                  110.171***\n                  85.030**\n                  86.114***\n                  84.683**\n                  84.718**\n                \n                \n                  \n                  (3.728)\n                  (29.541)\n                  (25.737)\n                  (25.741)\n                  (25.585)\n                  (25.619)\n                \n                \n                  Age²\n                  \n                  -1.142**\n                  -0.830**\n                  -0.843**\n                  -0.838**\n                  -0.810**\n                \n                \n                  \n                  \n                  (0.349)\n                  (0.305)\n                  (0.305)\n                  (0.303)\n                  (0.306)\n                \n                \n                  Weekly hours\n                  \n                  \n                  37.572***\n                  36.316***\n                  36.289***\n                  36.349***\n                \n                \n                  \n                  \n                  \n                  (4.631)\n                  (4.762)\n                  (4.731)\n                  (4.738)\n                \n                \n                  College degree\n                  \n                  \n                  313.155**\n                  315.911**\n                  \n                  \n                \n                \n                  \n                  \n                  \n                  (97.216)\n                  (97.195)\n                  \n                  \n                \n                \n                  Female\n                  \n                  \n                  \n                  -83.293\n                  -74.917\n                  76.860\n                \n                \n                  \n                  \n                  \n                  \n                  (74.141)\n                  (73.778)\n                  (264.996)\n                \n                \n                  Bachelor's degree\n                  \n                  \n                  \n                  \n                  295.116**\n                  295.184**\n                \n                \n                  \n                  \n                  \n                  \n                  \n                  (97.103)\n                  (97.231)\n                \n                \n                  Graduate degree\n                  \n                  \n                  \n                  \n                  739.085**\n                  731.087**\n                \n                \n                  \n                  \n                  \n                  \n                  \n                  (228.111)\n                  (228.805)\n                \n                \n                  Age × Female\n                  \n                  \n                  \n                  \n                  \n                  -3.871\n                \n                \n                  \n                  \n                  \n                  \n                  \n                  \n                  (6.490)\n                \n                \n                  Constant\n                  724.712***\n                  -1133.072+\n                  -2497.224***\n                  -2418.560***\n                  -2370.647***\n                  -2419.504***\n                \n                \n                  \n                  (151.674)\n                  (587.592)\n                  (530.026)\n                  (534.353)\n                  (531.433)\n                  (538.403)\n                \n                \n                  Num.Obs.\n                  252\n                  252\n                  252\n                  252\n                  252\n                  252\n                \n                \n                  R2\n                  0.056\n                  0.095\n                  0.327\n                  0.330\n                  0.341\n                  0.342\n                \n                \n                  R2 Adj.\n                  0.052\n                  0.088\n                  0.316\n                  0.317\n                  0.325\n                  0.324"
+  },
+  {
+    "objectID": "content/material/session02/lecture_notes.html#things-to-notice-in-the-table",
+    "href": "content/material/session02/lecture_notes.html#things-to-notice-in-the-table",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "6.2 Things to notice in the table",
+    "text": "6.2 Things to notice in the table\n\nR² vs. adjusted R²: R² never decreases when you add variables. Adjusted R² penalises complexity. Compare M3 and M5: does adding the finer education categories actually improve fit?\nCoefficient stability: How much does the age coefficient change from M2 to M3, and again from M3 to M4? Large shifts signal that the omitted variable was important.\nThe interaction in M6: Is Age × Female statistically significant? Does it change the interpretation of the Female coefficient from M4?"
+  },
+  {
+    "objectID": "content/material/session02/lecture_notes.html#a-plain-language-summary",
+    "href": "content/material/session02/lecture_notes.html#a-plain-language-summary",
+    "title": "Lecture Notes: Categorical Variables and Interaction Terms",
+    "section": "6.3 A plain-language summary",
+    "text": "6.3 A plain-language summary\nHere is an example of how to summarise M6 for a non-technical reader:\n\nWeekly earnings for market research analysts rise with age and experience, but the increase is somewhat slower for women than for men. A female analyst in this sample earns substantially less than a comparable male analyst even after accounting for age, hours worked, and education level. Analysts with graduate degrees earn meaningfully more than those without a bachelor’s degree, with bachelor’s holders falling in between. That said, the analysis is limited to a single occupation in a single year — the patterns may differ in other fields or time periods.\n\n\nThese notes accompany Session 2. This is an extended and commented version of the code that we have developed in the lecture. For questions, post in GitHub Discussions."
+  },
+  {
+    "objectID": "content/material/session02/exercise.html",
+    "href": "content/material/session02/exercise.html",
+    "title": "Exercise: What drives hotel prices in Vienna?",
     "section": "",
-    "text": "Note\n\n\n\nDate: Thursday, 12 March 2026, 16:00–19:00",
-    "crumbs": [
-      "Sessions",
-      "Session 1 — Welcome & Tooling"
-    ]
+    "text": "Code\nlibrary(tidyverse)\nlibrary(modelsummary)\nlibrary(flextable)\nBusiness Question\nYou work as an analyst for a hotel booking platform. Your manager asks:\nIn this exercise you will use multiple regression — including a categorical variable and an interaction term — to answer this question."
   },
   {
-    "objectID": "content/material/session01/index.html#learning-goals",
-    "href": "content/material/session01/index.html#learning-goals",
-    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
-    "section": "Learning goals",
-    "text": "Learning goals\n\nUnderstand course structure, expectations, and assessment\nRefresh key R and Quarto skills from the prior course\nSet up a clean, reproducible project workflow (.Rproj, relative paths, folder structure)\nUpgrade Quarto skills: YAML front matter, multiple output formats, bibliography with BibTeX\nUnderstand the basics of Git version control via the RStudio Git pane\n\n\n\n\n\n\n\nImportant\n\n\n\nAll questions should be posted on the dedicated discussion page. This allows all students to benefit from responses and allows you to help each other. I do not answer questions via email.",
-    "crumbs": [
-      "Sessions",
-      "Session 1 — Welcome & Tooling"
-    ]
+    "objectID": "content/material/session02/exercise.html#explore-the-data",
+    "href": "content/material/session02/exercise.html#explore-the-data",
+    "title": "Exercise: What drives hotel prices in Vienna?",
+    "section": "1.1 Explore the data",
+    "text": "1.1 Explore the data\n\n\nCode\nglimpse(hotels)\n\n\nRows: 427\nColumns: 24\n$ country            &lt;chr&gt; \"Austria\", \"Austria\", \"Austria\", \"Austria\", \"Austri…\n$ city_actual        &lt;chr&gt; \"Vienna\", \"Vienna\", \"Vienna\", \"Vienna\", \"Vienna\", \"…\n$ rating_count       &lt;dbl&gt; 36, 189, 53, 55, 33, 25, 57, 161, 50, NA, 203, 251,…\n$ center1label       &lt;chr&gt; \"City centre\", \"City centre\", \"City centre\", \"City …\n$ center2label       &lt;chr&gt; \"Donauturm\", \"Donauturm\", \"Donauturm\", \"Donauturm\",…\n$ neighbourhood      &lt;chr&gt; \"17. Hernals\", \"17. Hernals\", \"Alsergrund\", \"Alserg…\n$ price              &lt;dbl&gt; 81, 81, 85, 83, 82, 229, 103, 150, 80, 153, 60, 128…\n$ city               &lt;chr&gt; \"Vienna\", \"Vienna\", \"Vienna\", \"Vienna\", \"Vienna\", \"…\n$ stars              &lt;dbl&gt; 4.0, 4.0, 4.0, 3.0, 4.0, 5.0, 4.0, 4.0, 2.0, 3.0, 4…\n$ ratingta           &lt;dbl&gt; 4.5, 3.5, 3.5, 4.0, 3.5, 4.5, 3.5, 4.5, 3.5, NA, 4.…\n$ ratingta_count     &lt;dbl&gt; 216, 708, 629, 52, 219, 27, 251, 617, 146, NA, 359,…\n$ scarce_room        &lt;dbl&gt; 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, …\n$ hotel_id           &lt;dbl&gt; 21894, 21897, 21901, 21902, 21903, 21904, 21906, 21…\n$ offer              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, …\n$ offer_cat          &lt;chr&gt; \"15-50% offer\", \"1-15% offer\", \"15-50% offer\", \"15-…\n$ year               &lt;dbl&gt; 2017, 2017, 2017, 2017, 2017, 2017, 2017, 2017, 201…\n$ month              &lt;dbl&gt; 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,…\n$ weekend            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ holiday            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ distance           &lt;dbl&gt; 2.7, 1.7, 1.4, 1.7, 1.2, 0.9, 0.9, 1.0, 0.7, 1.5, 1…\n$ distance_alter     &lt;dbl&gt; 4.4, 3.8, 2.5, 2.5, 2.8, 3.0, 2.4, 2.7, 2.7, 2.7, 2…\n$ accommodation_type &lt;chr&gt; \"Apartment\", \"Hotel\", \"Hotel\", \"Hotel\", \"Hotel\", \"A…\n$ nnights            &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ rating             &lt;dbl&gt; 4.4, 3.9, 3.7, 4.0, 3.9, 4.8, 3.9, 4.6, 3.5, NA, 4.…\n\n\nTask 1.1 In 2–3 sentences, describe what one observation in this dataset represents. List the variables you plan to use and state whether each is numeric or categorical.\nTask 1.2 Produce simple summary statistics (mean, standard deviation, min, max) for price, distance, and stars. Comment briefly: what is the range of prices? How far from the centre do hotels typically sit?\n\n\n\nTable 1: Descriptive statistics: Vienna hotels\n\n\n\nCode\n# Hint: compute summary statistics with summarise(), build a small data frame\n# with one row per variable, then format it with flextable() — the same\n# workflow you used in Task 1.\n# Give the columns readable names: \"Variable\", \"Mean\", \"Std. Dev.\", \"Min\", \"Max\".\n\n# YOUR CODE HERE"
   },
   {
-    "objectID": "content/material/session01/index.html#session-flow",
-    "href": "content/material/session01/index.html#session-flow",
-    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
-    "section": "Session flow",
-    "text": "Session flow\n\n\n\nTime\nActivity\n\n\n\n\n16:00–16:20\nWelcome, course overview, assessment\n\n\n16:20–17:00\nQuarto upgrade walkthrough + live demo\n\n\n17:00–17:15\nGit orientation\n\n\n17:15–18:15\nStudent exercise\n\n\n18:15–19:00\nIntroduce Take-home Task 1, Q&A",
-    "crumbs": [
-      "Sessions",
-      "Session 1 — Welcome & Tooling"
-    ]
+    "objectID": "content/material/session02/exercise.html#visualise-the-key-relationship",
+    "href": "content/material/session02/exercise.html#visualise-the-key-relationship",
+    "title": "Exercise: What drives hotel prices in Vienna?",
+    "section": "2.1 Visualise the key relationship",
+    "text": "2.1 Visualise the key relationship\nTask 2.2 Create a scatter plot of price (y-axis) against distance (x-axis). If necessary, transform the variables. Colour the points by star_cat and add a separate linear regression line for each category using geom_smooth(method = \"lm\", se = FALSE). Give the plot informative axis labels and a title.\nIn 2–3 sentences: do the regression lines run roughly parallel, or do they differ in slope? What does this suggest about the relationship between distance, star category, and price?\n\n\nCode\n# YOUR CODE HERE"
   },
   {
-    "objectID": "content/material/session01/index.html#materials",
-    "href": "content/material/session01/index.html#materials",
-    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
-    "section": "Materials",
-    "text": "Materials\n\n\n\nFile\nDescription\n\n\n\n\nSlides\nLecture slides — open in browser, press F for fullscreen\n\n\nDemo document\nLive coding document built during the session; use as a model for your own reports\n\n\nExercise sheet\nIn-session exercise — setting up a reproducible Quarto workflow\n\n\nReferences\nBibTeX file with all citations used in session materials\n\n\n\n\n\n\n\n\n\nTipDemo assignment to test GitHub Classroom\n\n\n\n\n\nHere is the link to the demo assignment in Github classroom.\nRemember: there is no submit button, your last commit before the deadline automatically counts as submission.\n\n\n\n\n\n\n\n\n\nTipDownloading the source (.qmd) files\n\n\n\n\n\nThe demo document and exercise sheet have a &lt;/&gt; Code button in the top-right corner. Click it and select “View Source” to see the raw .qmd file. Copy the full text, paste it into a new file in RStudio, and save it with a .qmd extension — you now have a fully working local copy.\n\n\n\n\n\n\n\n\n\nTipSaving slides as PDF\n\n\n\n\n\nOption A (recommended): Open the slides in Chrome or Edge, click ☰ (bottom-left) → Tools → PDF Export Mode, then File → Print → Save as PDF.\nOption B: Add ?print-pdf to the end of the URL, then File → Print → Save as PDF. Enable “Background graphics” in the print options for correct styling.",
-    "crumbs": [
-      "Sessions",
-      "Session 1 — Welcome & Tooling"
-    ]
+    "objectID": "content/material/session02/exercise.html#estimating-the-models",
+    "href": "content/material/session02/exercise.html#estimating-the-models",
+    "title": "Exercise: What drives hotel prices in Vienna?",
+    "section": "3.1 Estimating the models",
+    "text": "3.1 Estimating the models\nBased on the scatter plot, use log-transformed price and distance in all models. In a log-log model, coefficients are elasticities: a 1% increase in distance is associated with a β% change in price.\n\nModel 1: Just regress the log of price on the log of distance\nModel 2: Add stars as additional explanatory variable\nModel 3: Use star_cat instead of stars additional explanatory variable\nModel 4: Extend model 3 to include interaction effects\n\n\n\nCode\n# m1 &lt;- lm(log(price) ~ ..., data = hotels_clean)\n\n\n\n\nCode\n# m2 &lt;- lm(..., data = hotels_clean)\n\n\n\n\nCode\n# m3 &lt;- lm(..., data = hotels_clean)\n\n\n\n\nCode\n# m4 &lt;- lm(..., data = hotels_clean)"
   },
   {
-    "objectID": "content/material/session01/index.html#recap-exercises",
-    "href": "content/material/session01/index.html#recap-exercises",
-    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
-    "section": "Recap exercises",
-    "text": "Recap exercises\n\nBrowse the previous course and make sure you understand the content on linear regression (especially session 10)\nAfter registering at GitHub, do the following two exercises of the First day on GitHub section:1\n\nIntroduction to GitHub\nCommmunicate using Markdown\n\nCheck out the discussion space on the GitHub material repository and write a short post (such as a self-introduction) into the General space",
-    "crumbs": [
-      "Sessions",
-      "Session 1 — Welcome & Tooling"
-    ]
+    "objectID": "content/material/session02/exercise.html#model-comparison",
+    "href": "content/material/session02/exercise.html#model-comparison",
+    "title": "Exercise: What drives hotel prices in Vienna?",
+    "section": "3.2 Model Comparison",
+    "text": "3.2 Model Comparison\nProduce a single modelsummary table containing all four models. Use coef_map to rename the row labels, and add a notes argument describing the sample and transformations.\n\n\n\nTable 2: Drivers of hotel prices in Vienna: regression results (log-log)\n\n\n\nCode\ncoef_labels &lt;- c(\n  \"(Intercept)\"                  = \"Constant\",\n  \"log(distance)\"                = \"log(Distance from centre)\",\n  \"stars\"                        = \"Star rating (continuous)\",\n  \"star_cat4-star\"               = \"4-star hotel\",\n  \"star_cat5-star\"               = \"5-star hotel\",\n  \"log(distance):star_cat4-star\" = \"log(Distance) × 4-star\",\n  \"log(distance):star_cat5-star\" = \"log(Distance) × 5-star\"\n)\n\n# modelsummary(\n#   list(\n#       ADD HERE\n#   ),\n#   coef_map = coef_labels,\n#   gof_map  = c(\"nobs\", \"r.squared\", \"adj.r.squared\"),\n#   stars    = TRUE,\n#   notes    = \"\"\n# )"
   },
   {
-    "objectID": "content/material/session01/index.html#take-home-task-1",
-    "href": "content/material/session01/index.html#take-home-task-1",
-    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
-    "section": "Take-home task 1",
-    "text": "Take-home task 1\nAssigned at the end of this session. See the dedicated task page for full instructions, materials, and the GitHub Classroom link.",
-    "crumbs": [
-      "Sessions",
-      "Session 1 — Welcome & Tooling"
-    ]
+    "objectID": "content/material/session02/exercise.html#interpretation",
+    "href": "content/material/session02/exercise.html#interpretation",
+    "title": "Exercise: What drives hotel prices in Vienna?",
+    "section": "3.3 Interpretation",
+    "text": "3.3 Interpretation\nUse Table 2 to answer the following questions.\nTask 3.1 What does the log(distance) coefficient in column (1) tell you? Why is a log-log specification more appropriate here than a linear model?\nTask 3.2 In column (2), interpret the stars coefficient. What does this model assume about the price step from 3- to 4-star compared with 4- to 5-star? Is that assumption plausible?\nTask 3.3 Answer the following using column (3):\n\nWhat is the reference category?\nInterpret the 4-star hotel coefficient. (Hint: in a log-price model, the percentage premium is (exp(β) − 1) × 100.)\nHow does model (3) differ from model (2) in what it allows the data to tell you?\n\nTask 3.4 Answer the following using column (4):\n\nInterpret the log(Distance) × 4-star coefficient. What does it say about how the distance penalty differs for 4-star hotels?\nWhat is the total distance elasticity for a 5-star hotel? Show the calculation.\nDoes this match what you saw in the scatter plot?\n\nTask 3.5 Looking at the fit statistics at the bottom of the table:\n\nDoes \\(R^2\\) increase as you add more variables? What does the adjusted \\(R^2\\) tell you that the plain \\(R^2\\) does not?\nDoes the log(distance) coefficient change substantially between columns (1), (3), and (4)? What does stability or instability suggest?"
   },
   {
-    "objectID": "content/material/session01/index.html#footnotes",
-    "href": "content/material/session01/index.html#footnotes",
-    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\n For further readings see the Github Quickstart Guide.↩︎",
-    "crumbs": [
-      "Sessions",
-      "Session 1 — Welcome & Tooling"
-    ]
-  },
-  {
-    "objectID": "content/material/session01/demo.html",
-    "href": "content/material/session01/demo.html",
-    "title": "Income and Life Expectancy: A Global Perspective",
+    "objectID": "content/material/session01/solution.html",
+    "href": "content/material/session01/solution.html",
+    "title": "Session 1 — Exercise Solution",
     "section": "",
-    "text": "How does income relate to health? This question sits at the heart of development economics — and it turns out the answer is both intuitive and surprising.\nAt first glance, richer countries do tend to have longer-living populations. But the relationship is not linear: the difference in life expectancy between a country with a GDP per capita of $2,000 and one with $10,000 is much larger than the difference between $50,000 and $100,000. This pattern was first documented systematically by Preston (1975) and has become one of the most replicated findings in the social sciences.\nIn this report, we explore this relationship using cross-country data from the World Bank. The central question is: how much of the variation in life expectancy across countries can be explained by income alone?\nThe data and methods follow Békés and Kézdi (2021), who use this dataset as a running example for visualisation and regression."
+    "text": "This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.\nAs discussed in Békés and Kézdi (2021), regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see Wooldridge (2020)."
   },
   {
-    "objectID": "content/material/session01/demo.html#introduction",
-    "href": "content/material/session01/demo.html#introduction",
-    "title": "Income and Life Expectancy: A Global Perspective",
+    "objectID": "content/material/session01/solution.html#introduction",
+    "href": "content/material/session01/solution.html#introduction",
+    "title": "Session 1 — Exercise Solution",
     "section": "",
-    "text": "How does income relate to health? This question sits at the heart of development economics — and it turns out the answer is both intuitive and surprising.\nAt first glance, richer countries do tend to have longer-living populations. But the relationship is not linear: the difference in life expectancy between a country with a GDP per capita of $2,000 and one with $10,000 is much larger than the difference between $50,000 and $100,000. This pattern was first documented systematically by Preston (1975) and has become one of the most replicated findings in the social sciences.\nIn this report, we explore this relationship using cross-country data from the World Bank. The central question is: how much of the variation in life expectancy across countries can be explained by income alone?\nThe data and methods follow Békés and Kézdi (2021), who use this dataset as a running example for visualisation and regression."
+    "text": "This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.\nAs discussed in Békés and Kézdi (2021), regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see Wooldridge (2020)."
   },
   {
-    "objectID": "content/material/session01/demo.html#data-and-approach",
-    "href": "content/material/session01/demo.html#data-and-approach",
-    "title": "Income and Life Expectancy: A Global Perspective",
-    "section": "2 Data and approach",
-    "text": "2 Data and approach\nWe use a cross-section of 182 countries observed in 2017. The two key variables are:\n\nLife expectancy (years): average life expectancy at birth\nGDP per capita (USD, PPP-adjusted): a standard measure of average income\n\nThe data are publicly available from the World Bank World Development Indicators and can be downloaded from OSF.\nFor this demonstration, we use a small illustrative dataset to show the code structure. In your own work, replace example_data with the real dataset."
+    "objectID": "content/material/session01/solution.html#data",
+    "href": "content/material/session01/solution.html#data",
+    "title": "Session 1 — Exercise Solution",
+    "section": "2 Data",
+    "text": "2 Data\nThe analysis uses data from the World Bank covering 182 countries in 2017. The key variables are GDP per capita (in USD) and life expectancy at birth (in years). The foundational empirical relationship between income and health was documented by Preston (1975)."
   },
   {
-    "objectID": "content/material/session01/demo.html#results",
-    "href": "content/material/session01/demo.html#results",
-    "title": "Income and Life Expectancy: A Global Perspective",
+    "objectID": "content/material/session01/solution.html#results",
+    "href": "content/material/session01/solution.html#results",
+    "title": "Session 1 — Exercise Solution",
     "section": "3 Results",
-    "text": "3 Results\n\n3.1 The income–life expectancy relationship\n\n\nCode\n# Illustrative dataset — replace with real World Bank data for your own analysis\nexample_data &lt;- tibble(\n  country        = c(\"Nigeria\", \"India\", \"Brazil\", \"China\",\n                     \"Mexico\", \"Poland\", \"Germany\", \"USA\", \"Norway\"),\n  gdp_per_capita = c(5300, 6600, 14100, 16800,\n                     19900, 31900, 53700, 63500, 67300),\n  life_expectancy = c(54, 69, 75, 76,\n                      75, 78, 81, 78, 82)\n)\n\nggplot(example_data, aes(x = gdp_per_capita, y = life_expectancy)) +\n  geom_point(colour = \"#00395B\", size = 3, alpha = 0.8) +\n  geom_text(\n    aes(label = country),\n    nudge_y = 0.6, size = 3.2, colour = \"#6F6F6F\"\n  ) +\n  scale_x_log10(labels = scales::label_dollar(scale = 1/1000, suffix = \"k\")) +\n  labs(\n    x     = \"GDP per capita (log scale, USD PPP)\",\n    y     = \"Life expectancy (years)\",\n    title = \"Richer countries tend to live longer\",\n    subtitle = \"But the relationship flattens at high income levels\"\n  )\n\n\n\n\n\n\n\n\nFigure 1: Life expectancy and GDP per capita across selected countries (illustrative data). A log scale on the x-axis straightens the curved relationship.\n\n\n\n\n\nFigure 1 shows a clear positive association: countries with higher incomes tend to have longer life expectancies. Notice that the x-axis uses a log scale — this straightens the curved relationship and makes the pattern easier to read. We will return to this choice in Session 2.\n\n\n3.2 A first regression\n\n\nCode\nlibrary(modelsummary)   # for clean regression tables\n\n# Add the log-transformed predictor\nexample_data &lt;- example_data |&gt;\n  mutate(log_gdp = log(gdp_per_capita))\n\n# Fit the model\nmodel &lt;- lm(life_expectancy ~ log_gdp, data = example_data)\n\n# Display results\nmodelsummary(\n  model,\n  stars   = TRUE,\n  gof_map = c(\"nobs\", \"r.squared\")\n)\n\n\n\n\nTable 1: OLS regression of life expectancy on log GDP per capita.\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                (1)\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  -2.662\n                \n                \n                  \n                  (17.935)\n                \n                \n                  log_gdp\n                  7.689**\n                \n                \n                  \n                  (1.787)\n                \n                \n                  Num.Obs.\n                  9\n                \n                \n                  R2\n                  0.726\n                \n        \n      \n    \n\n\n\n\n\n\nThe coefficient on log GDP per capita tells us: for each 1% increase in GDP per capita, life expectancy increases by approximately 0.08 years on average."
+    "text": "3 Results\nThe main finding from the literature is that richer countries tend to have higher life expectancy — but the relationship is non-linear: gains in life expectancy per additional dollar of income shrink as countries become wealthier. A log transformation of GDP per capita helps capture this pattern.\n\n\nCode\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nCode\nggplot(mpg, aes(x = displ, y = hwy, colour = class)) +\n  geom_point(alpha = 0.7) +\n  labs(\n    x = \"Engine displacement (litres)\",\n    y = \"Highway fuel economy (mpg)\",\n    colour = \"Vehicle class\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nFigure 1: Engine displacement and fuel economy by vehicle class (mpg dataset)."
   },
   {
-    "objectID": "content/material/session01/demo.html#conclusion",
-    "href": "content/material/session01/demo.html#conclusion",
-    "title": "Income and Life Expectancy: A Global Perspective",
-    "section": "4 Conclusion",
-    "text": "4 Conclusion\nEven a simple regression reveals a strong positive relationship between income and life expectancy. However, income alone cannot explain all of the variation — some countries outperform their income level substantially, while others fall below it. Unpacking these patterns requires controlling for additional variables, a topic we return to in Sessions 2 and 4."
+    "objectID": "content/material/session01/exercise.html",
+    "href": "content/material/session01/exercise.html",
+    "title": "Session 1 — Exercise",
+    "section": "",
+    "text": "Scenario: You are a junior analyst at an international consultancy. Before writing any analysis, your team requires all reports to follow a standard document structure — a proper YAML header, numbered sections, and a bibliography. Your task today is to build that structure from scratch.\nYou are not analysing data yet. You are building the container that will hold your analysis for the rest of the semester.\nWork through the six tasks below. Each task has a check — a short description of what you should see when you have done it correctly."
+  },
+  {
+    "objectID": "content/material/session01/exercise.html#your-task-today",
+    "href": "content/material/session01/exercise.html#your-task-today",
+    "title": "Session 1 — Exercise",
+    "section": "",
+    "text": "Scenario: You are a junior analyst at an international consultancy. Before writing any analysis, your team requires all reports to follow a standard document structure — a proper YAML header, numbered sections, and a bibliography. Your task today is to build that structure from scratch.\nYou are not analysing data yet. You are building the container that will hold your analysis for the rest of the semester.\nWork through the six tasks below. Each task has a check — a short description of what you should see when you have done it correctly."
+  },
+  {
+    "objectID": "content/material/session01/exercise.html#task-1-project-setup",
+    "href": "content/material/session01/exercise.html#task-1-project-setup",
+    "title": "Session 1 — Exercise",
+    "section": "2 Task 1: Project setup",
+    "text": "2 Task 1: Project setup\nSet up a clean R project with the standard folder structure.\nSteps:\n\nIn RStudio, go to File → New Project → New Directory → New Project\nGive it a meaningful name (e.g. my-analysis) and choose a sensible location\nOnce the project opens, create three folders inside it:\n\ndata/ — for raw data files\nfigures/ — for exported plots\noutput/ — for rendered reports\n\nCreate a new Quarto document: File → New File → Quarto Document Save it as report.qmd in your project root\n\n\n\n\n\n\n\nTip\n\n\n\nHow to create folders: In the RStudio Files pane (bottom right), click New Folder.\n\n\nCheck: Your Files pane should show:\nmy-analysis/\n├── my-analysis.Rproj\n├── report.qmd\n├── data/\n├── figures/\n└── output/"
+  },
+  {
+    "objectID": "content/material/session01/exercise.html#task-2-yaml-front-matter",
+    "href": "content/material/session01/exercise.html#task-2-yaml-front-matter",
+    "title": "Session 1 — Exercise",
+    "section": "3 Task 2: YAML front matter",
+    "text": "3 Task 2: YAML front matter\nReplace the default YAML header in report.qmd with a complete one.\nSteps:\nDelete whatever Quarto put in the YAML by default and replace it with this — filling in your own title and name:\n---\ntitle: \"Your Report Title\"\nauthor: \"Your Name\"\ndate: today\nformat:\n  html:\n    toc: true\n    number-sections: true\n  docx:\n    toc: true\n    number-sections: true\nbibliography: references.bib\n---\nCheck: The document has a YAML block between --- markers at the top. If you try to render now, it will warn about a missing references.bib — that is expected and fixed in Task 4.\n\n\n\n\n\n\nNote\n\n\n\ndate: today tells Quarto to use today’s date automatically every time the document renders — no manual updating needed."
+  },
+  {
+    "objectID": "content/material/session01/exercise.html#task-3-document-structure",
+    "href": "content/material/session01/exercise.html#task-3-document-structure",
+    "title": "Session 1 — Exercise",
+    "section": "4 Task 3: Document structure",
+    "text": "4 Task 3: Document structure\nAdd meaningful content sections to your report.\nSteps:\nBelow the YAML, write at least three sections using Markdown headings. Choose a topic relevant to international business — it does not need to be sophisticated. For example:\n## Introduction\n\nThis report examines ... [one or two sentences].\n\n## Data\n\nThe analysis uses data from ... [one or two sentences].\n\n## Results\n\nThe main finding is ... [one or two sentences].\nCheck: When you render to HTML (Ctrl/Cmd + Shift + K), you should see:\n\nA numbered table of contents on the left\nThree numbered sections in the document body"
+  },
+  {
+    "objectID": "content/material/session01/exercise.html#task-4-bibliography",
+    "href": "content/material/session01/exercise.html#task-4-bibliography",
+    "title": "Session 1 — Exercise",
+    "section": "5 Task 4: Bibliography",
+    "text": "5 Task 4: Bibliography\nAdd citations to your report using BibTeX.\nSteps:\n\nCopy the file references.bib from the session folder into your project folder (next to report.qmd)\nIn your document text, add at least two citations using @key syntax. The keys available in the provided file are:\n\n@BekezKezdi2021 — the main course textbook\n@Wooldridge2020 — an econometrics reference\n@Preston1975 — a classic applied paper\n\nAt the end of your document, add a ## References heading (Quarto fills this in automatically)\nRender to HTML and confirm the reference list appears\n\nExample citation in text:\nAs discussed in @BekezKezdi2021, regression analysis requires ...\n\nFor a formal treatment, see @Wooldridge2020.\n\n## References\nCheck: The rendered HTML shows in-text citations (e.g. “Békés & Kézdi, 2021”) and a formatted reference list at the end.\n\n\n\n\n\n\nNote\n\n\n\nZotero integration (optional): Zotero can generate .bib entries automatically and sync with Quarto. This is covered in an optional tutorial after the session — not required today."
+  },
+  {
+    "objectID": "content/material/session01/exercise.html#task-5-r-code-chunk",
+    "href": "content/material/session01/exercise.html#task-5-r-code-chunk",
+    "title": "Session 1 — Exercise",
+    "section": "6 Task 5: R code chunk",
+    "text": "6 Task 5: R code chunk\nAdd a working R code chunk that produces a plot.\nSteps:\n\nInsert a code chunk: Ctrl/Cmd + Alt + I (or use the Insert menu)\nIn the chunk, load the tidyverse and make any simple plot using built-in data\n\nA minimal example to get started:\n```{r}\n#| label: fig-example\n#| fig-cap: \"A simple example plot.\"\n\nlibrary(tidyverse)\n\nggplot(mpg, aes(x = displ, y = hwy, colour = class)) +\n  geom_point() +\n  labs(\n    x = \"Engine displacement (litres)\",\n    y = \"Highway fuel economy (mpg)\"\n  )\n```\nYou can use any built-in dataset and any ggplot2 plot you like — this is just to confirm the workflow runs end to end.\nCheck: When you render, a figure appears in the HTML output with a caption."
+  },
+  {
+    "objectID": "content/material/session01/exercise.html#task-6-render-to-both-formats",
+    "href": "content/material/session01/exercise.html#task-6-render-to-both-formats",
+    "title": "Session 1 — Exercise",
+    "section": "7 Task 6: Render to both formats",
+    "text": "7 Task 6: Render to both formats\nConfirm your document renders cleanly to both HTML and Word.\nSteps:\n\nRender to HTML: Ctrl/Cmd + Shift + K (or click the Render button) The output appears in the Viewer pane or opens in your browser\nRender to Word: in the Render button dropdown, select docx (or add format: docx temporarily and re-render)\n\nCheck: Both files exist in your project:\n\nreport.html — opens in a browser, shows TOC, numbered sections, figure, references\nreport.docx — opens in Word with the same structure\n\n\n\n\n\n\n\nTip\n\n\n\nThe .docx output may look slightly different from the HTML — that is normal. Word rendering is polished in Session 8."
+  },
+  {
+    "objectID": "content/material/session01/exercise.html#finished-early",
+    "href": "content/material/session01/exercise.html#finished-early",
+    "title": "Session 1 — Exercise",
+    "section": "8 Finished early?",
+    "text": "8 Finished early?\n\nTry adding a second code chunk with a different plot or a summary table\nExplore YAML options: what does code-fold: true do? What about theme: cosmo?\nRead the Quarto documentation on HTML documents"
+  },
+  {
+    "objectID": "content/material/index.html",
+    "href": "content/material/index.html",
+    "title": "Schedule & Overview",
+    "section": "",
+    "text": "The main textbook for this course is:\n\nTBD\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz\n\n\nIsmay, C., & Kim, A. Y.-S. (2020). Statistical inference via data science: A ModernDive, into R and the tidyverse. CRC Press, Taylor and Francis Group. https://moderndive.com/index.html\n\nFor more advanced details on the fundamentals of programming in R, I recommend the following:\n\nWickham, H. (2019). Advanced R (Second edition). CRC Press/Taylor & Francis Group. https://adv-r.hadley.nz/\n\n\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An introduction to statistical learning: With applications in R (Second edition). Springer. https://www.statlearning.com/",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#general-reference",
+    "href": "content/material/index.html#general-reference",
+    "title": "Schedule & Overview",
+    "section": "",
+    "text": "The main textbook for this course is:\n\nTBD\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz\n\n\nIsmay, C., & Kim, A. Y.-S. (2020). Statistical inference via data science: A ModernDive, into R and the tidyverse. CRC Press, Taylor and Francis Group. https://moderndive.com/index.html\n\nFor more advanced details on the fundamentals of programming in R, I recommend the following:\n\nWickham, H. (2019). Advanced R (Second edition). CRC Press/Taylor & Francis Group. https://adv-r.hadley.nz/\n\n\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An introduction to statistical learning: With applications in R (Second edition). Springer. https://www.statlearning.com/",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#full-schedule",
+    "href": "content/material/index.html#full-schedule",
+    "title": "Schedule & Overview",
+    "section": "Full schedule",
+    "text": "Full schedule\n\n\n\n#\nDate\nTitle\nCommunication skill\n\n\n\n\n1\nThu, 12 Mar\nWelcome, recap & tooling upgrade\nDocument structure, YAML, BibTeX bibliography\n\n\n—\nThu, 19 Mar\nTake-home task 1 (part 1)\nFirst full Quarto report submitted independently\n\n\n—\nThu, 26 Mar\nTake-home task 1 (part 2)\n\n\n\n—\nThu, 02 Apr\nEaster break\n\n\n\n2\nThu, 09 Apr\nMultiple regression: going beyond the basics\nRegression tables with modelsummary\n\n\n—\nThu, 16 Apr\nTake-home task 2 (part 1)\nRegression table formatting, model comparison\n\n\n—\nThu, 23 Apr\nTake-home task 2 (part 2)\n\n\n\n3\nThu, 30 Apr\nModelling binary and categorical outcomes\nInline R code for automatic result reporting\n\n\n4\nThu, 07 May\nWhat can go wrong: biases and diagnostics\nDiagnostic plots, figure captions, cross-references\n\n\n—\nThu, 14 May\nNo lecture\n\n\n\n5\nThu, 21 May\nCausation vs. correlation: thinking like an economist\nStructuring an analytical narrative\n\n\n6\nThu, 28 May\nPanel data and fixed effects\nPanel model output with fixest\n\n\n7\nThu, 04 Jun\nCoding smarter: R and AI tools\nAI-assisted Quarto: debugging, improving prose\n\n\n8\nThu, 11 Jun\nCommunicating data: advanced visualization\nPublication-ready figures, multi-format export, Word output\n\n\n9\nThu, 18 Jun\nRecap and looking ahead",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#datasets",
+    "href": "content/material/index.html#datasets",
+    "title": "Schedule & Overview",
+    "section": "Datasets",
+    "text": "Datasets\nMost datasets used in this course come from the open-access repository of Békés & Kézdi (2021), available at gabors-data-analysis.com. Additional data is drawn from publicly available sources including the World Bank World Development Indicators and Eurostat.\n\n\n\n\n\n\n\n\nSession\nDataset\nBusiness Question\n\n\n\n\n2\nhotels-vienna\nWhat features drive hotel prices in Vienna?\n\n\n3\nbisnode-firms\nWhich firms are likely to exit the market?\n\n\n4\nhotels-europe\nDo regression assumptions hold across 46 cities?\n\n\n5\ncps-earnings\nWhat explains the gender wage gap?\n\n\n6\nwms-management-survey\nDoes management quality predict firm performance?\n\n\n7\nworking-from-home\nDoes WFH improve employee performance?\n\n\n8\nworldbank-lifeexpectancy + world-bank-immunization\nHow do health outcomes relate to income globally?\n\n\nTask 1\nworldbank-lifeexpectancy\nHow does income relate to life expectancy?\n\n\nTask 2\nfootball\nWhat predicts team performance in the Premier League?",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#take-home-tasks",
+    "href": "content/material/index.html#take-home-tasks",
+    "title": "Schedule & Overview",
+    "section": "Take-home tasks",
+    "text": "Take-home tasks\nTwo mandatory tasks are assigned during instructor-unavailable periods and submitted as rendered Quarto HTML reports. They are graded pass/fail and use separate datasets from in-person sessions.\n\n\n\n\n\n\n\n\nTask\nAssigned\nDue\n\n\n\n\nTask 1 — Regression basics\nEnd of Session 1 (12 Mar)\n02 Apr, 08:00\n\n\nTask 2 — Extending a regression\nEnd of Session 2 (09 Apr)\n30 Apr, 08:00",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
+    ]
+  },
+  {
+    "objectID": "content/index.html",
+    "href": "content/index.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "This course uses three tools throughout:\n\nR — statistical computing language (you already know this from the prior course)\nQuarto — reproducible document and report system\nGitHub — version control and collaboration platform",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#tools",
+    "href": "content/index.html#tools",
+    "title": "Getting Started",
+    "section": "",
+    "text": "This course uses three tools throughout:\n\nR — statistical computing language (you already know this from the prior course)\nQuarto — reproducible document and report system\nGitHub — version control and collaboration platform",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#github-account",
+    "href": "content/index.html#github-account",
+    "title": "Getting Started",
+    "section": "GitHub account",
+    "text": "GitHub account\nYou need a GitHub account to access course materials and submit take-home tasks.\nIf you do not have one yet, create a free account at github.com. Once you have an account, we strongly recommend registering for the GitHub Student Developer Pack, which gives you access to a range of professional tools for free:\nThe Student Pack also unlocks GitHub Codespaces — a browser-based RStudio environment that requires zero local installation. This is the recommended way to work in this course.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#coding-environment",
+    "href": "content/index.html#coding-environment",
+    "title": "Getting Started",
+    "section": "Coding environment",
+    "text": "Coding environment\nOption A — GitHub Codespaces (recommended): No installation needed. All required R packages come pre-installed.\n\nGo to the course material repository on GitHub\nClick the green Code button → Codespaces → Create codespace on main\nRStudio opens in your browser — you are ready to work\n\nOption B — local RStudio: Install R 4.4+, RStudio, and run:\ninstall.packages(c(\"tidyverse\", \"plm\", \"modelsummary\", \"fixest\",\n                   \"lmtest\", \"sandwich\", \"patchwork\"))",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#git-in-this-course-four-things-you-need",
+    "href": "content/index.html#git-in-this-course-four-things-you-need",
+    "title": "Getting Started",
+    "section": "Git in this course: four things you need",
+    "text": "Git in this course: four things you need\nYou interact with Git via the RStudio Git pane — no command line required.\n\n\n\nAction\nWhat it does\n\n\n\n\nPull\nGet the latest version from GitHub\n\n\nStage\nSelect which changed files to include in your snapshot\n\n\nCommit\nSave a snapshot with a short description message\n\n\nPush\nSend your snapshot to GitHub\n\n\n\nThat is all you need. No branching, no merging. For a full introduction, see the GitHub Skills: Introduction to GitHub tutorial.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#questions-and-discussion",
+    "href": "content/index.html#questions-and-discussion",
+    "title": "Getting Started",
+    "section": "Questions and discussion",
+    "text": "Questions and discussion\nAll course questions go through GitHub Discussions on the material repository (link shared in Session 1). This keeps the discussion visible to everyone and searchable.\nMoodle is used for official announcements and grades only.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "content/index.html#material",
+    "href": "content/index.html#material",
+    "title": "Getting Started",
+    "section": "Material",
+    "text": "Material\nAn overview of all sessions and materials is on the Schedule & Overview page. Session pages are added progressively as the course proceeds.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Data Science and Econometrics for International Business",
+    "section": "",
+    "text": "What: A hands-on seminar equipping second-year master’s students with the practical data science and econometric skills needed for applied research in international business studies. The course follows a deliberate arc — from strengthening regression skills, through causal thinking, to modern data communication. Skills in using tools such as Github and Quarto for Communication, which are central in the contemporary environment, will receive extra attention.\nHow: Every session starts with a business question, not a method name. Concepts are introduced through intuition and real examples, followed by live coding and a 60-minute hands-on exercise with real data.\nPrerequisites: Basic knowledge in R, Quarto, and basic linear regression. All requirements are covered in the required course Theoretical and Empirical Research Methodology, the material of which is available here.).",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#the-course-in-brief",
+    "href": "index.html#the-course-in-brief",
+    "title": "Data Science and Econometrics for International Business",
+    "section": "",
+    "text": "What: A hands-on seminar equipping second-year master’s students with the practical data science and econometric skills needed for applied research in international business studies. The course follows a deliberate arc — from strengthening regression skills, through causal thinking, to modern data communication. Skills in using tools such as Github and Quarto for Communication, which are central in the contemporary environment, will receive extra attention.\nHow: Every session starts with a business question, not a method name. Concepts are introduced through intuition and real examples, followed by live coding and a 60-minute hands-on exercise with real data.\nPrerequisites: Basic knowledge in R, Quarto, and basic linear regression. All requirements are covered in the required course Theoretical and Empirical Research Methodology, the material of which is available here.).",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#key-information",
+    "href": "index.html#key-information",
+    "title": "Data Science and Econometrics for International Business",
+    "section": "Key information",
+    "text": "Key information\n\n\n\nTime\nThursdays, 16:00–19:00\n\n\nPeriod\n12 March – 18 June 2026\n\n\nIn-person sessions\n9 (including recap)\n\n\nTools\nR, RStudio (via GitHub Codespaces if desired), Quarto",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#learning-objectives",
+    "href": "index.html#learning-objectives",
+    "title": "Data Science and Econometrics for International Business",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of the course, students will be able to:\n\nUse tools such as Github, which are essential in a working environment in which AI becomes increasingly important\nInterpret multiple regression output and communicate results to a non-technical audience\nRecognise when and why standard OLS breaks down, and apply appropriate fixes\nDistinguish causal from associational claims and critically evaluate causal arguments\nApply panel data methods with fixed effects\nUse AI tools critically and effectively for R coding and debugging\nProduce publication-ready figures and reports in Quarto\n\n\n Moodle (Code: QuantiSpring26) \n GitHub Material Repo",
+    "crumbs": [
+      "Home"
+    ]
   },
   {
     "objectID": "content/material/SeminarDescription.html",
@@ -508,260 +719,224 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Data Science and Econometrics for International Business",
+    "objectID": "content/material/session01/demo.html",
+    "href": "content/material/session01/demo.html",
+    "title": "Income and Life Expectancy: A Global Perspective",
     "section": "",
-    "text": "What: A hands-on seminar equipping second-year master’s students with the practical data science and econometric skills needed for applied research in international business studies. The course follows a deliberate arc — from strengthening regression skills, through causal thinking, to modern data communication. Skills in using tools such as Github and Quarto for Communication, which are central in the contemporary environment, will receive extra attention.\nHow: Every session starts with a business question, not a method name. Concepts are introduced through intuition and real examples, followed by live coding and a 60-minute hands-on exercise with real data.\nPrerequisites: Basic knowledge in R, Quarto, and basic linear regression. All requirements are covered in the required course Theoretical and Empirical Research Methodology, the material of which is available here.).",
-    "crumbs": [
-      "Home"
-    ]
+    "text": "How does income relate to health? This question sits at the heart of development economics — and it turns out the answer is both intuitive and surprising.\nAt first glance, richer countries do tend to have longer-living populations. But the relationship is not linear: the difference in life expectancy between a country with a GDP per capita of $2,000 and one with $10,000 is much larger than the difference between $50,000 and $100,000. This pattern was first documented systematically by Preston (1975) and has become one of the most replicated findings in the social sciences.\nIn this report, we explore this relationship using cross-country data from the World Bank. The central question is: how much of the variation in life expectancy across countries can be explained by income alone?\nThe data and methods follow Békés and Kézdi (2021), who use this dataset as a running example for visualisation and regression."
   },
   {
-    "objectID": "index.html#the-course-in-brief",
-    "href": "index.html#the-course-in-brief",
-    "title": "Data Science and Econometrics for International Business",
+    "objectID": "content/material/session01/demo.html#introduction",
+    "href": "content/material/session01/demo.html#introduction",
+    "title": "Income and Life Expectancy: A Global Perspective",
     "section": "",
-    "text": "What: A hands-on seminar equipping second-year master’s students with the practical data science and econometric skills needed for applied research in international business studies. The course follows a deliberate arc — from strengthening regression skills, through causal thinking, to modern data communication. Skills in using tools such as Github and Quarto for Communication, which are central in the contemporary environment, will receive extra attention.\nHow: Every session starts with a business question, not a method name. Concepts are introduced through intuition and real examples, followed by live coding and a 60-minute hands-on exercise with real data.\nPrerequisites: Basic knowledge in R, Quarto, and basic linear regression. All requirements are covered in the required course Theoretical and Empirical Research Methodology, the material of which is available here.).",
-    "crumbs": [
-      "Home"
-    ]
+    "text": "How does income relate to health? This question sits at the heart of development economics — and it turns out the answer is both intuitive and surprising.\nAt first glance, richer countries do tend to have longer-living populations. But the relationship is not linear: the difference in life expectancy between a country with a GDP per capita of $2,000 and one with $10,000 is much larger than the difference between $50,000 and $100,000. This pattern was first documented systematically by Preston (1975) and has become one of the most replicated findings in the social sciences.\nIn this report, we explore this relationship using cross-country data from the World Bank. The central question is: how much of the variation in life expectancy across countries can be explained by income alone?\nThe data and methods follow Békés and Kézdi (2021), who use this dataset as a running example for visualisation and regression."
   },
   {
-    "objectID": "index.html#key-information",
-    "href": "index.html#key-information",
-    "title": "Data Science and Econometrics for International Business",
-    "section": "Key information",
-    "text": "Key information\n\n\n\nTime\nThursdays, 16:00–19:00\n\n\nPeriod\n12 March – 18 June 2026\n\n\nIn-person sessions\n9 (including recap)\n\n\nTools\nR, RStudio (via GitHub Codespaces if desired), Quarto",
-    "crumbs": [
-      "Home"
-    ]
+    "objectID": "content/material/session01/demo.html#data-and-approach",
+    "href": "content/material/session01/demo.html#data-and-approach",
+    "title": "Income and Life Expectancy: A Global Perspective",
+    "section": "2 Data and approach",
+    "text": "2 Data and approach\nWe use a cross-section of 182 countries observed in 2017. The two key variables are:\n\nLife expectancy (years): average life expectancy at birth\nGDP per capita (USD, PPP-adjusted): a standard measure of average income\n\nThe data are publicly available from the World Bank World Development Indicators and can be downloaded from OSF.\nFor this demonstration, we use a small illustrative dataset to show the code structure. In your own work, replace example_data with the real dataset."
   },
   {
-    "objectID": "index.html#learning-objectives",
-    "href": "index.html#learning-objectives",
-    "title": "Data Science and Econometrics for International Business",
-    "section": "Learning objectives",
-    "text": "Learning objectives\nBy the end of the course, students will be able to:\n\nUse tools such as Github, which are essential in a working environment in which AI becomes increasingly important\nInterpret multiple regression output and communicate results to a non-technical audience\nRecognise when and why standard OLS breaks down, and apply appropriate fixes\nDistinguish causal from associational claims and critically evaluate causal arguments\nApply panel data methods with fixed effects\nUse AI tools critically and effectively for R coding and debugging\nProduce publication-ready figures and reports in Quarto\n\n\n Moodle (Code: QuantiSpring26) \n GitHub Material Repo",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "content/index.html",
-    "href": "content/index.html",
-    "title": "Getting Started",
-    "section": "",
-    "text": "This course uses three tools throughout:\n\nR — statistical computing language (you already know this from the prior course)\nQuarto — reproducible document and report system\nGitHub — version control and collaboration platform",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "content/index.html#tools",
-    "href": "content/index.html#tools",
-    "title": "Getting Started",
-    "section": "",
-    "text": "This course uses three tools throughout:\n\nR — statistical computing language (you already know this from the prior course)\nQuarto — reproducible document and report system\nGitHub — version control and collaboration platform",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "content/index.html#github-account",
-    "href": "content/index.html#github-account",
-    "title": "Getting Started",
-    "section": "GitHub account",
-    "text": "GitHub account\nYou need a GitHub account to access course materials and submit take-home tasks.\nIf you do not have one yet, create a free account at github.com. Once you have an account, we strongly recommend registering for the GitHub Student Developer Pack, which gives you access to a range of professional tools for free:\nThe Student Pack also unlocks GitHub Codespaces — a browser-based RStudio environment that requires zero local installation. This is the recommended way to work in this course.",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "content/index.html#coding-environment",
-    "href": "content/index.html#coding-environment",
-    "title": "Getting Started",
-    "section": "Coding environment",
-    "text": "Coding environment\nOption A — GitHub Codespaces (recommended): No installation needed. All required R packages come pre-installed.\n\nGo to the course material repository on GitHub\nClick the green Code button → Codespaces → Create codespace on main\nRStudio opens in your browser — you are ready to work\n\nOption B — local RStudio: Install R 4.4+, RStudio, and run:\ninstall.packages(c(\"tidyverse\", \"plm\", \"modelsummary\", \"fixest\",\n                   \"lmtest\", \"sandwich\", \"patchwork\"))",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "content/index.html#git-in-this-course-four-things-you-need",
-    "href": "content/index.html#git-in-this-course-four-things-you-need",
-    "title": "Getting Started",
-    "section": "Git in this course: four things you need",
-    "text": "Git in this course: four things you need\nYou interact with Git via the RStudio Git pane — no command line required.\n\n\n\nAction\nWhat it does\n\n\n\n\nPull\nGet the latest version from GitHub\n\n\nStage\nSelect which changed files to include in your snapshot\n\n\nCommit\nSave a snapshot with a short description message\n\n\nPush\nSend your snapshot to GitHub\n\n\n\nThat is all you need. No branching, no merging. For a full introduction, see the GitHub Skills: Introduction to GitHub tutorial.",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "content/index.html#questions-and-discussion",
-    "href": "content/index.html#questions-and-discussion",
-    "title": "Getting Started",
-    "section": "Questions and discussion",
-    "text": "Questions and discussion\nAll course questions go through GitHub Discussions on the material repository (link shared in Session 1). This keeps the discussion visible to everyone and searchable.\nMoodle is used for official announcements and grades only.",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "content/index.html#material",
-    "href": "content/index.html#material",
-    "title": "Getting Started",
-    "section": "Material",
-    "text": "Material\nAn overview of all sessions and materials is on the Schedule & Overview page. Session pages are added progressively as the course proceeds.",
-    "crumbs": [
-      "Getting Started"
-    ]
-  },
-  {
-    "objectID": "content/material/index.html",
-    "href": "content/material/index.html",
-    "title": "Schedule & Overview",
-    "section": "",
-    "text": "The main textbook for this course is:\n\nTBD\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz\n\n\nIsmay, C., & Kim, A. Y.-S. (2020). Statistical inference via data science: A ModernDive, into R and the tidyverse. CRC Press, Taylor and Francis Group. https://moderndive.com/index.html\n\nFor more advanced details on the fundamentals of programming in R, I recommend the following:\n\nWickham, H. (2019). Advanced R (Second edition). CRC Press/Taylor & Francis Group. https://adv-r.hadley.nz/\n\n\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An introduction to statistical learning: With applications in R (Second edition). Springer. https://www.statlearning.com/",
-    "crumbs": [
-      "Material",
-      "Overview & Schedule"
-    ]
-  },
-  {
-    "objectID": "content/material/index.html#general-reference",
-    "href": "content/material/index.html#general-reference",
-    "title": "Schedule & Overview",
-    "section": "",
-    "text": "The main textbook for this course is:\n\nTBD\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz\n\n\nIsmay, C., & Kim, A. Y.-S. (2020). Statistical inference via data science: A ModernDive, into R and the tidyverse. CRC Press, Taylor and Francis Group. https://moderndive.com/index.html\n\nFor more advanced details on the fundamentals of programming in R, I recommend the following:\n\nWickham, H. (2019). Advanced R (Second edition). CRC Press/Taylor & Francis Group. https://adv-r.hadley.nz/\n\n\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An introduction to statistical learning: With applications in R (Second edition). Springer. https://www.statlearning.com/",
-    "crumbs": [
-      "Material",
-      "Overview & Schedule"
-    ]
-  },
-  {
-    "objectID": "content/material/index.html#full-schedule",
-    "href": "content/material/index.html#full-schedule",
-    "title": "Schedule & Overview",
-    "section": "Full schedule",
-    "text": "Full schedule\n\n\n\n#\nDate\nTitle\nCommunication skill\n\n\n\n\n1\nThu, 12 Mar\nWelcome, recap & tooling upgrade\nDocument structure, YAML, BibTeX bibliography\n\n\n—\nThu, 19 Mar\nTake-home task 1 (part 1)\nFirst full Quarto report submitted independently\n\n\n—\nThu, 26 Mar\nTake-home task 1 (part 2)\n\n\n\n—\nThu, 02 Apr\nEaster break\n\n\n\n2\nThu, 09 Apr\nMultiple regression: going beyond the basics\nRegression tables with modelsummary\n\n\n—\nThu, 16 Apr\nTake-home task 2 (part 1)\nRegression table formatting, model comparison\n\n\n—\nThu, 23 Apr\nTake-home task 2 (part 2)\n\n\n\n3\nThu, 30 Apr\nModelling binary and categorical outcomes\nInline R code for automatic result reporting\n\n\n4\nThu, 07 May\nWhat can go wrong: biases and diagnostics\nDiagnostic plots, figure captions, cross-references\n\n\n—\nThu, 14 May\nNo lecture\n\n\n\n5\nThu, 21 May\nCausation vs. correlation: thinking like an economist\nStructuring an analytical narrative\n\n\n6\nThu, 28 May\nPanel data and fixed effects\nPanel model output with fixest\n\n\n7\nThu, 04 Jun\nCoding smarter: R and AI tools\nAI-assisted Quarto: debugging, improving prose\n\n\n8\nThu, 11 Jun\nCommunicating data: advanced visualization\nPublication-ready figures, multi-format export, Word output\n\n\n9\nThu, 18 Jun\nRecap and looking ahead",
-    "crumbs": [
-      "Material",
-      "Overview & Schedule"
-    ]
-  },
-  {
-    "objectID": "content/material/index.html#datasets",
-    "href": "content/material/index.html#datasets",
-    "title": "Schedule & Overview",
-    "section": "Datasets",
-    "text": "Datasets\nMost datasets used in this course come from the open-access repository of Békés & Kézdi (2021), available at gabors-data-analysis.com. Additional data is drawn from publicly available sources including the World Bank World Development Indicators and Eurostat.\n\n\n\n\n\n\n\n\nSession\nDataset\nBusiness Question\n\n\n\n\n2\nhotels-vienna\nWhat features drive hotel prices in Vienna?\n\n\n3\nbisnode-firms\nWhich firms are likely to exit the market?\n\n\n4\nhotels-europe\nDo regression assumptions hold across 46 cities?\n\n\n5\ncps-earnings\nWhat explains the gender wage gap?\n\n\n6\nwms-management-survey\nDoes management quality predict firm performance?\n\n\n7\nworking-from-home\nDoes WFH improve employee performance?\n\n\n8\nworldbank-lifeexpectancy + world-bank-immunization\nHow do health outcomes relate to income globally?\n\n\nTask 1\nworldbank-lifeexpectancy\nHow does income relate to life expectancy?\n\n\nTask 2\nfootball\nWhat predicts team performance in the Premier League?",
-    "crumbs": [
-      "Material",
-      "Overview & Schedule"
-    ]
-  },
-  {
-    "objectID": "content/material/index.html#take-home-tasks",
-    "href": "content/material/index.html#take-home-tasks",
-    "title": "Schedule & Overview",
-    "section": "Take-home tasks",
-    "text": "Take-home tasks\nTwo mandatory tasks are assigned during instructor-unavailable periods and submitted as rendered Quarto HTML reports. They are graded pass/fail and use separate datasets from in-person sessions.\n\n\n\n\n\n\n\n\nTask\nAssigned\nDue\n\n\n\n\nTask 1 — Regression basics\nEnd of Session 1 (12 Mar)\n02 Apr, 08:00\n\n\nTask 2 — Extending a regression\nEnd of Session 2 (09 Apr)\n30 Apr, 08:00",
-    "crumbs": [
-      "Material",
-      "Overview & Schedule"
-    ]
-  },
-  {
-    "objectID": "content/material/session01/exercise.html",
-    "href": "content/material/session01/exercise.html",
-    "title": "Session 1 — Exercise",
-    "section": "",
-    "text": "Scenario: You are a junior analyst at an international consultancy. Before writing any analysis, your team requires all reports to follow a standard document structure — a proper YAML header, numbered sections, and a bibliography. Your task today is to build that structure from scratch.\nYou are not analysing data yet. You are building the container that will hold your analysis for the rest of the semester.\nWork through the six tasks below. Each task has a check — a short description of what you should see when you have done it correctly."
-  },
-  {
-    "objectID": "content/material/session01/exercise.html#your-task-today",
-    "href": "content/material/session01/exercise.html#your-task-today",
-    "title": "Session 1 — Exercise",
-    "section": "",
-    "text": "Scenario: You are a junior analyst at an international consultancy. Before writing any analysis, your team requires all reports to follow a standard document structure — a proper YAML header, numbered sections, and a bibliography. Your task today is to build that structure from scratch.\nYou are not analysing data yet. You are building the container that will hold your analysis for the rest of the semester.\nWork through the six tasks below. Each task has a check — a short description of what you should see when you have done it correctly."
-  },
-  {
-    "objectID": "content/material/session01/exercise.html#task-1-project-setup",
-    "href": "content/material/session01/exercise.html#task-1-project-setup",
-    "title": "Session 1 — Exercise",
-    "section": "2 Task 1: Project setup",
-    "text": "2 Task 1: Project setup\nSet up a clean R project with the standard folder structure.\nSteps:\n\nIn RStudio, go to File → New Project → New Directory → New Project\nGive it a meaningful name (e.g. my-analysis) and choose a sensible location\nOnce the project opens, create three folders inside it:\n\ndata/ — for raw data files\nfigures/ — for exported plots\noutput/ — for rendered reports\n\nCreate a new Quarto document: File → New File → Quarto Document Save it as report.qmd in your project root\n\n\n\n\n\n\n\nTip\n\n\n\nHow to create folders: In the RStudio Files pane (bottom right), click New Folder.\n\n\nCheck: Your Files pane should show:\nmy-analysis/\n├── my-analysis.Rproj\n├── report.qmd\n├── data/\n├── figures/\n└── output/"
-  },
-  {
-    "objectID": "content/material/session01/exercise.html#task-2-yaml-front-matter",
-    "href": "content/material/session01/exercise.html#task-2-yaml-front-matter",
-    "title": "Session 1 — Exercise",
-    "section": "3 Task 2: YAML front matter",
-    "text": "3 Task 2: YAML front matter\nReplace the default YAML header in report.qmd with a complete one.\nSteps:\nDelete whatever Quarto put in the YAML by default and replace it with this — filling in your own title and name:\n---\ntitle: \"Your Report Title\"\nauthor: \"Your Name\"\ndate: today\nformat:\n  html:\n    toc: true\n    number-sections: true\n  docx:\n    toc: true\n    number-sections: true\nbibliography: references.bib\n---\nCheck: The document has a YAML block between --- markers at the top. If you try to render now, it will warn about a missing references.bib — that is expected and fixed in Task 4.\n\n\n\n\n\n\nNote\n\n\n\ndate: today tells Quarto to use today’s date automatically every time the document renders — no manual updating needed."
-  },
-  {
-    "objectID": "content/material/session01/exercise.html#task-3-document-structure",
-    "href": "content/material/session01/exercise.html#task-3-document-structure",
-    "title": "Session 1 — Exercise",
-    "section": "4 Task 3: Document structure",
-    "text": "4 Task 3: Document structure\nAdd meaningful content sections to your report.\nSteps:\nBelow the YAML, write at least three sections using Markdown headings. Choose a topic relevant to international business — it does not need to be sophisticated. For example:\n## Introduction\n\nThis report examines ... [one or two sentences].\n\n## Data\n\nThe analysis uses data from ... [one or two sentences].\n\n## Results\n\nThe main finding is ... [one or two sentences].\nCheck: When you render to HTML (Ctrl/Cmd + Shift + K), you should see:\n\nA numbered table of contents on the left\nThree numbered sections in the document body"
-  },
-  {
-    "objectID": "content/material/session01/exercise.html#task-4-bibliography",
-    "href": "content/material/session01/exercise.html#task-4-bibliography",
-    "title": "Session 1 — Exercise",
-    "section": "5 Task 4: Bibliography",
-    "text": "5 Task 4: Bibliography\nAdd citations to your report using BibTeX.\nSteps:\n\nCopy the file references.bib from the session folder into your project folder (next to report.qmd)\nIn your document text, add at least two citations using @key syntax. The keys available in the provided file are:\n\n@BekezKezdi2021 — the main course textbook\n@Wooldridge2020 — an econometrics reference\n@Preston1975 — a classic applied paper\n\nAt the end of your document, add a ## References heading (Quarto fills this in automatically)\nRender to HTML and confirm the reference list appears\n\nExample citation in text:\nAs discussed in @BekezKezdi2021, regression analysis requires ...\n\nFor a formal treatment, see @Wooldridge2020.\n\n## References\nCheck: The rendered HTML shows in-text citations (e.g. “Békés & Kézdi, 2021”) and a formatted reference list at the end.\n\n\n\n\n\n\nNote\n\n\n\nZotero integration (optional): Zotero can generate .bib entries automatically and sync with Quarto. This is covered in an optional tutorial after the session — not required today."
-  },
-  {
-    "objectID": "content/material/session01/exercise.html#task-5-r-code-chunk",
-    "href": "content/material/session01/exercise.html#task-5-r-code-chunk",
-    "title": "Session 1 — Exercise",
-    "section": "6 Task 5: R code chunk",
-    "text": "6 Task 5: R code chunk\nAdd a working R code chunk that produces a plot.\nSteps:\n\nInsert a code chunk: Ctrl/Cmd + Alt + I (or use the Insert menu)\nIn the chunk, load the tidyverse and make any simple plot using built-in data\n\nA minimal example to get started:\n```{r}\n#| label: fig-example\n#| fig-cap: \"A simple example plot.\"\n\nlibrary(tidyverse)\n\nggplot(mpg, aes(x = displ, y = hwy, colour = class)) +\n  geom_point() +\n  labs(\n    x = \"Engine displacement (litres)\",\n    y = \"Highway fuel economy (mpg)\"\n  )\n```\nYou can use any built-in dataset and any ggplot2 plot you like — this is just to confirm the workflow runs end to end.\nCheck: When you render, a figure appears in the HTML output with a caption."
-  },
-  {
-    "objectID": "content/material/session01/exercise.html#task-6-render-to-both-formats",
-    "href": "content/material/session01/exercise.html#task-6-render-to-both-formats",
-    "title": "Session 1 — Exercise",
-    "section": "7 Task 6: Render to both formats",
-    "text": "7 Task 6: Render to both formats\nConfirm your document renders cleanly to both HTML and Word.\nSteps:\n\nRender to HTML: Ctrl/Cmd + Shift + K (or click the Render button) The output appears in the Viewer pane or opens in your browser\nRender to Word: in the Render button dropdown, select docx (or add format: docx temporarily and re-render)\n\nCheck: Both files exist in your project:\n\nreport.html — opens in a browser, shows TOC, numbered sections, figure, references\nreport.docx — opens in Word with the same structure\n\n\n\n\n\n\n\nTip\n\n\n\nThe .docx output may look slightly different from the HTML — that is normal. Word rendering is polished in Session 8."
-  },
-  {
-    "objectID": "content/material/session01/exercise.html#finished-early",
-    "href": "content/material/session01/exercise.html#finished-early",
-    "title": "Session 1 — Exercise",
-    "section": "8 Finished early?",
-    "text": "8 Finished early?\n\nTry adding a second code chunk with a different plot or a summary table\nExplore YAML options: what does code-fold: true do? What about theme: cosmo?\nRead the Quarto documentation on HTML documents"
-  },
-  {
-    "objectID": "content/material/session01/solution.html",
-    "href": "content/material/session01/solution.html",
-    "title": "Session 1 — Exercise Solution",
-    "section": "",
-    "text": "This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.\nAs discussed in Békés and Kézdi (2021), regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see Wooldridge (2020)."
-  },
-  {
-    "objectID": "content/material/session01/solution.html#introduction",
-    "href": "content/material/session01/solution.html#introduction",
-    "title": "Session 1 — Exercise Solution",
-    "section": "",
-    "text": "This report examines the relationship between economic development and health outcomes across countries. Understanding this relationship is relevant for international businesses assessing market conditions and risk in emerging economies.\nAs discussed in Békés and Kézdi (2021), regression analysis allows us to estimate the average association between two variables while holding other factors constant. For a formal econometric treatment of these methods, see Wooldridge (2020)."
-  },
-  {
-    "objectID": "content/material/session01/solution.html#data",
-    "href": "content/material/session01/solution.html#data",
-    "title": "Session 1 — Exercise Solution",
-    "section": "2 Data",
-    "text": "2 Data\nThe analysis uses data from the World Bank covering 182 countries in 2017. The key variables are GDP per capita (in USD) and life expectancy at birth (in years). The foundational empirical relationship between income and health was documented by Preston (1975)."
-  },
-  {
-    "objectID": "content/material/session01/solution.html#results",
-    "href": "content/material/session01/solution.html#results",
-    "title": "Session 1 — Exercise Solution",
+    "objectID": "content/material/session01/demo.html#results",
+    "href": "content/material/session01/demo.html#results",
+    "title": "Income and Life Expectancy: A Global Perspective",
     "section": "3 Results",
-    "text": "3 Results\nThe main finding from the literature is that richer countries tend to have higher life expectancy — but the relationship is non-linear: gains in life expectancy per additional dollar of income shrink as countries become wealthier. A log transformation of GDP per capita helps capture this pattern.\n\n\nCode\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nCode\nggplot(mpg, aes(x = displ, y = hwy, colour = class)) +\n  geom_point(alpha = 0.7) +\n  labs(\n    x = \"Engine displacement (litres)\",\n    y = \"Highway fuel economy (mpg)\",\n    colour = \"Vehicle class\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nFigure 1: Engine displacement and fuel economy by vehicle class (mpg dataset)."
+    "text": "3 Results\n\n3.1 The income–life expectancy relationship\n\n\nCode\n# Illustrative dataset — replace with real World Bank data for your own analysis\nexample_data &lt;- tibble(\n  country        = c(\"Nigeria\", \"India\", \"Brazil\", \"China\",\n                     \"Mexico\", \"Poland\", \"Germany\", \"USA\", \"Norway\"),\n  gdp_per_capita = c(5300, 6600, 14100, 16800,\n                     19900, 31900, 53700, 63500, 67300),\n  life_expectancy = c(54, 69, 75, 76,\n                      75, 78, 81, 78, 82)\n)\n\nggplot(example_data, aes(x = gdp_per_capita, y = life_expectancy)) +\n  geom_point(colour = \"#00395B\", size = 3, alpha = 0.8) +\n  geom_text(\n    aes(label = country),\n    nudge_y = 0.6, size = 3.2, colour = \"#6F6F6F\"\n  ) +\n  scale_x_log10(labels = scales::label_dollar(scale = 1/1000, suffix = \"k\")) +\n  labs(\n    x     = \"GDP per capita (log scale, USD PPP)\",\n    y     = \"Life expectancy (years)\",\n    title = \"Richer countries tend to live longer\",\n    subtitle = \"But the relationship flattens at high income levels\"\n  )\n\n\n\n\n\n\n\n\nFigure 1: Life expectancy and GDP per capita across selected countries (illustrative data). A log scale on the x-axis straightens the curved relationship.\n\n\n\n\n\nFigure 1 shows a clear positive association: countries with higher incomes tend to have longer life expectancies. Notice that the x-axis uses a log scale — this straightens the curved relationship and makes the pattern easier to read. We will return to this choice in Session 2.\n\n\n3.2 A first regression\n\n\nCode\nlibrary(modelsummary)   # for clean regression tables\n\n# Add the log-transformed predictor\nexample_data &lt;- example_data |&gt;\n  mutate(log_gdp = log(gdp_per_capita))\n\n# Fit the model\nmodel &lt;- lm(life_expectancy ~ log_gdp, data = example_data)\n\n# Display results\nmodelsummary(\n  model,\n  stars   = TRUE,\n  gof_map = c(\"nobs\", \"r.squared\")\n)\n\n\n\n\nTable 1: OLS regression of life expectancy on log GDP per capita.\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                (1)\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  -2.662\n                \n                \n                  \n                  (17.935)\n                \n                \n                  log_gdp\n                  7.689**\n                \n                \n                  \n                  (1.787)\n                \n                \n                  Num.Obs.\n                  9\n                \n                \n                  R2\n                  0.726\n                \n        \n      \n    \n\n\n\n\n\n\nThe coefficient on log GDP per capita tells us: for each 1% increase in GDP per capita, life expectancy increases by approximately 0.08 years on average."
+  },
+  {
+    "objectID": "content/material/session01/demo.html#conclusion",
+    "href": "content/material/session01/demo.html#conclusion",
+    "title": "Income and Life Expectancy: A Global Perspective",
+    "section": "4 Conclusion",
+    "text": "4 Conclusion\nEven a simple regression reveals a strong positive relationship between income and life expectancy. However, income alone cannot explain all of the variation — some countries outperform their income level substantially, while others fall below it. Unpacking these patterns requires controlling for additional variables, a topic we return to in Sessions 2 and 4."
+  },
+  {
+    "objectID": "content/material/session01/index.html",
+    "href": "content/material/session01/index.html",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 12 March 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#learning-goals",
+    "href": "content/material/session01/index.html#learning-goals",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nUnderstand course structure, expectations, and assessment\nRefresh key R and Quarto skills from the prior course\nSet up a clean, reproducible project workflow (.Rproj, relative paths, folder structure)\nUpgrade Quarto skills: YAML front matter, multiple output formats, bibliography with BibTeX\nUnderstand the basics of Git version control via the RStudio Git pane\n\n\n\n\n\n\n\nImportant\n\n\n\nAll questions should be posted on the dedicated discussion page. This allows all students to benefit from responses and allows you to help each other. I do not answer questions via email.",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#session-outline",
+    "href": "content/material/session01/index.html#session-outline",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Session outline",
+    "text": "Session outline\n\n\n\nTime\nActivity\n\n\n\n\n16:00–16:20\nWelcome, course overview, assessment\n\n\n16:20–17:00\nQuarto upgrade walkthrough + live demo\n\n\n17:00–17:15\nGit orientation\n\n\n17:15–18:15\nStudent exercise\n\n\n18:15–19:00\nIntroduce Take-home Task 1, Q&A",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#materials",
+    "href": "content/material/session01/index.html#materials",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Materials",
+    "text": "Materials\n\n\n\nFile\nDescription\n\n\n\n\nSlides\nLecture slides — open in browser, press F for fullscreen\n\n\nLecture notes\nLive coding document built during the session; use as a model for your own reports\n\n\nExercise sheet\nIn-session exercise — setting up a reproducible Quarto workflow\n\n\nExemplary solution\nExemplary solution to the in-session exercise\n\n\nReferences\nBibTeX file with all citations used in session materials\n\n\n\n\n\n\n\n\n\nTipDemo assignment to test GitHub Classroom\n\n\n\n\n\nHere is the link to the demo assignment in Github classroom.\nRemember: there is no submit button, your last commit before the deadline automatically counts as submission.\n\n\n\n\n\n\n\n\n\nTipDownloading the source (.qmd) files\n\n\n\n\n\nThe demo document and exercise sheet have a &lt;/&gt; Code button in the top-right corner. Click it and select “View Source” to see the raw .qmd file. Copy the full text, paste it into a new file in RStudio, and save it with a .qmd extension — you now have a fully working local copy.\n\n\n\n\n\n\n\n\n\nTipSaving slides as PDF\n\n\n\n\n\nOption A (recommended): Open the slides in Chrome or Edge, click ☰ (bottom-left) → Tools → PDF Export Mode, then File → Print → Save as PDF.\nOption B: Add ?print-pdf to the end of the URL, then File → Print → Save as PDF. Enable “Background graphics” in the print options for correct styling.",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#recap-exercises",
+    "href": "content/material/session01/index.html#recap-exercises",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Recap exercises",
+    "text": "Recap exercises\n\nBrowse the previous course and make sure you understand the content on linear regression (especially session 10)\nAfter registering at GitHub, do the following two exercises of the First day on GitHub section:1\n\nIntroduction to GitHub\nCommmunicate using Markdown\n\nCheck out the discussion space on the GitHub material repository and write a short post (such as a self-introduction) into the General space",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#take-home-task-1",
+    "href": "content/material/session01/index.html#take-home-task-1",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Take-home task 1",
+    "text": "Take-home task 1\nAssigned at the end of this session. See the dedicated task page for full instructions, materials, and the GitHub Classroom link.",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session01/index.html#footnotes",
+    "href": "content/material/session01/index.html#footnotes",
+    "title": "Session 1: Welcome, Recap & Tooling Upgrade",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\n For further readings see the Github Quickstart Guide.↩︎",
+    "crumbs": [
+      "Sessions",
+      "Session 1 — Welcome & Tooling"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/exercise-solution.html",
+    "href": "content/material/session02/exercise-solution.html",
+    "title": "Exercise Solution: What drives hotel prices in Vienna?",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(modelsummary)\nlibrary(flextable)\nBusiness Question\nYou work as an analyst for a hotel booking platform. Your manager asks:"
+  },
+  {
+    "objectID": "content/material/session02/exercise-solution.html#explore-the-data",
+    "href": "content/material/session02/exercise-solution.html#explore-the-data",
+    "title": "Exercise Solution: What drives hotel prices in Vienna?",
+    "section": "1.1 Explore the data",
+    "text": "1.1 Explore the data\n\nglimpse(hotels)\n\nRows: 427\nColumns: 24\n$ country            &lt;chr&gt; \"Austria\", \"Austria\", \"Austria\", \"Austria\", \"Austri…\n$ city_actual        &lt;chr&gt; \"Vienna\", \"Vienna\", \"Vienna\", \"Vienna\", \"Vienna\", \"…\n$ rating_count       &lt;dbl&gt; 36, 189, 53, 55, 33, 25, 57, 161, 50, NA, 203, 251,…\n$ center1label       &lt;chr&gt; \"City centre\", \"City centre\", \"City centre\", \"City …\n$ center2label       &lt;chr&gt; \"Donauturm\", \"Donauturm\", \"Donauturm\", \"Donauturm\",…\n$ neighbourhood      &lt;chr&gt; \"17. Hernals\", \"17. Hernals\", \"Alsergrund\", \"Alserg…\n$ price              &lt;dbl&gt; 81, 81, 85, 83, 82, 229, 103, 150, 80, 153, 60, 128…\n$ city               &lt;chr&gt; \"Vienna\", \"Vienna\", \"Vienna\", \"Vienna\", \"Vienna\", \"…\n$ stars              &lt;dbl&gt; 4.0, 4.0, 4.0, 3.0, 4.0, 5.0, 4.0, 4.0, 2.0, 3.0, 4…\n$ ratingta           &lt;dbl&gt; 4.5, 3.5, 3.5, 4.0, 3.5, 4.5, 3.5, 4.5, 3.5, NA, 4.…\n$ ratingta_count     &lt;dbl&gt; 216, 708, 629, 52, 219, 27, 251, 617, 146, NA, 359,…\n$ scarce_room        &lt;dbl&gt; 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, …\n$ hotel_id           &lt;dbl&gt; 21894, 21897, 21901, 21902, 21903, 21904, 21906, 21…\n$ offer              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, …\n$ offer_cat          &lt;chr&gt; \"15-50% offer\", \"1-15% offer\", \"15-50% offer\", \"15-…\n$ year               &lt;dbl&gt; 2017, 2017, 2017, 2017, 2017, 2017, 2017, 2017, 201…\n$ month              &lt;dbl&gt; 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,…\n$ weekend            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ holiday            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ distance           &lt;dbl&gt; 2.7, 1.7, 1.4, 1.7, 1.2, 0.9, 0.9, 1.0, 0.7, 1.5, 1…\n$ distance_alter     &lt;dbl&gt; 4.4, 3.8, 2.5, 2.5, 2.8, 3.0, 2.4, 2.7, 2.7, 2.7, 2…\n$ accommodation_type &lt;chr&gt; \"Apartment\", \"Hotel\", \"Hotel\", \"Hotel\", \"Hotel\", \"A…\n$ nnights            &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ rating             &lt;dbl&gt; 4.4, 3.9, 3.7, 4.0, 3.9, 4.8, 3.9, 4.6, 3.5, NA, 4.…\n\n\nTask 1.1 — sample answer\nEach observation is one hotel in Vienna listed on a booking platform for a specific date. The key variables for this analysis are price (nightly rate in EUR, numeric), distance (distance from the city centre in km, numeric), and stars (star rating, numeric — we will convert this to a factor later).\nTask 1.2\n\n# Build a one-row-per-variable summary data frame\ndesc_stats &lt;- tibble(\n  Variable    = c(\"Price (EUR)\", \"Distance from centre (km)\", \"Star rating\"),\n  Mean        = c(mean(hotels$price,    na.rm = TRUE),\n                  mean(hotels$distance, na.rm = TRUE),\n                  mean(hotels$stars,    na.rm = TRUE)),\n  `Std. Dev.` = c(sd(hotels$price,    na.rm = TRUE),\n                  sd(hotels$distance, na.rm = TRUE),\n                  sd(hotels$stars,    na.rm = TRUE)),\n  Min         = c(min(hotels$price,    na.rm = TRUE),\n                  min(hotels$distance, na.rm = TRUE),\n                  min(hotels$stars,    na.rm = TRUE)),\n  Max         = c(max(hotels$price,    na.rm = TRUE),\n                  max(hotels$distance, na.rm = TRUE),\n                  max(hotels$stars,    na.rm = TRUE))\n) |&gt;\n  mutate(across(where(is.numeric), \\(x) round(x, 2)))\n\nmin_price   &lt;- round(min(hotels$price,      na.rm = TRUE))\nmax_price   &lt;- round(max(hotels$price,      na.rm = TRUE))\nmean_price  &lt;- round(mean(hotels$price,     na.rm = TRUE))\navg_stars   &lt;- round(mean(hotels$stars,     na.rm = TRUE), 1)\nmedian_dist &lt;- round(median(hotels$distance, na.rm = TRUE), 1)\nmax_dist    &lt;- round(max(hotels$distance,    na.rm = TRUE), 1)\n\nflextable(desc_stats) |&gt;\n  set_table_properties(width = 0.9, layout = \"autofit\") |&gt;\n  bold(part = \"header\")\n\n\n\nTable 1: Descriptive statistics: Vienna hotels\n\n\n\nVariableMeanStd. Dev.MinMaxPrice (EUR)131.1191.5327.01,012Distance from centre (km)1.661.600.113Star rating3.430.771.05\n\n\n\n\n\nSample comment: Nightly prices range widely — from about 27 EUR to about 1012 EUR — with an average around 131 EUR. The median distance from the city centre is 1.3 km, though the furthest hotel in the sample sits 13 km away. The average star rating is 3.4."
+  },
+  {
+    "objectID": "content/material/session02/exercise-solution.html#visualise-the-key-relationship",
+    "href": "content/material/session02/exercise-solution.html#visualise-the-key-relationship",
+    "title": "Exercise Solution: What drives hotel prices in Vienna?",
+    "section": "2.1 Visualise the key relationship",
+    "text": "2.1 Visualise the key relationship\nTask 2.2\n\nggplot(hotels_clean, aes(x = distance, y = price, colour = star_cat)) +\n  geom_point(alpha = 0.4, size = 1.5) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  scale_colour_manual(\n    values = c(\"3-star\" = \"#69AACD\", \"4-star\" = \"#00395B\", \"5-star\" = \"#C8102E\")\n  ) +\n  labs(\n    x      = \"Distance from city centre (km)\",\n    y      = \"Price per night (EUR)\",\n    colour = \"Star category\",\n    title  = \"Does location matter equally for all hotel tiers?\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 1: Hotel price vs. distance from city centre, by star category (Vienna)\n\n\n\n\n\nFrom this figure we see that the relationship is not linear, but exponential, so we should use logs:\n\nggplot(hotels_clean, aes(x = log(distance), y = log(price), colour = star_cat)) +\n  geom_point(alpha = 0.4, size = 1.5) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  scale_colour_manual(\n    values = c(\"3-star\" = \"#69AACD\", \"4-star\" = \"#00395B\", \"5-star\" = \"#C8102E\")\n  ) +\n  labs(\n    x      = \"Distance from city centre (log(km))\",\n    y      = \"Price per night log((EUR))\",\n    colour = \"Star category\",\n    title  = \"Does location matter equally for all hotel tiers?\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 2: Hotel price vs. distance from city centre (logs), by star category (Vienna)\n\n\n\n\n\nSample comment: The three regression lines are not perfectly parallel. The 5-star line appears somewhat steeper (falling more steeply with distance) than the 3-star line, with 4-star hotels having an intermediate position. This visual pattern suggests that a distance penalty may be more pronounced for luxury hotels — exactly the business question we are investigating. The interaction model below will quantify this and help us to test statistically whether the differences in the slope are statistically significant."
+  },
+  {
+    "objectID": "content/material/session02/exercise-solution.html#estimating-the-models",
+    "href": "content/material/session02/exercise-solution.html#estimating-the-models",
+    "title": "Exercise Solution: What drives hotel prices in Vienna?",
+    "section": "3.1 Estimating the models",
+    "text": "3.1 Estimating the models\nAll models use log-transformed price and distance, motivated by the non-linear pattern visible in the scatter plot. In a log-log model, coefficients are interpreted as elasticities: a 1% increase in distance is associated with a β% change in price.\n\nm1 &lt;- lm(log(price) ~ log(distance), data = hotels_clean)\n\n\nm2 &lt;- lm(log(price) ~ log(distance) + stars, data = hotels_clean)\n\n\nm3 &lt;- lm(log(price) ~ log(distance) + star_cat, data = hotels_clean)\n\n\nm4 &lt;- lm(log(price) ~ log(distance) * star_cat, data = hotels_clean)"
+  },
+  {
+    "objectID": "content/material/session02/exercise-solution.html#model-comparison",
+    "href": "content/material/session02/exercise-solution.html#model-comparison",
+    "title": "Exercise Solution: What drives hotel prices in Vienna?",
+    "section": "3.2 Model Comparison",
+    "text": "3.2 Model Comparison\n\ncoef_labels &lt;- c(\n  \"(Intercept)\"                    = \"Constant\",\n  \"log(distance)\"                  = \"log(Distance from centre)\",\n  \"stars\"                          = \"Star rating (continuous)\",\n  \"star_cat4-star\"                 = \"4-star hotel\",\n  \"star_cat5-star\"                 = \"5-star hotel\",\n  \"log(distance):star_cat4-star\"   = \"log(Distance) × 4-star\",\n  \"log(distance):star_cat5-star\"   = \"log(Distance) × 5-star\"\n)\n\nmodelsummary(\n  list(\n    \"(1) Distance\"        = m1,\n    \"(2) Stars (numeric)\" = m2,\n    \"(3) Stars (factor)\"  = m3,\n    \"(4) Interaction\"     = m4\n  ),\n  coef_map = coef_labels,\n  gof_map  = c(\"nobs\", \"r.squared\", \"adj.r.squared\"),\n  stars    = TRUE,\n  notes    = \"Hotels-Vienna dataset. Békés & Kézdi (2021). Hotels with 3–5 stars. Outcome: log(price). Distance enters as log(distance).\"\n)\n\n\n\nTable 3: Drivers of hotel prices in Vienna: regression results (log-log)\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                (1) Distance\n                (2) Stars (numeric)\n                (3) Stars (factor)\n                (4) Interaction\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\nHotels-Vienna dataset. Békés & Kézdi (2021). Hotels with 3–5 stars. Outcome: log(price). Distance enters as log(distance).\n        \n                \n                  Constant\n                  4.785***\n                  3.631***\n                  4.619***\n                  4.590***\n                \n                \n                  \n                  (0.022)\n                  (0.126)\n                  (0.032)\n                  (0.034)\n                \n                \n                  log(Distance from centre)\n                  -0.206***\n                  -0.153***\n                  -0.151***\n                  -0.075*\n                \n                \n                  \n                  (0.022)\n                  (0.021)\n                  (0.020)\n                  (0.036)\n                \n                \n                  Star rating (continuous)\n                  \n                  0.317***\n                  \n                  \n                \n                \n                  \n                  \n                  (0.034)\n                  \n                  \n                \n                \n                  4-star hotel\n                  \n                  \n                  0.171***\n                  0.199***\n                \n                \n                  \n                  \n                  \n                  (0.042)\n                  (0.042)\n                \n                \n                  5-star hotel\n                  \n                  \n                  0.766***\n                  0.717***\n                \n                \n                  \n                  \n                  \n                  (0.072)\n                  (0.082)\n                \n                \n                  log(Distance) × 4-star\n                  \n                  \n                  \n                  -0.099*\n                \n                \n                  \n                  \n                  \n                  \n                  (0.044)\n                \n                \n                  log(Distance) × 5-star\n                  \n                  \n                  \n                  -0.217**\n                \n                \n                  \n                  \n                  \n                  \n                  (0.083)\n                \n                \n                  Num.Obs.\n                  374\n                  374\n                  374\n                  374\n                \n                \n                  R2\n                  0.190\n                  0.342\n                  0.380\n                  0.394\n                \n                \n                  R2 Adj.\n                  0.188\n                  0.339\n                  0.375\n                  0.386"
+  },
+  {
+    "objectID": "content/material/session02/exercise-solution.html#interpretation",
+    "href": "content/material/session02/exercise-solution.html#interpretation",
+    "title": "Exercise Solution: What drives hotel prices in Vienna?",
+    "section": "3.3 Interpretation",
+    "text": "3.3 Interpretation\nTask 3.1 — sample answer\nColumn (1) in Table 3 shows the baseline model. The log(distance) coefficient is the price elasticity of distance: a 1% increase in distance from the centre is associated with approximately β% lower price. The log-log specification is motivated by the scatter plot, which showed that the price penalty flattens out at larger distances rather than declining at a constant euro rate.\nTask 3.2 — sample answer\nIn column (2), the stars coefficient gives the approximate percentage price premium per additional star (exact: (exp(β) − 1) × 100%). Crucially, this model constrains the price step from 3- to 4-star to be exactly the same as the step from 4- to 5-star. Comparing the 4-star and 5-star coefficients in column (3) reveals whether that constraint is warranted.\nTask 3.3 — sample answer\n\nThe reference category is 3-star — all star coefficients in columns (3) and (4) are measured relative to 3-star hotels at the same distance.\nThe 4-star hotel coefficient in column (3) is the difference in log price between a 4-star and a 3-star hotel. If the coefficient is 0.35, a 4-star hotel charges approximately (exp(0.35) − 1) × 100 ≈ 42% more than a comparable 3-star property.\nModel (3) lets the 3→4-star and 4→5-star steps differ freely. If the 5-star premium is proportionally much larger than the 3-to-4-star step — as the coefficients in column (3) typically show — Model (2) would have misrepresented both steps by forcing them equal.\n\nTask 3.4 — sample answer\n\nlog(Distance) × 4-star in column (4) is the difference in distance elasticity between 4-star and 3-star hotels. If the base elasticity is −0.12 and the interaction is −0.08, the total elasticity for 4-star hotels is −0.20: a 10% increase in distance reduces a 4-star price by about 2%, versus about 1.2% for a 3-star hotel.\nThe total distance elasticity for a 5-star hotel = log(Distance from centre) + log(Distance) × 5-star from column (4). Sum those two values.\nThe log-scale scatter plot showed visibly steeper slopes for higher-star tiers, and the negative interaction coefficients in column (4) confirm this quantitatively.\n\nTask 4.1 — sample answer\n\nR² increases from column (1) to (4), as adding variables always raises it. Adjusted R² penalises complexity: if it still rises from (3) to (4), the interaction terms are genuinely improving fit rather than just absorbing noise.\nThe log(distance) coefficient shifts between columns (1), (3), and (4). In column (1) it conflates the direct distance effect with the fact that cheaper hotels tend to be further out; controlling for star tier in (3) isolates the pure location penalty. The further shift in (4) reflects that once slopes differ by tier, the average distance effect is estimated differently again."
+  },
+  {
+    "objectID": "content/material/session02/index.html",
+    "href": "content/material/session02/index.html",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 09 April 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#business-question",
+    "href": "content/material/session02/index.html#business-question",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Business question",
+    "text": "Business question\nWhat features drive hotel prices in Vienna, once we control for location?",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#learning-goals",
+    "href": "content/material/session02/index.html#learning-goals",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nInterpret multiple regression output with confidence\nUnderstand the role of control variables and what “holding constant” means\nCompare model fit and interpret standardised coefficients\nCommunicate regression results to a non-technical audience",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#session-outline",
+    "href": "content/material/session02/index.html#session-outline",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Session outline",
+    "text": "Session outline\n\n\n\nTime\nActivity\n\n\n\n\n16:00–16:10\nDebriefing of take-home task 1\n\n\n16:10–16:30\nInput lecture: categorical variables and interactions\n\n\n16:30–17:00\nLive coding: expanding take-home 1\n\n\n17:00–17:15\nBreak\n\n\n17:15–18:15\nIn-session exercise\n\n\n18:15–18:20\nShort break\n\n\n18:20–18:45\nDebriefing the exercise\n\n\n18:45–19:00\nIntroduce Take-home Task 2, Q&A",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#materials",
+    "href": "content/material/session02/index.html#materials",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Materials",
+    "text": "Materials\n\n\n\nFile\nDescription\n\n\n\n\nSlides\nLecture slides — open in browser, press F for fullscreen\n\n\nLecture notes\nExtended live coding document built during the session: extend task 1 to adequately include categorical variables and interaction Terms\n\n\nExercise sheet\nIn-session exercise — analysing the determinants of hotel prices in Vienna\n\n\nExemplary solution\nExemplary solution to the in-session exercise",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
+  },
+  {
+    "objectID": "content/material/session02/index.html#take-home-task-2",
+    "href": "content/material/session02/index.html#take-home-task-2",
+    "title": "Session 2: Multiple Regression — Going Beyond the Basics",
+    "section": "Take-home task 2",
+    "text": "Take-home task 2\nAssigned at the end of this session. See the dedicated task page for full instructions, materials, and the GitHub Classroom link.",
+    "crumbs": [
+      "Sessions",
+      "Session 2 — Multiple Regression"
+    ]
   },
   {
     "objectID": "content/material/session03/index.html",
