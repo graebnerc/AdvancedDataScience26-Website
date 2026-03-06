@@ -4,11 +4,7 @@ subtitle: "Session 2 — Multiple Regression: Going Beyond the Basics"
 date: "09 April 2026"
 format:
   html:
-    toc: true
-    toc-depth: 2
-    number-sections: true
-    code-fold: false
-    theme: cosmo
+    code-tools: true
     embed-resources: true
 ---
 

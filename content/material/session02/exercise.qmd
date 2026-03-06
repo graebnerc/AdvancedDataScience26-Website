@@ -5,12 +5,7 @@ author: "Your Name (Student ID)"
 date: "09 April 2026"
 format:
   html:
-    toc: true
-    toc-depth: 2
-    number-sections: true
-    code-fold: true
     code-tools: true
-    theme: cosmo
     embed-resources: true
 ---
 
