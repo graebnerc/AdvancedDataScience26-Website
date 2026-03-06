@@ -1,0 +1,307 @@
+---
+title: "Lecture Notes: Categorical Variables and Interaction Terms"
+subtitle: "Session 2 — Extending Take-Home Task 1"
+date: "09 April 2026"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    theme: cosmo
+    embed-resources: true
+---
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(modelsummary)
+library(flextable)
+```
+
+# Introduction
+
+These notes pick up exactly where Take-Home Task 1 left off.
+
+In the task you estimated three models of weekly earnings for market research analysts using age, hours worked, and a binary college indicator. The final reflection question asked which important variable had been left out. The answer is **gender**: female analysts earn systematically less than male analysts, and because gender is correlated with both age and earnings, leaving it out biased the age coefficients.
+
+This document walks through:
+
+1. Adding gender back from the raw CPS data
+2. Extending the education variable from a binary to a three-category measure
+3. Fitting an interaction term to ask whether the age–earnings profile looks the same for men and women
+4. Putting together a clean, publication-ready comparison table
+
+**Data:** The raw CPS file `morg-2014-emp.csv` is the same file used in Task 1. If you completed the task via GitHub Classroom, it is in your task repository. Copy it into the same folder as this document before running the code below.
+
+# Rebuild the Task 1 Dataset
+
+We start from scratch so these notes are self-contained. The data preparation steps are identical to Task 1, with one addition: we keep `sex` and `grade92` before the final `select()`.
+
+```{r}
+#| label: data-prep
+#| message: false
+
+cps_raw <- read_csv("data/morg-2014-emp.csv")
+
+cps <- cps_raw |>
+  # Same filters as Task 1
+  filter(occ2012 == 735) |>        # Market research analysts only
+  filter(age >= 24, age <= 64) |>  # Working-age adults
+  filter(uhours >= 20) |>          # At least part-time
+  mutate(
+    # Binary college indicator from Task 1 (keep for comparison)
+    college = ifelse(grade92 >= 43, 1, 0),
+    # Gender: CPS codes 1 = Male, 2 = Female
+    female  = ifelse(sex == 2, 1, 0)
+  ) |>
+  select(earnwke, age, uhours, college, female, grade92) |>
+  drop_na()
+```
+
+Notice that `grade92` is still in the dataset — we will use it in Section 3 to build a richer education variable.
+
+# Adding Gender to the Model
+
+## A quick look at the raw earnings gap
+
+Before running any regression, let us see the raw difference. A simple group summary gives us the starting point.
+
+```{r}
+#| label: raw-gap
+
+cps |>
+  group_by(female) |>
+  summarise(
+    n            = n(),
+    mean_earnwke = mean(earnwke),
+    median_earn  = median(earnwke)
+  ) |> 
+  flextable() |> 
+  theme_vanilla()
+```
+
+On average, female analysts earn noticeably less. But this comparison does not hold age or hours constant. The regression will do that.
+
+## Model 3 from the take-home, now including gender
+
+We add `female` to the full model from Task 1.
+
+```{r}
+#| label: model-gender
+
+# Recreate age-squared (as in Task 1)
+cps <- cps |> mutate(age_sq = age^2)
+
+# Models from Task 1
+m1 <- lm(earnwke ~ age,                             data = cps)
+m2 <- lm(earnwke ~ age + age_sq,                    data = cps)
+m3 <- lm(earnwke ~ age + age_sq + uhours + college, data = cps)
+
+# New model: add gender
+m4 <- lm(earnwke ~ age + age_sq + uhours + college + female, data = cps)
+
+modelsummary(m4, gof_omit = "AIC | BIC | Log.Lik | F | RMSE")
+```
+
+## Interpreting the gender coefficient
+
+The coefficient on `female` is the estimated earnings difference between female and male analysts **of the same age, working the same hours, with the same education level**.
+
+Read it like this:
+
+> *"Holding age, hours, and education constant, female market research analysts earn approximately and on average $ `r unname(round(m4$coefficients["female"], 0))` per week less than their male counterparts."*
+
+Notice also what happened to the age coefficients when you added gender. Did they shift? This is the omitted variable bias story in action.
+
+> **Note:** While isolating the gender effect is insightful and important, it might also shallow indirect effects of gender inequalities, e.g. those difference that occur because women tend to work less. To identify such more complex relationships we need to take into account interactions, a topic we turn to below.
+
+# A Richer Education Variable
+
+The binary `college` variable collapses all of post-secondary education into a single step. But the CPS `grade92` variable distinguishes between bachelor's degrees and graduate degrees. Let us use that.
+
+## Recoding `grade92` into three categories
+
+```{r}
+#| label: edu-recode
+
+cps <- cps |>
+  mutate(
+    edu_cat = case_when(
+      grade92 < 43  ~ "No degree",       # Less than bachelor's
+      grade92 <= 44 ~ "Bachelor's",      # Bachelor's degree
+      grade92 >= 45 ~ "Graduate"         # Master's, professional, doctoral
+    ),
+    # Set "No degree" as the reference category
+    edu_cat = factor(edu_cat, levels = c("No degree", "Bachelor's", "Graduate"))
+  )
+
+# Check how many observations fall in each category
+cps |> 
+  count(edu_cat) |> 
+  flextable() |> 
+  theme_vanilla()
+```
+
+## Adding the three-category education variable
+
+```{r}
+#| label: model-edu
+
+m5 <- lm(earnwke ~ age + age_sq + uhours + edu_cat + female, data = cps)
+
+modelsummary(m5, gof_omit = "AIC | BIC | Log.Lik | F | RMSE")
+```
+
+### Reading the output
+
+The `edu_cat` coefficients each represent the earnings difference **relative to the "No degree" reference group**, holding all other variables constant.
+
+- `edu_catBachelor's`: how much more (or less) a bachelor's-educated analyst earns compared to one with no degree
+- `edu_catGraduate`: how much more (or less) a graduate-educated analyst earns compared to one with no degree
+
+The difference between bachelor's and graduate earnings is **not** directly in the table. You calculate it by subtracting one coefficient from the other:
+
+```{r}
+#| label: edu-contrast
+
+coefs <- coef(m5)
+grad_vs_ba <- coefs["edu_catGraduate"] - coefs["edu_catBachelor's"]
+grad_vs_ba
+```
+
+# Interaction Terms: Does the Age Profile Differ by Gender?
+
+## Motivation
+
+So far every model assumes the age–earnings profile is the same for men and women — only the level differs (captured by `female`). This is the "parallel slopes" assumption.
+
+But we might expect the profile to be steeper for men: if women are more likely to take career breaks, their earnings may grow more slowly with age, and the gap may widen over a career.
+
+To check, we first look at the data.
+
+## Visualising the question
+
+```{r}
+#| label: fig-interaction
+#| fig-cap: "Age and weekly earnings by gender, market research analysts (CPS 2014)"
+#| message: false
+
+cps |>
+  mutate(gender = ifelse(female == 1, "Female", "Male")) |>
+  ggplot(aes(x = age, y = earnwke, colour = gender)) +
+  geom_point(alpha = 0.3, size = 1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_colour_manual(values = c("Male" = "#00395B", "Female" = "#69AACD")) +
+  labs(
+    x      = "Age",
+    y      = "Weekly earnings (USD)",
+    colour = NULL,
+    title  = "Are the age–earnings slopes the same for men and women?"
+  ) +
+  theme_minimal()
+```
+
+Look at the two regression lines. Are they roughly parallel? Or does one slope up more steeply than the other? The interaction model will quantify what you see here.
+
+## Fitting the interaction
+
+The `*` notation in `lm()` is shorthand: `age * female` expands to `age + female + age:female`. The `age:female` term is the interaction.
+
+```{r}
+#| label: model-interaction
+
+m6 <- lm(earnwke ~ age * female + age_sq + uhours + edu_cat, data = cps)
+
+modelsummary(m6, gof_omit = "AIC | BIC | Log.Lik | F | RMSE")
+```
+
+## Interpreting the interaction coefficient
+
+The model now contains three age-related terms:
+
+| Term | What it measures |
+|------|-----------------|
+| `age` | slope of age **for men** (female = 0) |
+| `female` | earnings level gap at age = 0 (not meaningful by itself) |
+| `age:female` | *extra* slope for women — how the age slope **differs** for women |
+
+**The effect of one more year of age:**
+
+- For men: $\hat{\beta}_\text{age}$
+- For women: $\hat{\beta}_\text{age} + \hat{\beta}_{\text{age:female}}$
+
+```{r}
+#| label: marginal-effects
+
+b <- coef(m6)
+
+slope_men   <- b["age"]
+slope_women <- b["age"] + b["age:female"]
+
+cat("Age slope for men:  ", round(slope_men,   2), "\n")
+cat("Age slope for women:", round(slope_women, 2), "\n")
+cat("Difference:         ", round(b["age:female"], 2), "\n")
+```
+
+Always report the group-specific slopes alongside (or instead of) the interaction coefficient itself — they are what your reader actually needs.
+
+# Putting It All Together
+
+## A clean comparison table
+
+The table below brings together all six models. This is what a polished comparison table looks like: renamed rows, relevant fit statistics, a source note.
+
+```{r}
+#| label: tbl-all-models
+#| tbl-cap: "Weekly earnings of market research analysts: regression results (CPS 2014)"
+
+coef_labels <- c(
+  "age"                = "Age",
+  "age_sq"             = "Age²",
+  "uhours"             = "Weekly hours",
+  "college"            = "College degree",
+  "female"             = "Female",
+  "edu_catBachelor's"  = "Bachelor's degree",
+  "edu_catGraduate"    = "Graduate degree",
+  "age:female"         = "Age × Female",
+  "(Intercept)"        = "Constant"
+)
+
+modelsummary(
+  list(
+    "M1: Age"        = m1,
+    "M2: Quadratic"  = m2,
+    "M3: + Controls" = m3,
+    "M4: + Gender"   = m4,
+    "M5: + Edu cat." = m5,
+    "M6: Interaction"= m6
+  ),
+  coef_map = coef_labels,
+  gof_map  = c("nobs", "r.squared", "adj.r.squared"),
+  stars    = TRUE,
+  notes    = "CPS 2014. Market research analysts and marketing specialists (occ2012 = 735), age 24–64, usual weekly hours >= 20."
+)
+```
+
+## Things to notice in the table
+
+1. **R² vs. adjusted R²:** R² never decreases when you add variables. Adjusted R² penalises complexity. Compare M3 and M5: does adding the finer education categories actually improve fit?
+
+2. **Coefficient stability:** How much does the `age` coefficient change from M2 to M3, and again from M3 to M4? Large shifts signal that the omitted variable was important.
+
+3. **The interaction in M6:** Is `Age × Female` statistically significant? Does it change the interpretation of the `Female` coefficient from M4?
+
+## A plain-language summary
+
+Here is an example of how to summarise M6 for a non-technical reader:
+
+> *Weekly earnings for market research analysts rise with age and experience, but the increase is somewhat slower for women than for men. A female analyst in this sample earns substantially less than a comparable male analyst even after accounting for age, hours worked, and education level. Analysts with graduate degrees earn meaningfully more than those without a bachelor's degree, with bachelor's holders falling in between. That said, the analysis is limited to a single occupation in a single year — the patterns may differ in other fields or time periods.*
+
+---
+
+**These notes accompany Session 2. This is an extended and commented version of the code that we have developed in the lecture.
+For questions, post in [GitHub Discussions](https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions).**

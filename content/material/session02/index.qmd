@@ -19,22 +19,27 @@ date-modified: last-modified
 - Compare model fit and interpret standardised coefficients
 - Communicate regression results to a non-technical audience
 
-## Dataset
+## Session outline
 
-**hotels-vienna** — 428 hotels in Vienna: price, distance from city centre, star rating, review scores.
+| Time | Activity |
+|---|---|
+| 16:00–16:15 | Debriefing of take-home task 1 |
+| 16:15–17:00 | Input lecture and live demo |
+| 17:00–17:15 | Break |
+| 17:15–18:15 | In-session exercise |
+| 17:15–17:20 | Short break |
+| 17:20–18:45 | Debriefing the exercise |
+| 18:45–19:00 | Introduce Take-home Task 2, Q&A |
 
-## Quarto skill introduced this session
+## Materials
 
-Regression tables with `modelsummary`: formatting, captions, model comparison.
+| File | Description |
+|---|---|
+| [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_02/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Lecture notes]() | Extended live coding document built during the session: extend task 1 to adequately include categorical variables and interaction Terms |
+| [Exercise sheet](exercise.qmd) | In-session exercise — analysing the determinants of hotel prices in Vienna |
+| [Exemplary solution]() | Exemplary solution to the in-session exercise |
 
 ## Take-home task 2
 
-Assigned at the end of this session. See the task handout for full instructions.
-
-- **Dataset:** English Premier League results and manager data (2008/09–2018/19)
-- **Due:** Thursday, 30 April 2026, 08:00
-- **Submission:** Rendered Quarto HTML report
-
-::: {.callout-important}
-Material will be available here before the session.
-:::
+Assigned at the end of this session. See the [dedicated task page](../task02/index.qmd) for full instructions, materials, and the GitHub Classroom link.
