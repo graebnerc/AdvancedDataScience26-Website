@@ -36,7 +36,7 @@ I do not answer questions via email.
 
 | File | Description |
 |---|---|
-| [Slides](slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_01/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
 | [Demo document](demo.qmd) | Live coding document built during the session; use as a model for your own reports |
 | [Exercise sheet](exercise.qmd) | In-session exercise — setting up a reproducible Quarto workflow |
 | [References](references.bib) | BibTeX file with all citations used in session materials |
@@ -64,7 +64,7 @@ The demo document and exercise sheet have a **`</> Code`** button in the top-rig
 
 - Browse the [previous course](https://researchmethodology-fall25.netlify.app/) and make sure you understand the content on linear regression (especially [session 10](https://researchmethodology-fall25.netlify.app/content/material/session10))
 - After registering at GitHub, do the following two exercises of the [First day on GitHub](https://learn.github.com/skills) section:^[
-For further readings see the [Github Quickstart Guide](https://docs.github.com/en/get-started/start-your-journey))
+For further readings see the [Github Quickstart Guide](https://docs.github.com/en/get-started/start-your-journey).
 ]
   - Introduction to GitHub
   - Commmunicate using Markdown

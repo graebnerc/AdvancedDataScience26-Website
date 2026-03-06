@@ -459,7 +459,7 @@
     "href": "index.html#learning-objectives",
     "title": "Data Science and Econometrics for International Business",
     "section": "Learning objectives",
-    "text": "Learning objectives\nBy the end of the course, students will be able to:\n\nUse tools such as Github, which are essential in a working environment in which AI becomes increasingly important\nInterpret multiple regression output and communicate results to a non-technical audience\nRecognise when and why standard OLS breaks down, and apply appropriate fixes\nDistinguish causal from associational claims and critically evaluate causal arguments\nApply panel data methods with fixed effects\nUse AI tools critically and effectively for R coding and debugging\nProduce publication-ready figures and reports in Quarto\n\n\n Moodle (link to be added) \n GitHub Material Repo",
+    "text": "Learning objectives\nBy the end of the course, students will be able to:\n\nUse tools such as Github, which are essential in a working environment in which AI becomes increasingly important\nInterpret multiple regression output and communicate results to a non-technical audience\nRecognise when and why standard OLS breaks down, and apply appropriate fixes\nDistinguish causal from associational claims and critically evaluate causal arguments\nApply panel data methods with fixed effects\nUse AI tools critically and effectively for R coding and debugging\nProduce publication-ready figures and reports in Quarto\n\n\n Moodle (Code: QuantiSpring26) \n GitHub Material Repo",
     "crumbs": [
       "Home"
     ]
@@ -658,7 +658,7 @@
     "href": "content/material/session01/index.html#footnotes",
     "title": "Session 1: Welcome, Recap & Tooling Upgrade",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\n For further readings see the Github Quickstart Guide)↩︎",
+    "text": "Footnotes\n\n\n For further readings see the Github Quickstart Guide.↩︎",
     "crumbs": [
       "Sessions",
       "Session 1 — Welcome & Tooling"

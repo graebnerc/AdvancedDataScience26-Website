@@ -34,8 +34,8 @@ By the end of the course, students will be able to:
 
 ---
 
-<a href="https://elearning.uni-flensburg.de/moodle/">
-  <button class="button-61">Moodle (link to be added)</button>
+<a href="https://elearning.uni-flensburg.de/moodle/course/view.php?id=17641">
+  <button class="button-61">Moodle (Code: `QuantiSpring26`)</button>
 </a>
 
 <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material">
