@@ -23,12 +23,13 @@ date-modified: last-modified
 
 | Time | Activity |
 |---|---|
-| 16:00–16:15 | Debriefing of take-home task 1 |
-| 16:15–17:00 | Input lecture and live demo |
+| 16:00–16:10 | Debriefing of take-home task 1 |
+| 16:10–16:30 | Input lecture: categorical variables and interactions |
+| 16:30–17:00 | Live coding: expanding take-home 1 |
 | 17:00–17:15 | Break |
 | 17:15–18:15 | In-session exercise |
-| 17:15–17:20 | Short break |
-| 17:20–18:45 | Debriefing the exercise |
+| 18:15–18:20 | Short break |
+| 18:20–18:45 | Debriefing the exercise |
 | 18:45–19:00 | Introduce Take-home Task 2, Q&A |
 
 ## Materials
