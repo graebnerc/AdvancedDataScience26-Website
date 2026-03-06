@@ -1,0 +1,113 @@
+---
+title: "Take-Home Task 1: Earnings, Age, and Hours Worked"
+date: "2026-03-12"
+date-modified: last-modified
+---
+
+::: {.callout-note}
+**Assigned:** end of Session 1, Thursday 12 March 2026
+**Due:** Thursday, 02 April 2026, 08:00
+**Grading:** Pass / fail
+:::
+
+## What this task is about
+
+You are given data from a large U.S. labour market survey and asked to
+investigate how weekly earnings of market research analysts vary with age,
+hours worked, and educational attainment. You will build a series of
+regression models, interpret the results in plain language, and reflect
+critically on what your models leave out.
+
+This task consolidates the regression skills from the prior course and from
+Session 1, and asks you to apply them independently on a new dataset with
+a new research question. If you want to re-read important prerequisites,
+check out the regression tutorial from Session 10 of our 
+[previous course](https://researchmethodology-fall25.netlify.app/content/material/session10).
+
+## Dataset
+
+The data come from the 2014 Merged Outgoing Rotation Group (MORG) of the
+U.S. Current Population Survey — a large, nationally representative survey of
+employed individuals. The file is included directly in your assignment
+repository; you do not need to download anything separately.
+
+Full documentation: [gabors-data-analysis.com/datasets/cps-earnings](https://gabors-data-analysis.com/datasets/cps-earnings/)
+
+## How to access the task
+
+::: {.callout-important}
+## GitHub Classroom link
+
+**[Accept the assignment on GitHub Classroom](https://classroom.github.com/a/CoZWbdrk)** 
+
+Clicking the link creates your personal copy of the assignment repository.
+All your work goes there — your submission is the last commit pushed before
+the deadline.
+:::
+
+## How to work on the task
+
+When you accept the assignment you get your own GitHub repository with the
+task file (`TaskDescription.qmd`), the data, and everything else you need.
+You have two options for where to run R:
+
+::: {.callout-tip collapse="true"}
+## Option A — Work locally (RStudio on your own machine)
+
+1. Clone your repository to your computer
+2. Open `AdvancedDataScience26-Task1.Rproj` in RStudio
+3. Open `TaskDescription.qmd` and work through each section
+4. Replace all placeholder text with your own code and answers; delete
+   instructor comments and placeholder text before submitting
+5. Render to HTML: **Ctrl/Cmd + Shift + K**
+6. Commit and push — your last commit before 23:59 on 02 April is your
+   submission
+
+If you need a refresher on cloning, committing, and pushing, see the
+Session 1 materials.
+:::
+
+::: {.callout-tip collapse="true"}
+## Option B — Work in a Codespace (no local installation needed)
+
+1. On your repository page, click the green **Code** button →
+   **Open with Codespaces → New codespace**
+2. Wait a few minutes for the environment to build — R, Quarto, and all
+   required packages are installed automatically
+3. RStudio opens in your browser; log in with username `rstudio` /
+   password `rstudio`
+4. Open `TaskDescription.qmd` and work through each section exactly as you
+   would in RStudio on your own machine
+5. Render with **Ctrl/Cmd + Shift + K**; commit and push via the Git pane
+
+Codespace hours are free for students through GitHub Education. But hours are 
+limited so please close the codespace if you are not using it. Also, make sure
+you have applied for the student benefits as explained 
+[here](https://docs.github.com/en/education/about-github-education/github-education-for-students/apply-to-github-education-as-a-student).
+:::
+
+## Grading
+
+This task is graded **pass / fail**. A pass requires all of the following:
+
+| Criterion | What we look for |
+|-----------|-----------------|
+| **All sections attempted** | No section is left blank or contains only placeholder text |
+| **Code runs without errors** | The rendered HTML is produced by actually running the code |
+| **Results are interpreted** | Numbers are explained in plain language — a bare table with no text does not count |
+| **Reflection questions answered** | Both reflections contain a reasoned argument, not just a variable name |
+
+If you are stuck on a specific step, use the 
+[discussion space](https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions).
+If nothing helps, say so explicitly in your document and
+describe what you tried. A honest account of where you got stuck, combined
+with a good-faith attempt, counts toward a pass. Leaving a section blank does
+not.
+
+## Getting help
+
+Post questions in the course
+[discussion space](https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions).
+Check whether your question has already been answered before posting. You are
+encouraged to help each other; sharing complete code solutions is the only
+thing that is not allowed.

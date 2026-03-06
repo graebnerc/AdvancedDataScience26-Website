@@ -8,6 +8,7 @@ project:
     - "content/material/*.qmd"
     - "content/material/session*/*.qmd"
     - "!content/material/session*/slides.qmd"
+    - "content/material/task*/*.qmd"
   resources:
     - "content/material/session*/slides.html"
 
@@ -53,6 +54,12 @@ website:
             text: "Session 8 — Data Visualization"
           - href: content/material/session09/index.qmd
             text: "Session 9 — Recap"
+      - section: "Take-home Tasks"
+        contents:
+          - href: content/material/task01/index.qmd
+            text: "Task 1 — Earnings & Age"
+          - href: content/material/task02/index.qmd
+            text: "Task 2 — Football & Regression"
 
   navbar:
     background: primary

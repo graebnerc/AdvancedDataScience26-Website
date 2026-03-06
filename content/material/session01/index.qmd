@@ -72,10 +72,4 @@ For further readings see the [Github Quickstart Guide](https://docs.github.com/e
 
 ## Take-home task 1
 
-Assigned at the end of this session.
-
-- **Topic:** Regression basics — income and life expectancy across countries
-- **Dataset:** World Bank Life Expectancy (182 countries, 2017) — [download from OSF](https://osf.io/pguwf/)
-- **Due:** Thursday, 02 April 2026, 08:00
-- **Submission:** GitHub Classroom (link distributed in session)
-
+Assigned at the end of this session. See the [dedicated task page](../task01/index.qmd) for full instructions, materials, and the GitHub Classroom link.
