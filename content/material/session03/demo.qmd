@@ -1,0 +1,354 @@
+---
+title: "Session 3: Modelling Binary and Categorical Outcomes"
+subtitle: "Session 3 · Quantitative Data Analysis"
+author: "Claudius Gräbner-Radkowitsch"
+date: "2026-04-30"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    code-tools: true
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Introduction
+
+## Business question
+
+> *Can we predict which firms are likely to exit the market in the next year?*
+
+This question is highly relevant in business practice: investors, banks, and regulators all have an interest in understanding which firms are at risk of failure. But answering it with standard regression runs into an immediate problem — the outcome we care about, *firm exit*, is a binary variable: a firm either exits (1) or it doesn't (0).
+
+In this session, we work through why ordinary least squares (OLS) breaks down for such outcomes, develop the intuition for logistic regression, and learn how to estimate, interpret, and communicate logistic regression results in R.
+
+## Packages and data
+
+```{r}
+library(tidyverse)
+library(modelsummary)
+library(marginaleffects)
+library(broom)
+```
+
+We use the `bisnode-firms` dataset from the open-access textbook by Békés & Kézdi (2021). It contains 19,036 Hungarian manufacturing and services firms, observed over time. Our outcome variable is `exit`, a binary indicator equal to 1 if the firm closed in the following year.
+
+```{r}
+firms <- read_csv("data/bisnode-firms.csv")
+glimpse(firms)
+```
+
+Let us first look at the outcome variable:
+
+```{r}
+firms |>
+  count(exit) |>
+  mutate(share = n / sum(n))
+```
+
+::: {.callout-note}
+Notice that exit events are relatively rare — this is typical of survival data and has implications for model evaluation that we will revisit in Session 9 (prediction vs. inference).
+:::
+
+A quick look at the main predictors:
+
+```{r}
+firms |>
+  select(exit, sales_log, employees_log, profit_margin, age) |>
+  summary()
+```
+
+---
+
+# Why OLS Fails for Binary Outcomes
+
+## The Linear Probability Model
+
+The simplest approach is to regress the binary outcome directly on predictors using OLS. This is called the **Linear Probability Model (LPM)**:
+
+$$\text{exit}_i = \beta_0 + \beta_1 \cdot \text{sales\_log}_i + \beta_2 \cdot \text{profit\_margin}_i + \varepsilon_i$$
+
+```{r}
+lpm <- lm(exit ~ sales_log + profit_margin + employees_log,
+          data = firms)
+summary(lpm)
+```
+
+The coefficient interpretation is straightforward: a one-unit increase in `profit_margin` is associated with a `r round(coef(lpm)["profit_margin"], 3)` change in the *probability* of exit.
+
+### The problem: out-of-bounds predictions
+
+```{r}
+lpm_fitted <- augment(lpm, data = firms)
+
+lpm_fitted |>
+  summarise(
+    min_pred = min(.fitted),
+    max_pred = max(.fitted),
+    n_below_zero = sum(.fitted < 0),
+    n_above_one  = sum(.fitted > 1)
+  )
+```
+
+We have `r sum(augment(lpm, data = firms)$.fitted < 0)` predicted values below zero and `r sum(augment(lpm, data = firms)$.fitted > 1)` above one. These are mathematically impossible as probabilities.
+
+```{r}
+ggplot(lpm_fitted, aes(x = sales_log, y = .fitted)) +
+  geom_point(alpha = 0.2, size = 0.8, color = "#2c7bb6") +
+  geom_hline(yintercept = c(0, 1), linetype = "dashed", color = "firebrick") +
+  annotate("label", x = max(firms$sales_log, na.rm = TRUE) - 1,
+           y = -0.05, label = "Impossible (P < 0)",
+           color = "firebrick", size = 3) +
+  labs(
+    title = "LPM: Fitted probabilities of firm exit",
+    x = "Log sales", y = "Predicted P(exit = 1)"
+  ) +
+  theme_minimal()
+```
+
+### The problem: heteroskedastic errors
+
+When Y is binary, the variance of the error term depends on X by construction:
+
+$$\text{Var}(\varepsilon_i | x_i) = P_i(1 - P_i)$$
+
+This means OLS standard errors are not valid, so hypothesis tests and confidence intervals are unreliable. We can verify this visually — the residuals should show a clear fan pattern.
+
+```{r}
+ggplot(lpm_fitted, aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.2, size = 0.8) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(title = "LPM residuals vs. fitted values",
+       x = "Fitted value", y = "Residual") +
+  theme_minimal()
+```
+
+::: {.callout-warning}
+Despite these problems, the LPM is widely used in economics, especially with panel data. It can serve as a useful benchmark. But you should always be aware of its limitations.
+:::
+
+---
+
+# Logistic Regression: Intuition
+
+## The logistic function
+
+We need a function that maps any real number to a probability in [0, 1]. The **logistic (sigmoid) function** does exactly this:
+
+$$\sigma(z) = \frac{e^z}{1 + e^z}$$
+
+```{r}
+sigma <- function(z) exp(z) / (1 + exp(z))
+
+tibble(z = seq(-6, 6, by = 0.05)) |>
+  mutate(prob = sigma(z)) |>
+  ggplot(aes(z, prob)) +
+  geom_line(color = "#1a9641", linewidth = 1.3) +
+  geom_hline(yintercept = c(0, 0.5, 1), linetype = "dashed", color = "grey60") +
+  labs(title = "The logistic function",
+       x = "z (linear combination of predictors)",
+       y = "Predicted probability") +
+  theme_minimal()
+```
+
+The idea: let $z = \beta_0 + \beta_1 x_1 + \ldots$ be the linear combination, and then:
+
+$$\hat{P}(\text{exit} = 1 \mid \mathbf{x}) = \sigma(z) = \frac{e^{\mathbf{X}\boldsymbol{\beta}}}{1 + e^{\mathbf{X}\boldsymbol{\beta}}}$$
+
+## From the sigmoid to the logit
+
+Rearranging the expression above gives the **logit link**:
+
+$$\ln\left(\frac{P}{1-P}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots$$
+
+The left-hand side is the **log-odds**. The relationship between probability, odds, and log-odds:
+
+| P(exit) | Odds | Log-odds |
+|---|---|---|
+| 0.10 | 0.11 | −2.20 |
+| 0.25 | 0.33 | −1.10 |
+| 0.50 | 1.00 | 0.00 |
+| 0.75 | 3.00 | 1.10 |
+| 0.90 | 9.00 | 2.20 |
+
+## Maximum likelihood estimation
+
+Logistic regression is not estimated by OLS but by **maximum likelihood estimation (MLE)**. The idea: find the coefficient values β that make the observed data most probable. In practice, R's `glm()` handles this for you.
+
+---
+
+# Logistic Regression in R
+
+## Fitting the model
+
+The syntax is almost identical to `lm()`. The key difference is `family = binomial`:
+
+```{r}
+logit_model <- glm(exit ~ sales_log + profit_margin + employees_log,
+                   family = binomial,
+                   data = firms)
+
+summary(logit_model)
+```
+
+::: {.callout-important}
+If you forget `family = binomial`, R will silently fit a Gaussian (OLS) model on your binary outcome. Always check your model specification.
+:::
+
+## Comparing LPM and logit side by side
+
+```{r}
+modelsummary(
+  list("LPM" = lpm, "Logit" = logit_model),
+  stars = TRUE,
+  gof_map = c("nobs", "r.squared", "logLik", "AIC"),
+  title = "Firm exit: LPM vs. logistic regression"
+)
+```
+
+Note: the logit model reports log-likelihood and AIC rather than R². These are the relevant goodness-of-fit statistics for maximum likelihood models.
+
+---
+
+# Interpretation
+
+## Level 1: Log-odds (raw coefficients)
+
+```{r}
+coef(logit_model)
+```
+
+The coefficient on `profit_margin` is `r round(coef(logit_model)["profit_margin"], 3)`. 
+
+Interpretation: a one-unit increase in `profit_margin` is associated with a change of `r round(coef(logit_model)["profit_margin"], 3)` in the *log-odds* of exit. This tells us the **direction** clearly, but the magnitude is not intuitive.
+
+## Level 2: Odds ratios
+
+Exponentiate the coefficients to get **odds ratios**:
+
+```{r}
+exp(coef(logit_model))
+```
+
+The odds ratio for `profit_margin` is `r round(exp(coef(logit_model)["profit_margin"]), 3)`.
+
+Interpretation: a one-unit increase in profit margin multiplies the odds of exit by `r round(exp(coef(logit_model)["profit_margin"]), 3)`, i.e., it reduces the odds by `r round((1 - exp(coef(logit_model)["profit_margin"])) * 100, 1)`%.
+
+We can add confidence intervals:
+
+```{r}
+exp(confint(logit_model))
+```
+
+## Level 3: Predicted probabilities (most useful)
+
+### For observed data
+
+```{r}
+firms <- firms |>
+  mutate(pred_prob = predict(logit_model, type = "response"))
+
+firms |>
+  group_by(exit) |>
+  summarise(mean_pred_prob = mean(pred_prob))
+```
+
+Firms that actually exited had, on average, a predicted exit probability of `r round(mean(firms$pred_prob[firms$exit == 1]), 3)`, compared to `r round(mean(firms$pred_prob[firms$exit == 0]), 3)` for firms that survived. The model is doing something sensible.
+
+### For specific scenarios
+
+This is often the most useful form for communicating results:
+
+```{r}
+scenarios <- tibble(
+  label         = c("Profitable, large", "Loss-making, small"),
+  sales_log     = c(11, 9),
+  employees_log = c(4, 2),
+  profit_margin = c(0.10, -0.15)
+)
+
+scenarios <- scenarios |>
+  mutate(
+    pred_prob = predict(logit_model, newdata = scenarios, type = "response")
+  )
+
+scenarios
+```
+
+A profitable, large firm has a predicted exit probability of `r round(scenarios$pred_prob[1], 3)`, compared to `r round(scenarios$pred_prob[2], 3)` for a small, loss-making firm.
+
+### Visualising predicted probabilities
+
+```{r}
+# How does exit probability vary with profit margin?
+grid <- tibble(
+  profit_margin = seq(-0.5, 0.5, by = 0.01),
+  sales_log     = mean(firms$sales_log, na.rm = TRUE),
+  employees_log = mean(firms$employees_log, na.rm = TRUE)
+)
+
+grid <- grid |>
+  mutate(pred_prob = predict(logit_model, newdata = grid, type = "response"))
+
+ggplot(grid, aes(x = profit_margin, y = pred_prob)) +
+  geom_line(color = "#1a9641", linewidth = 1.2) +
+  geom_hline(yintercept = c(0, 1), linetype = "dashed", color = "grey60") +
+  labs(
+    title = "Predicted probability of exit vs. profit margin",
+    subtitle = "Other variables held at their mean",
+    x = "Profit margin", y = "P(exit = 1)"
+  ) +
+  theme_minimal()
+```
+
+## Average Marginal Effects
+
+A cleaner summary of "the effect of X on P(exit)" is the **Average Marginal Effect (AME)**. Because logit is non-linear, marginal effects differ across observations. The AME averages them:
+
+```{r}
+avg_slopes(logit_model)
+```
+
+The AME for `profit_margin` tells us: on average across all firms, a one-unit increase in profit margin is associated with a `r round(avg_slopes(logit_model)$estimate[avg_slopes(logit_model)$term == "profit_margin"], 3)` change in the probability of exit. This is directly comparable to the LPM coefficient.
+
+---
+
+# Quarto Skill: Inline R Code
+
+When you write a report, you want your numbers to update automatically when the data or model changes. Use inline R code:
+
+Instead of typing "0.65" manually, write:
+
+```markdown
+The odds ratio for profit margin is 
+`r round(exp(coef(logit_model)["profit_margin"]), 2)`.
+```
+
+This renders as: "The odds ratio for profit margin is `r round(exp(coef(logit_model)["profit_margin"]), 2)`."
+
+If you re-estimate the model with different variables or data, **the number in the text updates automatically**. This is one of the most important professional habits in reproducible data analysis.
+
+---
+
+# Summary
+
+- **OLS on binary outcomes** produces out-of-bounds predictions and invalid standard errors
+- **Logistic regression** uses the sigmoid function to ensure $\hat{P} \in [0, 1]$
+- Estimation is via maximum likelihood using `glm(..., family = binomial)`
+- Raw coefficients are in **log-odds space** — hard to interpret directly
+- **Odds ratios** $= e^\beta$ — easier, but still require explanation
+- **Predicted probabilities** — most useful for business communication; compute with `predict(..., type = "response")`
+- **Average marginal effects** via `marginaleffects::avg_slopes()` — a cleaner, directly comparable effect size
+- **Inline R code** ensures your text and numbers stay in sync
+
+---
+
+# Further Reading
+
+- Békés, G. & Kézdi, G. (2021). *Data Analysis for Business, Economics, and Policy*. Ch. 11. Available at [gabors-data-analysis.com](https://gabors-data-analysis.com)
+- James, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). *An Introduction to Statistical Learning*. Ch. 4 (Classification). Available at [statlearning.com](https://www.statlearning.com)

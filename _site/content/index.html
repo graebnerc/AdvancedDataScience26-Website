@@ -269,8 +269,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../content/material/task02/index.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Task 2 — Football &amp; Regression</span></a>
+  <a href="../content/material/task02/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task 2 — Hotel Prices</span></a>
   </div>
 </li>
       </ul>
@@ -353,7 +353,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Go to the <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material">course material repository</a> on GitHub</li>
 <li>Click the green <strong>Code</strong> button → <strong>Codespaces</strong> → <strong>Create codespace on main</strong></li>
-<li>RStudio opens in your browser — you are ready to work</li>
+<li>A <strong>VS Code window</strong> opens in your browser — this is normal. Do not close it. RStudio runs inside the same environment on a separate port.</li>
+<li><strong>The first time, setup takes up to 5 minutes</strong> while R and packages are installed. Watch the progress in the terminal at the bottom of the VS Code window.</li>
+<li>A second browser tab with <strong>RStudio</strong> opens automatically once the environment is ready. If it does not, click the <strong>Ports</strong> tab in VS Code, find port 8787, and click the globe icon. No login is required.</li>
+<li><strong>Wait</strong> until the VS Code terminal shows a plain prompt before working in R — package installation runs in the background after RStudio appears.</li>
+</ol>
+<p>This Codespace is for following along in class. You cannot push changes back to the shared course repository. For a personal copy you can also use at home, see below.</p>
+<p><strong>Option A+ — Your own fork (recommended for home use):</strong> Fork the Material repo once to get a personal copy you fully own. Open a Codespace from your fork — the environment is identical, and you can commit and save your work freely.</p>
+<ol type="1">
+<li>Go to the <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material">Material repository</a> and click <strong>Fork</strong> (top-right)</li>
+<li>Open a Codespace from your fork exactly as described above</li>
+<li>When new session materials are added, click <strong>Sync fork</strong> on your fork’s GitHub page, then <strong>Pull</strong> in the RStudio Git pane to get the updates</li>
 </ol>
 <p><strong>Option B — local RStudio:</strong> Install R 4.4+, RStudio, and run:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"plm"</span>, <span class="st">"modelsummary"</span>, <span class="st">"fixest"</span>,</span>

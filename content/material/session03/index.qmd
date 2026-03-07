@@ -20,12 +20,24 @@ date-modified: last-modified
 
 ## Dataset
 
-**bisnode-firms** — 19,036 firms in manufacturing and services: firm exit (binary), size, financial indicators, management variables.
+**bisnode-firms** — ~17,500 Hungarian firms in manufacturing and services (Békés & Kézdi 2021). Key variables: firm exit (binary), log sales, log employees, profit margin, firm age, liquidity, ownership structure.
 
-## Quarto skill introduced this session
+## Session outline
 
-Inline R code for automatic result reporting: embedding model outputs directly in text so numbers update automatically when the data or model changes.
+| Time | Activity |
+|---|---|
+| 16:00–16:30 | Debrief: Take-home Task 2 |
+| 16:30–17:10 | Input: why OLS fails for binary outcomes; logistic regression intuition |
+| 17:10–17:20 | Break |
+| 17:20–18:05 | Live demo |
+| 18:05–18:45 | In-session exercise |
+| 18:45–19:00 | Debrief + Quarto skill: inline R code |
 
-::: {.callout-important}
-Material will be available here before the session.
-:::
+## Materials
+
+| File | Description |
+|---|---|
+| [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_03/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Lecture notes & demo](demo.qmd) | Live coding document built during the session |
+| [Exercise sheet](exercise.qmd) | In-session exercise — predicting firm exit with logistic regression |
+| [Session outline](session03-outline.qmd) | Detailed session plan with timing and teaching notes |

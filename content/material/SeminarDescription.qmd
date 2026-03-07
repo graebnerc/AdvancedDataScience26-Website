@@ -97,5 +97,5 @@ Two structured exercises submitted as rendered Quarto HTML reports during instru
 
 | Task | Dataset | Due |
 |---|---|---|
-| Task 1 — Regression basics | worldbank-lifeexpectancy | 02 April 2026, 08:00 |
-| Task 2 — Extending a regression | football | 30 April 2026, 08:00 |
+| Task 1 — Earnings, age, and hours worked | cps-earnings | 02 April 2026, 23:59 |
+| Task 2 — Hotel prices across European cities | hotels-europe | 29 April 2026, 23:59 |

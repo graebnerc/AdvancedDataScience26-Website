@@ -73,3 +73,6 @@ venv.bak/
 
 **/*.quarto_ipynb
 
+content/material/session03/data/cs_bisnode_panel.csv
+content/material/session03/data/prepare_bisnode.R
+

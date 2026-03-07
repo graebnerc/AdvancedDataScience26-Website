@@ -58,8 +58,8 @@ Most datasets used in this course come from the open-access repository of Béké
 | 6 | wms-management-survey | Does management quality predict firm performance? |
 | 7 | working-from-home | Does WFH improve employee performance? |
 | 8 | worldbank-lifeexpectancy + world-bank-immunization | How do health outcomes relate to income globally? |
-| Task 1 | worldbank-lifeexpectancy | How does income relate to life expectancy? |
-| Task 2 | football | What predicts team performance in the Premier League? |
+| Task 1 | cps-earnings | What determines weekly earnings for market research analysts? |
+| Task 2 | hotels-europe | What drives hotel prices across European cities, and does distance to the city centre matter more in capitals? |
 
 
 ---
@@ -70,5 +70,5 @@ Two mandatory tasks are assigned during instructor-unavailable periods and submi
 
 | Task | Assigned | Due |
 |---|---|---|
-| Task 1 — Regression basics | End of Session 1 (12 Mar) | 02 Apr, 08:00 |
-| Task 2 — Extending a regression | End of Session 2 (09 Apr) | 30 Apr, 08:00 |
+| Task 1 — Earnings, age, and hours worked | End of Session 1 (12 Mar) | 02 Apr, 23:59 |
+| Task 2 — Hotel prices across European cities | End of Session 2 (09 Apr) | 29 Apr, 23:59 |

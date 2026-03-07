@@ -43,6 +43,21 @@ I do not answer questions via email.
 | [References](references.bib) | BibTeX file with all citations used in session materials |
 
 ::: {.callout-tip collapse="true"}
+## Fork the course repository — get your own working copy
+
+Forking gives you a personal copy of all course materials that you can edit,
+save, and use freely at home. Do this once at the start of the course.
+
+1. Go to the [course material repository](https://github.com/data-science-ma/AdvancedDataScience26-Material) and click **Fork** (top-right corner)
+2. GitHub creates a copy under your own account — this is yours
+3. Open a Codespace from your fork: **Code → Codespaces → Create codespace on main**
+4. The environment is identical to the shared one; you can commit and save your work freely
+
+When new session materials are added, click **Sync fork** on your fork's GitHub
+page, then **Pull** in the RStudio Git pane to receive the updates.
+:::
+
+::: {.callout-tip collapse="true"}
 ## Demo assignment to test GitHub Classroom
 [Here](https://classroom.github.com/a/PRWNjriG) is the link to the demo assignment in Github classroom.
 

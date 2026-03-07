@@ -1,0 +1,218 @@
+---
+title: "Exercise: Modelling Binary Outcomes"
+subtitle: "Session 3 · Quantitative Data Analysis"
+author: "Your name here"
+date: "2026-04-30"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-tools: true
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+::: {.callout-note}
+**Session business question:** *Can we predict which firms are likely to exit the market in the next year?*
+
+Work through the tasks below. For each task, write your R code in the code chunk provided and your interpretation in the text below it. Aim to write complete sentences — imagine you are explaining your findings to a manager who has not studied statistics.
+
+You have approximately **40 minutes**.
+:::
+
+---
+
+# Setup
+
+Run the setup chunk to load packages and data.
+
+```{r}
+library(tidyverse)
+library(modelsummary)
+library(marginaleffects)
+library(broom)
+
+firms <- read_csv("data/bisnode-firms.csv")
+```
+
+Take two minutes to familiarise yourself with the data:
+
+```{r}
+# Explore the data
+glimpse(firms)
+```
+
+**Question:** What does one row in this dataset represent? What does `exit = 1` mean?
+
+*Your answer:*
+
+---
+
+# Task 1: Fit a Logistic Regression Model
+
+Fit a logistic regression model that predicts firm exit using the following predictors:
+
+- `sales_log` (log of sales revenue)
+- `profit_margin` (profit as a share of sales)
+- `employees_log` (log of number of employees)
+- `age` (firm age in years)
+
+Call your model `model_base`.
+
+::: {.callout-tip}
+Use `glm()` with `family = binomial`. The syntax is otherwise the same as `lm()`.
+:::
+
+```{r}
+# Fit the logistic regression model
+# model_base <- ___
+```
+
+Inspect the output:
+
+```{r}
+# summary(model_base)
+```
+
+**Question 1a:** Which predictors are statistically significant at the 5% level?
+
+*Your answer:*
+
+**Question 1b:** Based on the signs of the coefficients, which factors seem to *increase* the probability of exit, and which seem to *decrease* it? Does this make economic sense?
+
+*Your answer:*
+
+---
+
+# Task 2: Extend Your Model
+
+Now add at least **two more predictors** from the dataset to your model. Use your subject-matter intuition: which firm characteristics might predict exit?
+
+Call your extended model `model_ext`.
+
+```{r}
+# Look at available variables
+# names(firms)
+```
+
+```{r}
+# Fit the extended model
+# model_ext <- ___
+```
+
+Compare your two models side-by-side using `modelsummary()`:
+
+```{r}
+# YOUR CODE HERE
+```
+
+**Question 2a:** Did adding the new predictors improve the model fit (use AIC to compare: lower is better)?
+
+*Your answer:*
+
+**Question 2b:** Did any coefficients change notably when you added the new variables? What might that indicate?
+
+*Your answer:*
+
+---
+
+# Task 3: Interpret Coefficients as Odds Ratios
+
+For your **extended model**, compute and display the odds ratios (with 95% confidence intervals):
+
+```{r}
+# Odds ratios
+# exp(coef(model_ext))
+
+# With confidence intervals
+# exp(confint(model_ext))
+```
+
+**Question 3:** Choose **one** predictor from your model and write a complete, businesslike interpretation of its odds ratio. Use the following template:
+
+> "A one-unit increase in [variable] is associated with a multiplication of the odds of firm exit by [odds ratio]. This means the odds of exit [increase/decrease] by [X]%. This effect is [statistically significant / not statistically significant] at the 5% level."
+
+*Your answer:*
+
+---
+
+# Task 4: Predicted Probabilities for Two Firm Profiles
+
+Define two contrasting firm profiles and compute the predicted probability of exit for each. Choose profiles that tell an interesting story.
+
+Fill in the scenario values below:
+
+```{r}
+# scenarios <- tibble(
+#   label         = c("Profile A: ___", "Profile B: ___"),
+#   sales_log     = c(___, ___),         # replace with values
+#   employees_log = c(___, ___),
+#   profit_margin = c(___, ___),
+#   age           = c(___, ___),
+#   # add your additional predictors here
+# )
+
+# scenarios <- scenarios |>
+#   mutate(pred_prob = predict(model_ext, newdata = scenarios, type = "response"))
+
+```
+
+**Question 4:** Describe your two profiles in plain language. Why did you choose these particular values? What story do the predicted probabilities tell?
+
+*Your answer:*
+
+---
+
+# Task 5: Write a Finding Using Inline R Code
+
+Write a short paragraph (3–5 sentences) summarising one key finding from your analysis. Your paragraph must include at least **two numbers embedded as inline R code** (not typed manually).
+
+---
+
+**Your paragraph:**
+
+According to the logistic regression model, ...
+
+*(Continue writing here, embedding inline R code for your numbers)*
+
+---
+
+# Bonus: Average Marginal Effects
+
+::: {.callout-note}
+**Optional** — attempt this if you finish the main tasks early.
+:::
+
+Compute the average marginal effects (AMEs) for your extended model:
+
+```{r}
+# avg_slopes(...)
+```
+
+**Bonus question:** Compare the AME for `profit_margin` to the LPM coefficient for `profit_margin` (you may need to fit a quick LPM). Are they similar? What does this tell you about when the LPM might be acceptable?
+
+```{r}
+# Fit LPM for comparison
+# lpm <- lm(exit ~ sales_log + profit_margin + employees_log + age,
+#           data = firms)
+
+# Compare coefficients
+
+```
+
+*Your answer:*
+
+---
+
+# Wrap-up Reflection
+
+Before we debrief, take 2 minutes to note:
+
+1. What was the most conceptually challenging part of this exercise?
+
+2. If you had to explain logistic regression to a colleague with no statistics background, what analogy or example would you use?
+
+*Your answers:*

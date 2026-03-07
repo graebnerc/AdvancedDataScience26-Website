@@ -1,0 +1,235 @@
+---
+title: "Session 3 — Instructor Outline"
+subtitle: "Session 3 · Quantitative Data Analysis"
+author: "Claudius Gräbner-Radkowitsch"
+date: "2026-04-30"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    self-contained: true
+---
+
+# Session at a Glance
+
+| Block | Time | Duration | Type |
+|---|---|---|---|
+| Debrief: Take-home Task 2 | 16:00–16:30 | 30 min | Discussion |
+| Input: Why OLS fails + logit intuition | 16:30–17:10 | 40 min | Lecture |
+| *Break* | 17:10–17:20 | 10 min | — |
+| Live demo | 17:20–18:05 | 45 min | Coding |
+| Student exercise | 18:05–18:45 | 40 min | Hands-on |
+| Debrief + Q&A + Quarto skill | 18:45–19:00 | 15 min | Discussion |
+
+**Business question:** *Can we predict which firms are likely to exit the market in the next year?*
+
+**Dataset:** `bisnode-firms` — 19,036 firms in manufacturing and services (firm exit binary, size, financial indicators, management variables)
+
+**Quarto skill this session:** Inline R code for automatic result reporting
+
+---
+
+# Block 1 — Debrief: Take-home Task 2 (30 min)
+
+## Purpose
+Give students closure on Task 2 before moving on. Surface common errors and reinforce interpretation habits from Session 2.
+
+## Structure
+
+**Opening (5 min):** Ask 2–3 students: *What was the hardest part? What surprised you?*
+
+**Common issues to address (15 min):**
+
+- Coefficient interpretation with continuous vs. dummy variables
+- Forgetting to interpret *economic* significance, not just statistical
+- Table formatting issues with `modelsummary` (column labels, note fields)
+- Misuse of `stars` — discuss briefly: are stars a good idea?
+- R² inflation when adding irrelevant variables
+
+**Model comparison walk-through (10 min):**
+
+- Show a clean side-by-side solution table on screen
+- Ask: *Which model would you report and why?*
+- Emphasise: model selection is a substantive decision, not just a statistical one
+
+## Talking Points
+- "There is no single correct answer in applied work — but there are better and worse arguments."
+- Use inline R code to refer to specific numbers: demonstrates why we do this (numbers update if model changes)
+
+---
+
+# Block 2 — Input: Why OLS Fails + Logit Intuition (40 min)
+
+## Purpose
+Build a clear, visual, intuitive case for logistic regression. No derivation. Focus on the business logic.
+
+## Structure
+
+### 2a. The problem: What happens when Y is binary? (10 min)
+
+**Slides 2–4**
+
+- Remind students: in OLS we model $E[Y|X] = X\beta$
+- Binary outcome: Y ∈ {0, 1} → we're really asking *P(exit = 1 | firm characteristics)*
+- Live motivation: "Can we use a linear model to predict exit probability?"
+- Show the **Linear Probability Model (LPM)** plot: fitted values below 0 and above 1
+- Two concrete problems:
+  1. **Out-of-bounds predictions** — negative or >1 probabilities are nonsensical
+  2. **Heteroskedastic errors by construction** — violates OLS assumptions
+- Optional: mention non-normality of residuals as a third issue
+
+> **Key message:** OLS gives us a line. For binary outcomes, we need an S-curve.
+
+### 2b. The solution: Logistic regression intuition (15 min)
+
+**Slides 5–7**
+
+- We want a function that maps any real-number input → probability in [0,1]
+- Introduce the **logistic (sigmoid) function** visually: $\sigma(z) = \frac{e^z}{1+e^z}$
+  - Draw/show the S-curve: flat at extremes, steep in middle
+  - Motivate: this is exactly the shape we want for probabilities
+- The **logit link**: instead of modelling P directly, we model the *log-odds*
+  $$\ln\left(\frac{P}{1-P}\right) = \beta_0 + \beta_1 x_1 + \ldots$$
+- Odds intuition: "If P(exit) = 0.75, odds = 3:1. Log-odds = ln(3) ≈ 1.1."
+- Estimation: **not OLS, but maximum likelihood** — briefly: we find the β that makes observed data most probable
+  - No derivation — just the intuition: "we're searching for the best-fitting S-curve"
+
+> **Key message:** Logistic regression models log-odds linearly. Coefficients live in log-odds space. We need to transform them to talk about probabilities.
+
+### 2c. Interpretation: the translation problem (15 min)
+
+**Slides 8–10**
+
+This is the hardest part for students. Walk through three levels of interpretation:
+
+**Level 1 — Log-odds (raw output):**
+- β > 0 → predictor increases probability of Y=1
+- β < 0 → predictor decreases probability of Y=1
+- Magnitude is not directly interpretable
+
+**Level 2 — Odds ratios (exp(β)):**
+- exp(β) = multiplicative factor on the odds
+- Example: exp(0.5) ≈ 1.65 → "a one-unit increase in X multiplies the odds of exit by 1.65"
+- Intuitive for practitioners but still not probabilities
+
+**Level 3 — Predicted probabilities (most useful for business):**
+- Compute $\hat{P}$ for specific, meaningful scenarios
+- Example: "A firm with median size, poor liquidity → P(exit) = 34%"
+- Marginal effects: how does P change when X changes by 1 unit?
+  - Average marginal effect (AME): compute marginal effect for every observation, take mean
+  - Use `marginaleffects` package
+
+> **Key message:** Always translate to probabilities for a business audience. Coefficients in log-odds are for statisticians.
+
+## Timing Notes
+- Don't rush the "why OLS fails" section — students have only seen OLS
+- The odds-ratio interpretation often confuses students; slow down, use a numerical example
+- Skip probit details: mention it exists, say "logit and probit give nearly identical results in practice; we use logit"
+
+---
+
+# Block 3 — Live Demo (45 min)
+
+*Switch to `demo.qmd` — see separate file*
+
+## Demo flow summary
+
+1. **Load and explore the data** (8 min)
+   - `bisnode-firms` dataset
+   - Check distribution of outcome variable `exit`
+   - Point out class imbalance if present
+
+2. **Fit LPM as a benchmark** (7 min)
+   - `lm(exit ~ sales_log + employees_log + profit_margin, data = firms)`
+   - Show predicted values outside [0,1]
+   - Extract with `augment()` from `broom`
+
+3. **Fit logistic regression** (10 min)
+   - `glm(exit ~ sales_log + employees_log + profit_margin, family = binomial, data = firms)`
+   - Inspect output with `summary()` and `modelsummary()`
+   - Read off signs and significance
+
+4. **Interpret coefficients** (10 min)
+   - Log-odds → not useful directly
+   - `exp(coef())` → odds ratios with interpretation
+   - Build a small comparison table: LPM vs logit side by side
+
+5. **Predicted probabilities** (10 min)
+   - `predict(model, type = "response")` for all observations
+   - Create scenarios: small vs. large firm, profitable vs. loss-making
+   - Plot: probability of exit vs. a continuous predictor
+
+6. **Inline R code** (5 min)
+   - Show how to embed `round(exp(coef(model)["profit_margin"]), 2)` in text
+   - Demonstrate that re-running updates the number automatically
+
+## Key teaching moments
+- Pause after the LPM → show students the out-of-bounds values, ask "Is this a problem?"
+- Pause after raw logit output → ask "What does -0.43 mean here?"
+- Pause before predicted probabilities → "How would you explain this result to a CFO?"
+
+---
+
+# Block 4 — Student Exercise (40 min)
+
+*See separate `exercise.qmd`*
+
+## Setup
+- Distributed as a download from the course website (session page)
+- Students work individually or in pairs
+- You circulate, answer questions
+
+## Exercise summary
+Students extend the logistic model to include additional predictors, interpret results, compute predicted probabilities for two contrasting firm profiles, and write a short inline-R-code paragraph reporting their key finding.
+
+## Common sticking points to watch for
+- Forgetting `family = binomial` → silent error (fits gaussian by default)
+- Confusing `type = "response"` vs `type = "link"` in `predict()`
+- Trying to interpret raw coefficients as probability changes
+
+---
+
+# Block 5 — Debrief + Q&A + Quarto Skill (15 min)
+
+## Debrief (8 min)
+- Ask 1–2 students to share their predicted probabilities and interpretation
+- Correct any systematic misinterpretations
+- Address the business question: "So — can we predict firm exit?"
+
+## Quarto skill: inline R code (5 min)
+- Show the pattern on slides:
+  `` `r round(exp(coef(model)["profit_margin"]), 2)` ``
+- Emphasise: this is how professional analysts make reports reproducible
+- Point to exercise: they already used it (or should have)
+
+## Closing (2 min)
+- Preview Session 4: *What can go wrong: biases and diagnostics*
+- "Next time we'll look at what happens when our models lie to us — and how to detect it"
+
+---
+
+# Materials Checklist
+
+- [ ] `slides.qmd` rendered to HTML
+- [ ] `demo.qmd` open in RStudio, all chunks pre-run once
+- [ ] `exercise.qmd` uploaded to course website (session 3 page) before the session
+- [ ] Dataset `bisnode-firms` available in Codespace (`data/bisnode-firms.csv`)
+- [ ] `modelsummary` and `marginaleffects` packages installed in Codespace image
+
+---
+
+# Background Notes for Instructor
+
+## Why not probit?
+Both logit and probit give near-identical results in practice. Logit has the advantage that its coefficients can be converted to odds ratios, which have a reasonably intuitive interpretation. Probit is slightly more natural from a latent-variable derivation perspective. We use logit throughout.
+
+## Why not mention marginal effects more formally?
+The Average Marginal Effect (AME) is the most defensible summary of a covariate's effect in a logit model, but it requires explaining that marginal effects are observation-specific in non-linear models — a conceptually demanding point. For this session, introduce AMEs briefly in the demo and leave deeper treatment to student questions or an optional aside.
+
+## On the LPM
+Despite its problems, the Linear Probability Model is widely used in economics (especially with panel data, where it avoids incidental parameters problems). It is worth noting this explicitly: "OLS on a binary outcome isn't crazy — economists use it all the time — but you should know its limitations."
+
+## Dataset notes
+The `bisnode-firms` dataset (from Békés & Kézdi 2021) contains Hungarian manufacturing and services firms. Key variables for this session: `exit` (binary), `sales` (revenue), `employ` (employees), `profit_loss` or `profit_margin`, `age`. Check variable names in the actual file before the session.

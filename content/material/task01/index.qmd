@@ -76,8 +76,7 @@ Session 1 materials.
    **Open with Codespaces → New codespace**
 2. Wait a few minutes for the environment to build — R, Quarto, and all
    required packages are installed automatically
-3. RStudio opens in your browser; log in with username `rstudio` /
-   password `rstudio`
+3. RStudio opens in your browser; no login is required — it opens directly
 4. Open `TaskDescription.qmd` and work through each section exactly as you
    would in RStudio on your own machine
 5. Render with **Ctrl/Cmd + Shift + K**; commit and push via the Git pane

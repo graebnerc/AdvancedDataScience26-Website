@@ -9,6 +9,7 @@ project:
     - "content/material/session*/*.qmd"
     - "!content/material/session*/slides.qmd"
     - "content/material/task*/*.qmd"
+    - "!content/material/session*/*-outline.qmd"
   resources:
     - "content/material/session*/slides.html"
 
@@ -59,7 +60,7 @@ website:
           - href: content/material/task01/index.qmd
             text: "Task 1 — Earnings & Age"
           - href: content/material/task02/index.qmd
-            text: "Task 2 — Football & Regression"
+            text: "Task 2 — Hotel Prices"
 
   navbar:
     background: primary
