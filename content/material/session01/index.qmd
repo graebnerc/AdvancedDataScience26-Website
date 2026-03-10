@@ -42,7 +42,7 @@ I do not answer questions via email.
 | [Exemplary solution]() | Exemplary solution to the in-session exercise |
 | [References](references.bib) | BibTeX file with all citations used in session materials |
 
-::: {.callout-tip collapse="true"}
+::: {.callout-note collapse="true"}
 ## Fork the course repository — get your own working copy
 
 Forking gives you a personal copy of all course materials that you can edit,
@@ -58,6 +58,13 @@ page, then **Pull** in the RStudio Git pane to receive the updates.
 :::
 
 ::: {.callout-tip collapse="true"}
+## Demo assignment to test GitHub Classroom
+[Here](https://classroom.github.com/a/PRWNjriG) is the link to the demo assignment in Github classroom.
+
+Remember: there is no submit button, your last commit before the deadline automatically counts as submission.
+:::
+
+::: {.callout-note collapse="true"}
 ## Demo assignment to test GitHub Classroom
 [Here](https://classroom.github.com/a/PRWNjriG) is the link to the demo assignment in Github classroom.
 

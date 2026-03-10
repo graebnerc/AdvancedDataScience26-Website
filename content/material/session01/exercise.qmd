@@ -5,22 +5,33 @@ date: "12 March 2026"
 format:
   html:
     toc: true
-    number-sections: true
+    number-sections: false
     code-tools: true
 ---
 
 ## Your task today
 
-**Scenario:** You are a junior analyst at an international consultancy. Before
-writing any analysis, your team requires all reports to follow a standard
-document structure — a proper YAML header, numbered sections, and a bibliography.
-Your task today is to build that structure from scratch.
-
-You are **not** analysing data yet. You are building the container that will
-hold your analysis for the rest of the semester.
+**Scenario:** You are a junior analyst at an international consultancy. Your
+team has been asked to prepare a short briefing on global economic development
+— specifically, how income levels relate to health outcomes across countries.
+Before writing any analysis, your team requires all reports to follow a
+standard document structure: a proper YAML header, numbered sections, and a
+bibliography. Your task today is to build that structure and populate it with
+a first piece of real analysis.
 
 Work through the six tasks below. Each task has a **check** — a short
 description of what you should see when you have done it correctly.
+
+## Using Github Classroom
+
+This in-class exercise is available as a GitHub Classroom assignment — not the
+usual format for in-class work, but a deliberate chance to practise the
+submission workflow before it counts. Accept the assignment and complete it as
+you would a take-home task.
+
+Click here: [Accept Assignment on Github Classroom](https://classroom.github.com/a/7dOkg__X).
+
+Check out the notes in the `README` of the task.
 
 ---
 
@@ -36,12 +47,15 @@ Set up a clean R project with the standard folder structure.
    - `data/` — for raw data files
    - `figures/` — for exported plots
    - `output/` — for rendered reports
-4. Create a new Quarto document: **File → New File → Quarto Document**
+4. By default, Git ignores empty directories. If you want to commit them, add
+   an empty placeholder file called `.gitkeep` inside each folder — see the
+   `README` for details.
+5. Create a new Quarto document: **File → New File → Quarto Document**
    Save it as `report.qmd` in your project root
 
 ::: {.callout-tip}
-**How to create folders:** In the RStudio Files pane (bottom right), click
-**New Folder**.
+**If you work in a codespace:** No need to create a new directory — the
+project is already set up. Skip steps 1–2 and start from step 3.
 :::
 
 **Check:** Your Files pane should show:
@@ -83,10 +97,10 @@ bibliography: references.bib
 ```
 
 **Check:** The document has a YAML block between `---` markers at the top.
-If you try to render now, it will warn about a missing `references.bib` — that
-is expected and fixed in Task 4.
+If you render now, Quarto will warn about a missing `references.bib` — that
+is expected and fixed in Task 5.
 
-::: {.callout-note}
+::: {.callout-tip}
 `date: today` tells Quarto to use today's date automatically every time the
 document renders — no manual updating needed.
 :::
@@ -99,60 +113,142 @@ Add meaningful content sections to your report.
 
 **Steps:**
 
-Below the YAML, write at least **three sections** using Markdown headings.
-Choose a topic relevant to international business — it does not need to be
-sophisticated. For example:
+Below the YAML, create the following four sections using Markdown headings.
+Fill in the placeholder sentences with your own words — a sentence or two per
+section is enough for now.
 
 ```markdown
 ## Introduction
 
-This report examines ... [one or two sentences].
+This report examines how economic development relates to health outcomes
+across countries. [Add one sentence on why this matters for international
+business or policy.]
 
 ## Data
 
-The analysis uses data from ... [one or two sentences].
+The analysis uses data from the `gapminder` package, which provides
+information on GDP per capita, life expectancy, and population for
+142 countries from 1952 to 2007. [Add one sentence describing what
+you will focus on.]
 
-## Results
+## Analysis
 
-The main finding is ... [one or two sentences].
+[Your figure will go here — you will add it in Task 4.]
+
+@fig-gapminder shows that ... [describe the pattern in one or two sentences].
+
+## References
 ```
 
 **Check:** When you render to HTML (`Ctrl/Cmd + Shift + K`), you should see:
 
 - A numbered table of contents on the left
-- Three numbered sections in the document body
+- Four numbered sections in the document body
 
 ---
 
-## Task 4: Bibliography
+## Task 4: R code chunk
+
+Add a working R code chunk that installs the data and produces a figure.
+
+**Steps:**
+
+1. Insert a code chunk in your **Analysis** section: **Ctrl/Cmd + Alt + I**
+   (or use the Insert menu)
+2. Copy the code below into the chunk — it is ready to run as-is
+
+```{{r}}
+#| label: fig-gapminder
+#| fig-cap: "GDP per capita and life expectancy across countries (2007)."
+#| warning: false
+#| message: false
+
+# Install the gapminder package if you haven't already:
+# install.packages("gapminder")
+
+library(tidyverse)
+library(gapminder)
+
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap, y = lifeExp, colour = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_x_log10(labels = scales::label_comma()) +
+  labs(
+    x     = "GDP per capita (USD, log scale)",
+    y     = "Life expectancy (years)",
+    colour = "Continent",
+    size  = "Population"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+3. Update the placeholder sentence in your **Analysis** section to describe
+   what the figure shows. Use a cross-reference so Quarto links the text to
+   the figure automatically:
+
+```markdown
+@fig-gapminder shows that countries with higher GDP per capita tend to
+have longer life expectancy. [Add one sentence on any pattern or outlier
+you notice — e.g. which continent stands out, or whether the relationship
+looks linear.]
+```
+
+::: {.callout-tip}
+`@fig-gapminder` matches the `label: fig-gapminder` in your code chunk.
+Quarto replaces it with "Figure 1" (or the appropriate number) in the
+rendered output and turns it into a clickable link in HTML.
+:::
+
+::: {.callout-tip}
+`scale_x_log10()` puts the x-axis on a log scale. This is important here
+because GDP per capita varies enormously across countries — the log scale
+makes the pattern much clearer. You will learn more about this choice in
+Session 2.
+:::
+
+::: {.callout-tip}
+**If you work in a codespace:** The `gapminder` package may already be
+installed. Try running the chunk first; only run `install.packages()` if
+you get an error.
+:::
+
+**Check:** When you render, a scatter plot appears in the Analysis section
+with a caption. The plot shows countries as points, coloured by continent.
+
+---
+
+## Task 5: Bibliography
 
 Add citations to your report using BibTeX.
 
 **Steps:**
 
-1. Copy the file `references.bib` from the session folder into your project
-   folder (next to `report.qmd`)
-2. In your document text, add at least two citations using `@key` syntax.
-   The keys available in the provided file are:
-   - `@BekezKezdi2021` — the main course textbook
-   - `@Wooldridge2020` — an econometrics reference
-   - `@Preston1975` — a classic applied paper
-3. At the end of your document, add a `## References` heading (Quarto fills
-   this in automatically)
-4. Render to HTML and confirm the reference list appears
-
-**Example citation in text:**
+1. The file `references.bib` is already in your repository root — no need to
+   copy anything. If you set up a project folder outside the Classroom repo,
+   copy it in now.
+2. In your **Introduction**, add a citation to Preston (1975), who first
+   documented the income–life expectancy relationship systematically:
 
 ```markdown
-As discussed in @BekezKezdi2021, regression analysis requires ...
-
-For a formal treatment, see @Wooldridge2020.
-
-## References
+The relationship between income and life expectancy was first
+systematically documented by @Preston1975.
 ```
 
-**Check:** The rendered HTML shows in-text citations (e.g. "Békés & Kézdi,
-2021") and a formatted reference list at the end.
+3. In your **Data** section, add a citation to the course textbook for
+   context on working with cross-country data:
+
+```markdown
+For a discussion of cross-country data analysis, see @BekezKezdi2021.
+```
+
+4. Make sure the `## References` heading is at the end of your document —
+   Quarto fills in the reference list automatically
+5. Render to HTML and confirm the reference list appears
+
+**Check:** The rendered HTML shows in-text citations (e.g. "Preston, 1975")
+and a formatted reference list under the References heading.
 
 ::: {.callout-note}
 **Zotero integration** (optional): Zotero can generate `.bib` entries
@@ -162,64 +258,43 @@ after the session — not required today.
 
 ---
 
-## Task 5: R code chunk
+## Task 6: Render to multiple formats
 
-Add a working R code chunk that produces a plot.
-
-**Steps:**
-
-1. Insert a code chunk: **Ctrl/Cmd + Alt + I** (or use the Insert menu)
-2. In the chunk, load the tidyverse and make any simple plot using built-in data
-
-A minimal example to get started:
-
-```{{r}}
-#| label: fig-example
-#| fig-cap: "A simple example plot."
-
-library(tidyverse)
-
-ggplot(mpg, aes(x = displ, y = hwy, colour = class)) +
-  geom_point() +
-  labs(
-    x = "Engine displacement (litres)",
-    y = "Highway fuel economy (mpg)"
-  )
-```
-
-You can use any built-in dataset and any `ggplot2` plot you like — this is just
-to confirm the workflow runs end to end.
-
-**Check:** When you render, a figure appears in the HTML output with a caption.
-
----
-
-## Task 6: Render to both formats
-
-Confirm your document renders cleanly to both HTML and Word.
+Confirm your document renders cleanly to HTML, Word, and PDF.
 
 **Steps:**
 
-1. Render to HTML: **Ctrl/Cmd + Shift + K** (or click the Render button)
-   The output appears in the Viewer pane or opens in your browser
+1. Render to HTML: **Ctrl/Cmd + Shift + K** (or click the Render button).
+   The output appears in the Viewer pane or opens in your browser.
 2. Render to Word: in the Render button dropdown, select **docx**
-   (or add `format: docx` temporarily and re-render)
-
-**Check:** Both files exist in your project:
-
-- `report.html` — opens in a browser, shows TOC, numbered sections, figure, references
-- `report.docx` — opens in Word with the same structure
+   (or run `quarto render report.qmd --to docx` in the Terminal).
+3. Render to PDF: in the Render button dropdown, select **pdf**
+   (or run `quarto render report.qmd --to pdf` in the Terminal).
 
 ::: {.callout-tip}
-The `.docx` output may look slightly different from the HTML — that is normal.
-Word rendering is polished in Session 8.
+Rendering to PDF requires LaTeX. If you get an error, run
+`tinytex::install_tinytex()` in the R console and try again. If that is not
+an option today, skip PDF — HTML and Word are sufficient.
+:::
+
+**Check:** Your project contains:
+
+- `report.html` — opens in a browser; shows TOC, numbered sections, figure, references
+- `report.docx` — opens in Word with the same structure
+- `report.pdf` — opens in a PDF viewer with the same structure
+
+::: {.callout-tip}
+The `.docx` output may look slightly different from the HTML — that is
+normal. Word styling is polished in Session 8.
 :::
 
 ---
 
 ## Finished early?
 
-- Try adding a second code chunk with a different plot or a summary table
+- Add a second chunk that filters to a different year (e.g. 1952) and
+  compare the pattern to 2007 — has the relationship changed?
+- Try `facet_wrap(~ continent)` to split the plot by continent
 - Explore YAML options: what does `code-fold: true` do? What about
   `theme: cosmo`?
 - Read the [Quarto documentation on HTML documents](https://quarto.org/docs/output-formats/html-basics.html)

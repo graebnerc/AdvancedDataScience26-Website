@@ -1,6 +1,6 @@
 ---
 title: "Getting Started"
-subtitle: "Everything you need before the first session"
+subtitle: "Everything you need to get started with the course"
 format: html
 ---
 
