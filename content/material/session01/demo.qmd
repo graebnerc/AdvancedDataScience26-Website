@@ -1,6 +1,6 @@
 ---
 # ── Document metadata ──────────────────────────────────────────────────────────
-title: "Income and Life Expectancy: A Global Perspective"
+title: "CO2 Emissions and Economic Development: A Global Perspective"
 subtitle: "A short analytical report"
 author: "Prof. Dr. Claudius Gräbner-Radkowitsch"  # change to your name
 date: today        # renders as the current date automatically — no need to update
@@ -15,11 +15,15 @@ format:
   docx:
     toc: true
     number-sections: true
+execute: 
+  warning: false # Do not show warnings
+  message: false # Do not show messages
 # ── Bibliography ───────────────────────────────────────────────────────────────
 bibliography: references.bib  # path to .bib file (relative to this document)
 # ── Recommended project folder structure (keep this for reference) ─────────────
 # session_01/
 # ├── demo.qmd         ← this file
+# ├── fetch_data.R     ← run once to download and save the data
 # ├── references.bib   ← bibliography
 # ├── data/            ← raw data files go here
 # ├── figures/         ← exported figures (if saving separately)
@@ -29,8 +33,11 @@ bibliography: references.bib  # path to .bib file (relative to this document)
 ```{r}
 #| label: setup
 #| include: false   # this chunk runs but produces no output in the document
-
+here::i_am("content/material/session01/demo.qmd")
+library(here)
 library(tidyverse)
+library(ggrepel)
+library(modelsummary)
 
 # Set a consistent ggplot theme for all figures in this document
 theme_set(theme_minimal(base_size = 13))
@@ -38,109 +45,159 @@ theme_set(theme_minimal(base_size = 13))
 
 ## Introduction
 
-How does income relate to health? This question sits at the heart of development
-economics — and it turns out the answer is both intuitive and surprising.
+Do richer countries pollute more? At first glance, the answer seems obvious: higher
+incomes mean more factories, more cars, more flights. But the reality is more nuanced.
+Some of the world's largest emitters are middle-income countries with enormous
+populations, while several wealthy nations have managed to decouple economic growth
+from emissions growth.
 
-At first glance, richer countries do tend to have longer-living populations.
-But the relationship is not linear: the difference in life expectancy between
-a country with a GDP per capita of \$2,000 and one with \$10,000 is much larger
-than the difference between \$50,000 and \$100,000. This pattern was first
-documented systematically by @Preston1975 and has become one of the most
-replicated findings in the social sciences.
+In this report, we explore the cross-country relationship between economic output
+and CO2 emissions using recent data from the World Bank. The central question is:
+**how closely does a country's income level predict its CO2 footprint — and does
+population size explain the pattern?**
 
-In this report, we explore this relationship using cross-country data from the
-World Bank. The central question is: **how much of the variation in life
-expectancy across countries can be explained by income alone?**
-
-The data and methods follow @BekezKezdi2021, who use this dataset as a running
-example for visualisation and regression.
+Understanding this relationship matters for international business: companies
+operating across borders face very different regulatory environments and carbon
+cost structures depending on where a country sits in the income-emissions space.
 
 ## Data and approach
 
-We use a cross-section of 182 countries observed in 2017. The two key variables
-are:
+We use panel data covering the period 2020–2024 for all countries for which
+complete data are available. The three key variables are:
 
-- **Life expectancy** (years): average life expectancy at birth
-- **GDP per capita** (USD, PPP-adjusted): a standard measure of average income
+- **CO2 emissions** (million metric tons CO2 equivalent, AR5 methodology): total
+  greenhouse gas emissions attributed to each country
+- **GDP** (USD, PPP-adjusted): total economic output, converted to a common
+  price level so countries can be compared directly
+- **Population**: used to rescale both variables to a per-capita basis and to
+  set bubble sizes in the chart
 
-The data are publicly available from the World Bank World Development Indicators
-and can be downloaded from [OSF](https://osf.io/pguwf/).
+The data were downloaded from the World Bank World Development Indicators using
+the `WDI` R package [@WDI2024] and are stored locally in `data/wdi_co2_gdp_pop.csv`.
+To reproduce the download, run `fetch_data.R` in this session's folder.
 
-For this demonstration, we use a small illustrative dataset to show the code
-structure. In your own work, replace `example_data` with the real dataset.
+```{r}
+#| label: load-data
+#| message: false
+
+co2_data <- read_csv(here("content/material/session01/data/wdi_co2_gdp_pop.csv"))
+```
+
+For the main visualisation, we average each variable across all available years
+per country. This smooths out year-to-year fluctuations and gives a more stable
+cross-country picture.
+
+```{r}
+#| label: summarise-data
+
+co2_avg <- co2_data |>
+  group_by(country, iso2c, iso3c) |>
+  summarise(
+    across(c(co2_mt, gdp_ppp, pop, gdp_pc_ppp, co2_pc_t), mean),
+    years_n = n(),          # how many years contributed to each average
+    .groups = "drop"
+  ) |>
+  filter(pop >= 1e6)        # drop micro-states (< 1 million inhabitants)
+```
 
 ## Results
 
-### The income–life expectancy relationship
+### The income–emissions relationship
 
 ```{r}
-#| label: fig-scatter
-#| fig-cap: "Life expectancy and GDP per capita across selected countries (illustrative data). A log scale on the x-axis straightens the curved relationship."
-#| fig-alt: "Scatter plot showing life expectancy on the y-axis and GDP per capita on the x-axis, with a curved positive relationship."
+#| label: fig-bubble
+#| fig-cap: "GDP per capita and CO2 emissions per capita across countries (2020–2024 average). Bubble size reflects population. Both axes use a log scale."
+#| fig-alt: "Bubble chart showing CO2 emissions per capita on the y-axis and GDP per capita on the x-axis, with bubble size proportional to population. A positive association is visible."
+#| fig-width: 9
+#| fig-height: 6
 
-# Illustrative dataset — replace with real World Bank data for your own analysis
-example_data <- tibble(
-  country        = c("Nigeria", "India", "Brazil", "China",
-                     "Mexico", "Poland", "Germany", "USA", "Norway"),
-  gdp_per_capita = c(5300, 6600, 14100, 16800,
-                     19900, 31900, 53700, 63500, 67300),
-  life_expectancy = c(54, 69, 75, 76,
-                      75, 78, 81, 78, 82)
+# Highlight a selection of named countries for orientation
+label_countries <- c(
+  "United States", "China", "India", "Germany",
+  "Brazil", "Nigeria", "Norway", "Saudi Arabia", "Indonesia"
 )
 
-ggplot(example_data, aes(x = gdp_per_capita, y = life_expectancy)) +
-  geom_point(colour = "#00395B", size = 3, alpha = 0.8) +
-  geom_text(
-    aes(label = country),
-    nudge_y = 0.6, size = 3.2, colour = "#6F6F6F"
+ggplot(
+  co2_avg,
+  aes(x = gdp_pc_ppp, y = co2_pc_t, size = pop, label = country)
+) +
+  geom_point(alpha = 0.5, colour = "#00395B") +
+  geom_smooth(method = "lm", se = FALSE, color = "#69aacd", show.legend = FALSE) +
+  geom_text_repel(
+    data = co2_avg |> filter(country %in% label_countries),
+    size = 3, colour = "#444444", max.overlaps = Inf,
+    show.legend = FALSE
   ) +
   scale_x_log10(labels = scales::label_dollar(scale = 1/1000, suffix = "k")) +
+  scale_y_log10(labels = scales::label_comma(suffix = " t")) +
+  scale_size_continuous(
+    range  = c(1, 18),
+    labels = scales::label_comma(scale = 1/1e6, suffix = "M")
+  ) +
   labs(
-    x     = "GDP per capita (log scale, USD PPP)",
-    y     = "Life expectancy (years)",
-    title = "Richer countries tend to live longer",
-    subtitle = "But the relationship flattens at high income levels"
+    x    = "GDP per capita (log scale, USD PPP)",
+    y    = "CO2 per capita (log scale, metric tons)",
+    size = "Population",
+    title = "Richer countries tend to emit more CO2 per person",
+    subtitle = "But population size shapes total emissions — note China and India"
   )
 ```
 
-@fig-scatter shows a clear positive association: countries with higher incomes
-tend to have longer life expectancies. Notice that the x-axis uses a **log
-scale** — this straightens the curved relationship and makes the pattern easier
-to read. We will return to this choice in Session 2.
+@fig-bubble reveals a clear positive association: countries with higher GDP per
+capita also tend to have higher CO2 emissions per person. Both axes use a
+**log scale** — this is important when variables span several orders of magnitude,
+as both income and emissions do. On a log scale, equal distances represent equal
+*percentage* differences, which makes cross-country comparisons more meaningful.
+
+Notice that the relationship is not perfectly tight. Some high-income countries
+(e.g. Norway) emit substantially less than their income level would predict —
+reflecting a combination of renewable energy, mild climate, and policy choices.
+Conversely, some oil-producing economies emit far more than their income alone
+would suggest.
+
+The bubble size encodes **population**, which drives a wedge between per-capita
+and total emissions. China and India, for example, sit at moderate income and
+emissions *per capita*, but their enormous populations make them among the
+world's largest total emitters.
 
 ### A first regression
 
 ```{r}
 #| label: tbl-regression
-#| tbl-cap: "OLS regression of life expectancy on log GDP per capita."
+#| tbl-cap: "OLS regression of log CO2 per capita on log GDP per capita (2020–2024 country averages)."
 
-library(modelsummary)   # for clean regression tables
+# Both variables already transformed in the data; log-transform here for the model
+co2_model <- co2_avg |>
+  mutate(
+    log_co2_pc  = log(co2_pc_t),
+    log_gdp_pc  = log(gdp_pc_ppp)
+  )
 
-# Add the log-transformed predictor
-example_data <- example_data |>
-  mutate(log_gdp = log(gdp_per_capita))
+model <- lm(log_co2_pc ~ log_gdp_pc, data = co2_model)
 
-# Fit the model
-model <- lm(life_expectancy ~ log_gdp, data = example_data)
-
-# Display results
 modelsummary(
   model,
   stars   = TRUE,
-  gof_map = c("nobs", "r.squared")
+  gof_map = c("nobs", "r.squared"),
+  coef_rename = c(
+    "(Intercept)" = "Intercept",
+    "log_gdp_pc"  = "Log GDP per capita"
+  )
 )
 ```
 
-The coefficient on log GDP per capita tells us: for each 1% increase in GDP per
-capita, life expectancy increases by approximately
-`r round(coef(model)["log_gdp"] / 100, 2)` years on average.
+When both variables are log-transformed, the coefficient has a convenient
+interpretation: a **1% increase in GDP per capita** is associated with on average a
+`r round(coef(model)["log_gdp_pc"], 2)`% change in CO2 per capita, on average.
+This is an *elasticity* — a concept we return to in Session 2.
 
 ## Conclusion
 
-Even a simple regression reveals a strong positive relationship between income
-and life expectancy. However, income alone cannot explain all of the variation —
-some countries outperform their income level substantially, while others fall
-below it. Unpacking these patterns requires controlling for additional variables,
-a topic we return to in Sessions 2 and 4.
+A simple cross-country regression confirms a strong positive relationship between
+income and CO2 emissions per capita. Yet income explains only part of the story:
+the residual variation reflects differences in energy mix, industrial structure,
+climate policy, and geography. Unpacking these patterns — and distinguishing
+correlation from causation — requires the tools we develop across the rest of
+this course.
 
 ## References
