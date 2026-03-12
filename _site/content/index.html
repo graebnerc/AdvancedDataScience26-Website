@@ -349,22 +349,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="coding-environment" class="level2">
 <h2 class="anchored" data-anchor-id="coding-environment">Coding environment</h2>
-<p><strong>Option A — GitHub Codespaces:</strong> No installation needed. All required R packages come pre-installed.</p>
+<p><strong>Option A — GitHub Codespaces:</strong> No installation needed. All required R packages come pre-installed. Start by <strong>forking the repository</strong> to create your own personal copy on GitHub — this lets you save and commit your work freely.</p>
 <ol type="1">
-<li>Go to the <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material">course material repository</a> on GitHub</li>
-<li>Click the green <strong>Code</strong> button → <strong>Codespaces</strong> → <strong>Create codespace on main</strong></li>
-<li>A <strong>VS Code window</strong> opens in your browser — this is normal. Do not close it. RStudio runs inside the same environment on a separate port.</li>
+<li>Go to the <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material">course material repository</a> on GitHub and click <strong>Fork</strong> (top-right corner)</li>
+<li>On your fork, click the green <strong>Code</strong> button → <strong>Codespaces</strong> → <strong>Create codespace on main</strong></li>
+<li>A <strong>VS Code window</strong> opens in your browser — this is normal. Do not close it.</li>
 <li><strong>The first time, setup takes up to 5 minutes</strong> while R and packages are installed. Watch the progress in the terminal at the bottom of the VS Code window.</li>
-<li>A second browser tab with <strong>RStudio</strong> opens automatically once the environment is ready. If it does not, click the <strong>Ports</strong> tab in VS Code, find port 8787, and click the globe icon. No login is required.</li>
-<li><strong>Wait</strong> until the VS Code terminal shows a plain prompt before working in R — package installation runs in the background after RStudio appears.</li>
+<li>Once setup is complete, type <strong><code>rserver</code></strong> in the VS Code terminal and press <strong>Enter</strong>. When the login prompt appears, enter <strong><code>rstudio</code></strong> as both the username and the password.</li>
+<li><strong>Wait</strong> until the terminal shows a plain prompt before working in R — package installation may still be running in the background.</li>
 </ol>
-<p>This Codespace is for following along in class. You cannot push changes back to the shared course repository. For a personal copy you can also use at home, see below.</p>
-<p><strong>Option A+ — Your own fork (recommended for cloud-based use):</strong> Fork the Material repo once to get a personal copy you fully own. Open a Codespace from your fork — the environment is identical, and you can commit and save your work freely.</p>
-<ol type="1">
-<li>Go to the <a href="https://github.com/data-science-ma/AdvancedDataScience26-Material">Material repository</a> and click <strong>Fork</strong> (top-right)</li>
-<li>Open a Codespace from your fork exactly as described above</li>
-<li>When new session materials are added, click <strong>Sync fork</strong> on your fork’s GitHub page, then <strong>Pull</strong> in the RStudio Git pane to get the updates</li>
-</ol>
+<p><strong>Important:</strong> once your Codespace is built, do not create a new one next time. Go to <a href="https://github.com/codespaces">github.com/codespaces</a>, find your existing Codespace, and click <strong>Open</strong>.</p>
+<p>When new session materials are added to the course repo, click <strong>Sync fork</strong> on your fork’s GitHub page, then <strong>Pull</strong> in the RStudio Git pane to get the updates.</p>
 <p><strong>Option B — local RStudio:</strong> Install R 4.4+, RStudio, and run:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"plm"</span>, <span class="st">"modelsummary"</span>, <span class="st">"fixest"</span>,</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"lmtest"</span>, <span class="st">"sandwich"</span>, <span class="st">"patchwork"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
