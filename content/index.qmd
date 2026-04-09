@@ -64,6 +64,8 @@ That is all you need. No branching, no merging. For a full introduction, see the
 All course questions go through [GitHub Discussions](https://github.com/data-science-ma/AdvancedDataScience26-Material/discussions) 
 on the material repository. 
 This keeps the discussion visible to everyone and searchable.
+Make sure you **enable notifications** as explained at the bottom the 
+[README](https://github.com/data-science-ma/AdvancedDataScience26-Material?tab=readme-ov-file#activate-email-notifications) of the material repo.
 
 Moodle is used for **official announcements and grades only**.
 

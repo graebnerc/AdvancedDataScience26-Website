@@ -1,14 +1,11 @@
 ---
-title: "Session 1 — Exercise Solution"
-subtitle: "Setting Up a Reproducible Workflow"
-author: "Your Name"
+title: "Income and Life Expectancy: A Global Perspective"
+author: "Student Name"
 date: today
 format:
   html:
     toc: true
     number-sections: true
-    code-fold: true
-    code-tools: true
   docx:
     toc: true
     number-sections: true
@@ -17,43 +14,93 @@ bibliography: references.bib
 
 ## Introduction
 
-This report examines the relationship between economic development and health
-outcomes across countries. Understanding this relationship is relevant for
-international businesses assessing market conditions and risk in emerging
-economies.
+How does a country's wealth relate to the health of its population? This report
+examines the cross-country relationship between income and life expectancy using
+data from the `gapminder` package. The relationship between income and life
+expectancy was first systematically documented by @Preston1975, who showed that
+richer countries tend to have substantially longer life expectancy — a pattern
+now known as the *Preston curve*.
 
-As discussed in @BekezKezdi2021, regression analysis allows us to estimate the
-average association between two variables while holding other factors constant.
-For a formal econometric treatment of these methods, see @Wooldridge2020.
+Understanding this relationship matters for international business: companies
+expanding into lower-income markets face very different consumer health profiles,
+healthcare costs, and workforce productivity than those operating in wealthy
+economies.
 
 ## Data
 
-The analysis uses data from the World Bank covering 182 countries in 2017.
-The key variables are GDP per capita (in USD) and life expectancy at birth
-(in years). The foundational empirical relationship between income and health
-was documented by @Preston1975.
+The analysis uses data from the `gapminder` package [@BekezKezdi2021], which
+provides information on GDP per capita, life expectancy, and population for
+142 countries observed at five-year intervals from 1952 to 2007. We focus on
+the 2007 cross-section — the most recent year in the dataset — to examine the
+contemporary income–health relationship.
 
-## Results
-
-The main finding from the literature is that richer countries tend to have
-higher life expectancy — but the relationship is non-linear: gains in life
-expectancy per additional dollar of income shrink as countries become wealthier.
-A log transformation of GDP per capita helps capture this pattern.
+## Analysis
 
 ```{r}
-#| label: fig-example
-#| fig-cap: "Engine displacement and fuel economy by vehicle class (mpg dataset)."
+#| label: fig-gapminder
+#| fig-cap: "GDP per capita and life expectancy across countries (2007). Bubble size reflects population size."
+#| warning: false
+#| message: false
 
 library(tidyverse)
+library(gapminder)
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = class)) +
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap, y = lifeExp, colour = continent, size = pop)) +
   geom_point(alpha = 0.7) +
+  scale_x_log10(labels = scales::label_comma()) +
   labs(
-    x = "Engine displacement (litres)",
-    y = "Highway fuel economy (mpg)",
-    colour = "Vehicle class"
+    x      = "GDP per capita (USD, log scale)",
+    y      = "Life expectancy (years)",
+    colour = "Continent",
+    size   = "Population"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```
+
+@fig-gapminder shows a clear positive association: countries with higher GDP
+per capita tend to have longer life expectancy. The x-axis uses a **log scale**
+because GDP per capita varies enormously across countries — on a log scale,
+equal distances represent equal *percentage* differences, which makes the
+comparison more meaningful.
+
+African countries (red) cluster in the lower-left quadrant — lower income and
+shorter life expectancy — while European and Oceanian countries dominate the
+upper-right. Asia shows the most heterogeneity: countries like Japan sit near
+the top, while several lower-income Asian nations fall much lower. The
+relationship is not perfectly tight: some countries have higher life expectancy
+than their income level alone would predict, reflecting differences in health
+systems, diet, and geography.
+
+```{r}
+#| label: fig-gapminder-1952
+#| fig-cap: "GDP per capita and life expectancy across countries (1952). Compare with Figure 1 to see how the relationship has changed."
+#| warning: false
+#| message: false
+
+gapminder |>
+  filter(year == 1952) |>
+  ggplot(aes(x = gdpPercap, y = lifeExp, colour = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_x_log10(labels = scales::label_comma()) +
+  labs(
+    x      = "GDP per capita (USD, log scale)",
+    y      = "Life expectancy (years)",
+    colour = "Continent",
+    size   = "Population"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+@fig-gapminder-1952 shows the same relationship in 1952. Comparing the two
+figures, several patterns stand out. First, life expectancy has risen
+substantially in all regions — the entire cloud of points has shifted upward.
+Second, the spread across countries has *narrowed*: in 1952 many countries had
+life expectancies below 40 years; by 2007 very few do. Third, the positive
+income–health association was already present in 1952, suggesting it is a
+persistent structural feature rather than a recent development.
 
 ## References
