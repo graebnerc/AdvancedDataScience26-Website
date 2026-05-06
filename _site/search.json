@@ -235,7 +235,7 @@
     "href": "content/material/session03/index.html",
     "title": "Session 3: Modelling Binary and Categorical Outcomes",
     "section": "",
-    "text": "Note\n\n\n\nDate: Thursday, 30 April 2026, 16:00–19:00",
+    "text": "Note\n\n\n\nDate: Thursday, 7 May 2026, 16:00–19:00",
     "crumbs": [
       "Sessions",
       "Session 3 — Binary Outcomes"
@@ -279,7 +279,7 @@
     "href": "content/material/session03/index.html#session-outline",
     "title": "Session 3: Modelling Binary and Categorical Outcomes",
     "section": "Session outline",
-    "text": "Session outline\n\n\n\n\n\n\n\nTime\nActivity\n\n\n\n\n16:00–16:30\nDebrief: Take-home Task 2\n\n\n16:30–17:10\nInput: why OLS fails for binary outcomes; logistic regression intuition\n\n\n17:10–17:20\nBreak\n\n\n17:20–18:05\nLive demo\n\n\n18:05–18:45\nIn-session exercise\n\n\n18:45–19:00\nDebrief + Quarto skill: inline R code",
+    "text": "Session outline\n\nDebrief: Take-home Task 2\nInput: why OLS fails for binary outcomes; logistic regression intuition |\nBreak\nLive demo\nIn-session exercise\nDebrief + Quarto skill: inline R code",
     "crumbs": [
       "Sessions",
       "Session 3 — Binary Outcomes"
@@ -290,7 +290,7 @@
     "href": "content/material/session03/index.html#materials",
     "title": "Session 3: Modelling Binary and Categorical Outcomes",
     "section": "Materials",
-    "text": "Materials\n\n\n\nFile\nDescription\n\n\n\n\nSlides\nLecture slides — open in browser, press F for fullscreen\n\n\nLecture notes & demo\nLive coding document built during the session\n\n\nExercise sheet\nIn-session exercise — predicting firm exit with logistic regression\n\n\nSession outline\nDetailed session plan with timing and teaching notes",
+    "text": "Materials\n\n\n\nFile\nDescription\n\n\n\n\nSlides\nLecture slides — open in browser, press F for fullscreen\n\n\nLecture notes & demo\nLive coding document built during the session\n\n\nExercise sheet\nIn-session exercise — predicting firm exit with logistic regression\n\n\nExercise solution\nAn example solution for the exercise (added after session)",
     "crumbs": [
       "Sessions",
       "Session 3 — Binary Outcomes"
@@ -790,7 +790,7 @@
     "href": "content/index.html#questions-and-discussion",
     "title": "Getting Started",
     "section": "Questions and discussion",
-    "text": "Questions and discussion\nAll course questions go through GitHub Discussions on the material repository. This keeps the discussion visible to everyone and searchable.\nMoodle is used for official announcements and grades only.",
+    "text": "Questions and discussion\nAll course questions go through GitHub Discussions on the material repository. This keeps the discussion visible to everyone and searchable. Make sure you enable notifications as explained at the bottom the README of the material repo.\nMoodle is used for official announcements and grades only.",
     "crumbs": [
       "Getting Started"
     ]

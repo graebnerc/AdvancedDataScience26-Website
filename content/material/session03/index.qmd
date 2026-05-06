@@ -1,11 +1,11 @@
 ---
 title: "Session 3: Modelling Binary and Categorical Outcomes"
-date: "2026-04-30"
+date: "2026-05-07"
 date-modified: last-modified
 ---
 
 ::: {.callout-note}
-**Date:** Thursday, 30 April 2026, 16:00–19:00
+**Date:** Thursday, 7 May 2026, 16:00–19:00
 :::
 
 ## Business question
@@ -24,14 +24,12 @@ date-modified: last-modified
 
 ## Session outline
 
-| Time | Activity |
-|---|---|
-| 16:00–16:30 | Debrief: Take-home Task 2 |
-| 16:30–17:10 | Input: why OLS fails for binary outcomes; logistic regression intuition |
-| 17:10–17:20 | Break |
-| 17:20–18:05 | Live demo |
-| 18:05–18:45 | In-session exercise |
-| 18:45–19:00 | Debrief + Quarto skill: inline R code |
+- Debrief: Take-home Task 2
+- Input: why OLS fails for binary outcomes; logistic regression intuition |
+- Break 
+- Live demo
+- In-session exercise
+- Debrief + Quarto skill: inline R code
 
 ## Materials
 
@@ -40,4 +38,4 @@ date-modified: last-modified
 | [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_03/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
 | [Lecture notes & demo](demo.qmd) | Live coding document built during the session |
 | [Exercise sheet](exercise.qmd) | In-session exercise — predicting firm exit with logistic regression |
-| [Session outline](session03-outline.qmd) | Detailed session plan with timing and teaching notes |
+| [Exercise solution]() | An example solution for the exercise (added after session) |
