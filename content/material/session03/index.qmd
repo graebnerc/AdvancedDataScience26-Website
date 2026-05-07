@@ -20,7 +20,11 @@ date-modified: last-modified
 
 ## Dataset
 
-**bisnode-firms** — ~17,500 Hungarian firms in manufacturing and services (Békés & Kézdi 2021). Key variables: firm exit (binary), log sales, log employees, profit margin, firm age, liquidity, ownership structure.
+**bisnode-firms** 
+
+- ~17,500 Hungarian firms in manufacturing and services 
+- Key variables: firm exit (binary), log sales, log employees, profit margin, firm age, liquidity, ownership structure.
+- [Download processed version](https://raw.githubusercontent.com/data-science-ma/AdvancedDataScience26-Material/refs/heads/main/sessions/session_03/data/bisnode-firms.csv) (original source: [Békés & Kézdi 2021](https://gabors-data-analysis.com/datasets/#bisnode-firms))
 
 ## Session outline
 
@@ -37,5 +41,5 @@ date-modified: last-modified
 |---|---|
 | [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_03/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
 | [Lecture notes & demo](demo.qmd) | Live coding document built during the session |
-| [Exercise sheet](exercise.qmd) | In-session exercise — predicting firm exit with logistic regression |
+| [Exercise sheet](exercise.qmd) | In-session exercise — predicting firm exit with logistic regression [Classroom link](https://classroom.github.com/a/-ZW3SBCG) |
 | [Exercise solution]() | An example solution for the exercise (added after session) |

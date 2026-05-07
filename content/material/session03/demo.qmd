@@ -2,7 +2,7 @@
 title: "Session 3: Modelling Binary and Categorical Outcomes"
 subtitle: "Session 3 · Quantitative Data Analysis"
 author: "Claudius Gräbner-Radkowitsch"
-date: "2026-04-30"
+date: "2026-05-07"
 format:
   html:
     toc: true
@@ -316,24 +316,6 @@ avg_slopes(logit_model)
 
 The AME for `profit_margin` tells us: on average across all firms, a one-unit increase in profit margin is associated with a `r round(avg_slopes(logit_model)$estimate[avg_slopes(logit_model)$term == "profit_margin"], 3)` change in the probability of exit. This is directly comparable to the LPM coefficient.
 
----
-
-# Quarto Skill: Inline R Code
-
-When you write a report, you want your numbers to update automatically when the data or model changes. Use inline R code:
-
-Instead of typing "0.65" manually, write:
-
-```markdown
-The odds ratio for profit margin is 
-`r round(exp(coef(logit_model)["profit_margin"]), 2)`.
-```
-
-This renders as: "The odds ratio for profit margin is `r round(exp(coef(logit_model)["profit_margin"]), 2)`."
-
-If you re-estimate the model with different variables or data, **the number in the text updates automatically**. This is one of the most important professional habits in reproducible data analysis.
-
----
 
 # Summary
 

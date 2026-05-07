@@ -1,0 +1,218 @@
+---
+title: "Exercise: Modelling Binary Outcomes — Example Solution"
+date: "2026-05-07"
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+::: {.callout-note}
+This document is a possible solution for the in-class exercise. I do not claim there are other ways to reach the correct outcomes.
+:::
+
+---
+
+# Setup
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(modelsummary)
+library(marginaleffects)
+library(broom)
+
+firms <- read_csv("data/bisnode-firms.csv")
+```
+
+One row represents one Hungarian firm observed in 2012. The variable `exit = 1` means the firm was absent from the 2013 data — it had exited the market (dissolved, stopped filing, or otherwise disappeared). The overall exit rate is `r round(mean(firms$exit) * 100, 1)`% of the `r nrow(firms)` firms in the sample.
+
+```{r}
+#| label: data-overview
+
+firms |>
+  count(exit) |>
+  mutate(share = round(n / sum(n), 3))
+```
+
+---
+
+# Task 1: Fit a Logistic Regression Model
+
+```{r}
+#| label: model-base
+
+model_base <- glm(exit ~ sales_log + profit_margin + employees_log + age,
+                  family = binomial,
+                  data   = firms)
+
+summary(model_base)
+```
+
+**Question 1a: Significant predictors**
+
+All four predictors — `sales_log`, `profit_margin`, `employees_log`, and `age` — are statistically significant at the 5% level (p < 0.05), as shown by the stars in the output.
+
+**Question 1b: Signs and economic sense**
+
+| Predictor | Sign | Economic interpretation |
+|---|---|---|
+| `sales_log` | Negative | Larger firms (higher sales) are less likely to exit — consistent with the idea that size provides a buffer |
+| `profit_margin` | Negative | More profitable firms are less likely to exit — makes intuitive sense |
+| `employees_log` | Positive | Larger workforces are associated with *higher* exit probability — unexpected at first glance, but may reflect that labour-intensive firms face higher cost pressure |
+| `age` | Negative | Older firms are less likely to exit — consistent with the "liability of newness" in organisational theory |
+
+The `employees_log` sign is the most counterintuitive. One explanation: once we already control for sales (a revenue measure), a high employee count relative to sales signals low productivity — a genuine exit risk.
+
+---
+
+# Task 2: Extend Your Model
+
+Two natural additions given the available variables:
+
+- **`liquidity`**: the ratio of current assets to current liabilities. A firm that cannot cover its short-term obligations is at acute exit risk regardless of its longer-run profitability.
+- **`urban`**: a binary indicator for urban location. Urban firms have easier access to customers, skilled labour, and financing — we expect a lower exit risk.
+
+```{r}
+#| label: model-ext
+
+model_ext <- glm(exit ~ sales_log + profit_margin + employees_log + age +
+                        liquidity + urban,
+                 family = binomial,
+                 data   = firms)
+```
+
+```{r}
+#| label: tbl-compare
+#| tbl-cap: "Firm exit: baseline vs. extended logistic regression"
+
+modelsummary(
+  list("Baseline" = model_base, "Extended" = model_ext),
+  stars   = TRUE,
+  gof_map = c("nobs", "AIC", "logLik"),
+  coef_map = c(
+    "(Intercept)"   = "Constant",
+    "sales_log"     = "Log sales",
+    "profit_margin" = "Profit margin",
+    "employees_log" = "Log employees",
+    "age"           = "Firm age",
+    "liquidity"     = "Liquidity ratio",
+    "urban"         = "Urban location"
+  )
+)
+```
+
+**Question 2a: Does fit improve?**
+
+AIC for the baseline model is `r round(AIC(model_base), 0)`; for the extended model it is `r round(AIC(model_ext), 0)`. Lower AIC indicates a better-fitting model, so the extended model fits the data better. Adding `liquidity` and `urban` captures variation that the baseline model missed.
+
+**Question 2b: Coefficient changes**
+
+The coefficient on `profit_margin` is virtually unchanged: `r round(coef(model_base)["profit_margin"], 3)` in the baseline vs. `r round(coef(model_ext)["profit_margin"], 3)` in the extended model. This suggests that `liquidity` and `urban` are not strongly correlated with profit margin — they pick up genuinely independent variation. In contrast, the `employees_log` coefficient shifts slightly, suggesting some overlap between workforce size and the new controls.
+
+---
+
+# Task 3: Interpret Coefficients as Odds Ratios
+
+```{r}
+#| label: odds-ratios
+
+# Odds ratios
+exp(coef(model_ext)) |> round(3)
+
+# With 95% confidence intervals
+exp(confint(model_ext)) |> round(3)
+```
+
+**Interpretation of the `liquidity` odds ratio**
+
+> "A one-unit increase in the liquidity ratio is associated with a multiplication of the odds of firm exit by `r round(exp(coef(model_ext)["liquidity"]), 3)`. This means the odds of exit decrease by `r round((1 - exp(coef(model_ext)["liquidity"])) * 100, 1)`% for each additional unit of liquidity. The effect is statistically significant at the 1% level. In practical terms: a firm that can cover its current liabilities twice over (liquidity = 2) faces meaningfully lower exit odds than a firm that can barely cover them (liquidity = 1)."
+
+Note: the odds ratio for `urban` is `r round(exp(coef(model_ext)["urban"]), 3)`, meaning urban-located firms have `r round((1 - exp(coef(model_ext)["urban"])) * 100, 0)`% lower odds of exit than otherwise comparable firms in non-urban areas.
+
+---
+
+# Task 4: Predicted Probabilities for Two Firm Profiles
+
+The two profiles represent realistic extremes in the sample: a large, well-established, financially healthy firm versus a small, young, loss-making firm.
+
+```{r}
+#| label: predictions
+
+scenarios <- tibble(
+  label         = c("Profile A: Established, profitable", "Profile B: Small, struggling"),
+  sales_log     = c(11.5, 9.0),
+  employees_log = c(4.0,  1.5),
+  profit_margin = c(0.10, -0.10),
+  age           = c(15,   3),
+  liquidity     = c(2.0,  0.5),
+  urban         = c(1,    0)
+)
+
+scenarios <- scenarios |>
+  mutate(pred_prob = predict(model_ext, newdata = scenarios, type = "response"))
+
+scenarios |>
+  select(label, pred_prob) |>
+  mutate(pred_prob = round(pred_prob, 3))
+```
+
+**Question 4: Interpretation**
+
+Profile A represents a large, urban, profitable firm with ample liquidity and 15 years of operating history. Profile B represents a small, rural, loss-making firm in its third year with a liquidity ratio below 1 (it cannot cover its short-term obligations from current assets).
+
+The predicted exit probability for Profile A is `r round(scenarios$pred_prob[1] * 100, 1)`% and for Profile B it is `r round(scenarios$pred_prob[2] * 100, 1)`%. The profiles differ on every dimension simultaneously, so this gap should be interpreted as the combined difference across all predictors — not the marginal effect of any one variable. Still, the contrast is striking and directly actionable: a bank or investor using this model would treat these two firms very differently in a credit or survival assessment.
+
+---
+
+# Task 5: Write a Finding Using Inline R Code
+
+Logistic regression results suggest that financial health is a strong predictor of firm survival. Holding firm size and age constant, a one-unit increase in the liquidity ratio is associated with a `r round((1 - exp(coef(model_ext)["liquidity"])) * 100, 1)`% reduction in the odds of exit — and this effect is statistically significant. Translating to probabilities makes the finding more tangible: a large, profitable firm with comfortable liquidity faces a predicted exit probability of only `r round(scenarios$pred_prob[1] * 100, 1)`%, compared to `r round(scenarios$pred_prob[2] * 100, 1)`% for an otherwise struggling peer. These numbers update automatically whenever the model or data change — a key advantage of writing reports in Quarto with inline R code rather than copying values by hand.
+
+---
+
+# Bonus: Average Marginal Effects
+
+```{r}
+#| label: ame
+
+ame <- avg_slopes(model_ext)
+ame
+```
+
+```{r}
+#| label: lpm-compare
+
+lpm <- lm(exit ~ sales_log + profit_margin + employees_log + age +
+                 liquidity + urban,
+          data = firms)
+
+modelsummary(
+  list("LPM" = lpm, "Logit" = model_ext),
+  stars   = TRUE,
+  gof_map = c("nobs", "r.squared", "AIC"),
+  coef_map = c(
+    "(Intercept)"   = "Constant",
+    "sales_log"     = "Log sales",
+    "profit_margin" = "Profit margin",
+    "employees_log" = "Log employees",
+    "age"           = "Firm age",
+    "liquidity"     = "Liquidity ratio",
+    "urban"         = "Urban location"
+  ),
+  title = "LPM coefficients vs. logit average marginal effects"
+)
+```
+
+```{r}
+#| label: ame-vs-lpm
+#| echo: false
+
+ame_pm  <- ame$estimate[ame$term == "profit_margin"]
+lpm_pm  <- coef(lpm)["profit_margin"]
+```
+
+**Bonus answer:**
+
+The AME for `profit_margin` from the logit model is `r round(ame_pm, 4)`. The LPM coefficient for the same variable is `r round(lpm_pm, 4)`. The two are very close. This is a common finding: when exit rates are moderate (neither very rare nor very common) and the relationship is not extremely non-linear, the LPM coefficient is a reasonable approximation of the average marginal effect. The LPM is sometimes preferred in practice for its interpretability and because it handles fixed effects more easily (covered in Session 6). Its main drawback remains the possibility of out-of-bounds predictions, which the logit model avoids by construction.
