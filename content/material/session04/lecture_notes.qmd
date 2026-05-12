@@ -1,0 +1,630 @@
+---
+title: "Session 4: Biases and Diagnostics — Live Demo"
+subtitle: "Advanced Data Science · Europa-Universität Flensburg"
+author: "Claudius Gräbner-Radkowitsch"
+date: "2026-05-21"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    code-tools: true
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+  execute-dir: file
+---
+
+# Setup
+
+## Business question
+
+> *Does the hotel price–distance relationship hold across all European cities, or does it break down in some? And how do we know when to trust our regression output?*
+
+## Packages and data
+
+```{r}
+library(tidyverse)
+library(broom)
+library(modelsummary)
+library(lmtest)
+library(sandwich)
+library(car)
+library(performance)
+library(see)
+library(patchwork)
+library(flextable)
+
+hotels <- read_csv("data/hotels_cs.csv", show_col_types = FALSE)
+glimpse(hotels)
+```
+
+```{r}
+#| include: false
+n_obs     <- nrow(hotels)
+n_cities  <- n_distinct(hotels$city)
+med_cheap <- hotels |> filter(city == "Istanbul") |> pull(price) |> median() |> round()
+med_exp   <- hotels |> filter(city == "London")   |> pull(price) |> median() |> round()
+```
+
+We have a cross-section of `r n_obs` hotels from `r n_cities` European cities (November 2017, complete cases), ranging from Istanbul (median price ~€`r med_cheap`) to London (~€`r med_exp`). The variation across cities shows up not just in average prices but in the *structure* of the data — making this a good setting for exploring what can go wrong in a regression.
+
+```{r}
+#| label: tbl-cities
+#| tbl-cap: "Overview of the eight cities in the cross-section."
+
+hotels |>
+  group_by(city) |>
+  summarise(
+    N             = n(),
+    `Median price (€)`      = median(price)   |> round(1),
+    `Median distance (km)`  = median(distance) |> round(2),
+    `Median stars`          = median(stars)    |> round(1)
+  ) |>
+  arrange(`Median price (€)`) |>
+  rename(City = city) |>
+  flextable() |>
+  autofit() |>
+  set_caption("Overview of the eight cities in the cross-section.")
+```
+
+## Two models we will diagnose
+
+We start with a simple level-level model, then decide whether the log-log specification is better.
+
+```{r}
+model_base <- lm(price      ~ distance,                     data = hotels)
+model_ext  <- lm(price      ~ distance + stars,             data = hotels)
+model_work <- lm(log(price) ~ log(distance + 0.1) + stars,  data = hotels)
+```
+
+::: {.callout-note collapse="true"}
+## Why `log(distance + 0.1)` and not `log(distance)`?
+
+```{r}
+#| echo: false
+n_zero <- sum(hotels$distance == 0)
+```
+
+`r n_zero` hotels in this cross-section have `distance = 0` — they are recorded as being right at the city centre. `log(0)` is undefined ($-\infty$), so a small positive offset is added before taking the log.
+
+The choice of 0.1 is partly conventional: distances are measured in kilometres, and 0.1 km (100 metres) roughly corresponds to the resolution at which hotel locations are typically geocoded to a city reference point. For the vast majority of hotels — whose distances range from 0.1 to 18 km — the offset has negligible impact.
+
+A good practice is to verify that the results are not sensitive to the choice of constant. For example, re-estimating with `log(distance + 0.05)` or `log(distance + 0.5)` should yield very similar coefficients if the model is well-specified and the offset is small relative to typical distances.
+:::
+
+The approach in this session: **build every diagnostic plot by hand first**, so you understand where the numbers come from. Once we have seen the mechanics, we use `performance::check_model()` to produce all panels in one call.
+
+---
+
+# Functional Form
+
+## Starting point: is the level-level specification reasonable?
+
+```{r}
+modelsummary(model_ext,
+             gof_omit    = "AIC|BIC|Log|F",
+             stars       = TRUE,
+             coef_rename = c("distance" = "Distance (km)", "stars" = "Stars"))
+```
+
+The coefficient on distance is negative (further $\rightarrow$ cheaper), stars is positive (higher rated $\rightarrow$ more expensive). This seems plausible. But should we trust the functional form? The first diagnostic is the **residuals-vs-fitted plot**.
+
+## Building the residuals-vs-fitted plot
+
+`broom::augment()` attaches fitted values (`.fitted`) and residuals (`.resid`) directly to the data frame returned by `lm()`. That is all we need to build the plot:
+
+::: {.callout-tip collapse="true"}
+## How to extract fitted values and residuals without `augment()`
+
+`augment()` is convenient, but the same quantities are available directly from the model object:
+
+```r
+fitted_vals <- fitted(model_ext)      # equivalent: model_ext$fitted.values
+residuals_  <- resid(model_ext)       # equivalent: model_ext$residuals
+```
+
+`augment()` is preferred in this workflow because it returns a tidy data frame that includes the original variables alongside `.fitted`, `.resid`, `.hat`, `.std.resid`, and `.cooksd`, making it easy to pipe straight into `ggplot2`.
+:::
+
+```{r}
+#| label: fig-resid-base
+#| fig-cap: "Residuals vs. fitted values for the level-level model. The red smoother curves upward — the functional form is misspecified."
+
+augment(model_ext) |>
+  ggplot(aes(.fitted, .resid)) +
+  geom_point(alpha = 0.12, color = "steelblue", size = 0.7) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  geom_smooth(method = "loess", se = FALSE, color = "tomato", linewidth = 1) +
+  labs(x = "Fitted values (€)", y = "Residuals (€)",
+       title = "Level-level: price ~ distance + stars",
+       subtitle = "The smoother should be flat — it is not") +
+  theme_minimal()
+```
+
+The upward curve at high fitted values tells us the model systematically underpredicts expensive hotels. The relationship is not linear in levels.
+
+## Comparing specifications
+
+Let us compare the residual plots for two alternative specifications, shown in @fig-resid-compare (also called Tukey-Anscombe plots).
+
+First, a model with a **quadratic distance term**, which allows the price penalty to change with distance:
+
+$$\text{price}_i = \beta_0 + \beta_1 \cdot \text{distance}_i + \beta_2 \cdot \text{distance}_i^2 + \beta_3 \cdot \text{stars}_i + \varepsilon_i$$
+
+Second, a **log-log specification**, which assumes a constant elasticity relationship between price and distance:
+
+$$\log(\text{price}_i) = \beta_0 + \beta_1 \cdot \log(\text{distance}_i + 0.1) + \beta_2 \cdot \text{stars}_i + \varepsilon_i$$
+
+```{r}
+#| label: fig-resid-compare
+#| fig-cap: "Residuals vs. fitted for three specifications. The log-log model produces the flattest smoother."
+#| fig-width: 11
+#| fig-height: 3.8
+
+make_resid <- function(m, title) {
+  augment(m) |>
+    ggplot(aes(.fitted, .resid)) +
+    geom_point(alpha = 0.12, color = "steelblue", size = 0.7) +
+    geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+    geom_smooth(method = "loess", se = FALSE, color = "tomato", linewidth = 0.9) +
+    labs(x = "Fitted values", y = "Residuals", title = title) +
+    theme_minimal(base_size = 11)
+}
+
+m_quad <- lm(price ~ distance + I(distance^2) + stars, data = hotels)
+
+make_resid(model_ext,  "Level-level") +
+make_resid(m_quad,     "Quadratic") +
+make_resid(model_work, "Log-log")
+```
+
+The log-log model is clearly best. We adopt it as our working model.
+
+## The RESET test: a formal functional form check
+
+The Ramsey RESET (Regression Equation Specification Error Test) checks whether the functional form of a regression is correctly specified. The key idea: if the model is well-specified, adding polynomial powers of the fitted values ($\hat{y}^2, \hat{y}^3, \ldots$) as additional regressors should not improve the fit — the fitted values already summarise all systematic variation that the model can explain.
+
+- $H_0$: the functional form is correctly specified
+- $H_a$: at least one polynomial power of $\hat{y}$ has a non-zero coefficient (something is missing)
+
+A significant test statistic (small p-value) signals misspecification but does not tell you *what* is wrong or how to fix it.
+
+```{r}
+resettest(model_ext)
+resettest(model_work)
+```
+
+The level-level model rejects strongly. The log-log model also rejects, but with a much smaller test statistic.
+
+::: {.callout-note}
+**Why does the log-log model still fail?** With `r n_obs` observations, the RESET test has very high statistical power — it can detect even tiny, practically irrelevant deviations from the specified form. The remaining systematic structure likely reflects city-level price heterogeneity that no two-variable regression can absorb. This is a preview of the omitted variable problem we address at the end of this session.
+:::
+
+::: {.callout-tip}
+A useful workflow: RESET first to flag a problem, residual plot to diagnose it, revised model to fix it.
+:::
+
+---
+
+# Heteroskedasticity
+
+## Building the scale-location plot
+
+The scale-location plot shows $\sqrt{|\tilde{e}_i|}$ on the y-axis, where $\tilde{e}_i$ are the *standardised* residuals. If error variance is constant, this band should be flat and horizontal. We build it manually from `augment()`:
+
+::: {.callout-tip collapse="true"}
+## Computing these values without `augment()`
+
+The standardised residuals are available directly via `rstandard()`:
+
+```r
+std_resid <- rstandard(model_work)    # standardised residuals: e_i / (sigma * sqrt(1 - h_ii))
+sqrt_abs  <- sqrt(abs(std_resid))
+fitted_v  <- fitted(model_work)
+```
+
+`rstandard()` divides each residual by $\hat{\sigma}\sqrt{1 - h_{ii}}$, where $h_{ii}$ is the leverage of observation $i$. This scaling makes residuals from high-leverage observations comparable to the rest.
+:::
+
+```{r}
+#| label: fig-scaleloc-manual
+#| fig-cap: "Scale-location plot: the upward slope reveals heteroskedasticity in the log-log model."
+
+augment(model_work) |>
+  ggplot(aes(.fitted, sqrt(abs(.std.resid)))) +
+  geom_point(alpha = 0.12, color = "steelblue", size = 0.7) +
+  geom_smooth(method = "loess", se = FALSE, color = "tomato", linewidth = 1) +
+  labs(
+    x = "Fitted values (log scale)",
+    y = "√|Standardised residuals|",
+    title = "Scale-location: log(price) ~ log(distance) + stars",
+    subtitle = "A flat horizontal smoother = homoskedastic"
+  ) +
+  theme_minimal()
+```
+
+The smoother rises toward higher fitted values — hotels in expensive cities show more price dispersion than the model can absorb. OLS estimates are still unbiased, but standard errors are unreliable.
+
+## The Breusch-Pagan test
+
+The Breusch-Pagan test formalises what the scale-location plot showed visually. If errors are homoskedastic, the squared residuals $\hat{u}_i^2$ should not be systematically related to the regressors — knowing $X$ should not help predict how large the error will be. The test regresses $\hat{u}_i^2$ on the fitted values (or on the original regressors, depending on the variant) and uses a $\chi^2$-test to check whether this auxiliary regression has any explanatory power:
+
+- $H_0$: homoskedasticity — $\text{Var}(u_i \mid X_i) = \sigma^2$ (constant)
+- $H_a$: heteroskedasticity — $\text{Var}(u_i \mid X_i) = h(X_i)$ for some function $h(\cdot)$
+
+Under $H_0$, the test statistic follows a $\chi^2$ distribution with degrees of freedom equal to the number of variables in the auxiliary regression.
+
+```{r}
+bptest(model_work)
+```
+
+The tiny p-value confirms what the plot showed: the error variance is not constant. We reject homoskedasticity.
+
+## Robust standard errors
+
+The fix is to replace the classical standard errors with heteroskedasticity-consistent (HC) ones. The estimates do not change — only the expressed uncertainty.
+
+```{r}
+coeftest(model_work, vcov = vcovHC(model_work, type = "HC1"))
+```
+
+For reporting, compare both in a single table:
+
+```{r}
+#| label: tbl-robust
+#| tbl-cap: "Classical vs. HC1 robust SEs. Estimates identical; inference differs."
+
+modelsummary(
+  list("Classical SEs" = model_work, "HC1 robust SEs" = model_work),
+  vcov        = list("classical", "HC1"),
+  stars       = TRUE,
+  gof_omit    = "AIC|BIC|Log|F|RMSE",
+  coef_rename = c("log(distance + 0.1)" = "log(distance)", "stars" = "Stars")
+)
+```
+
+::: {.callout-note}
+With cross-sectional data, use robust SEs by default. The additional cost is zero.
+:::
+
+---
+
+# Multicollinearity
+
+## VIF for the working model
+
+The Variance Inflation Factor (VIF) for predictor $j$ measures how much collinearity with the other predictors inflates the variance of $\hat{\beta}_j$. It is computed by regressing $x_j$ on all other predictors and using the resulting $R^2_j$:
+
+$$\text{VIF}_j = \frac{1}{1 - R^2_j}$$
+
+A VIF of 1 means no inflation at all; a VIF of 5 means the standard error of $\hat{\beta}_j$ is $\sqrt{5} \approx 2.2$ times larger than it would be without collinearity; a VIF of 10 means roughly a 3-fold inflation. Values above 5 warrant attention; values above 10 are serious.
+
+```{r}
+vif(model_work)
+```
+
+Both VIFs are close to 1 — no concern. The two predictors are measuring genuinely different things.
+
+## What problematic VIF looks like
+
+A researcher might wonder whether to use `stars` in raw form or log form. Including *both* creates severe collinearity:
+
+```{r}
+model_collinear <- lm(log(price) ~ log(distance + 0.1) + stars + log(stars), data = hotels)
+vif(model_collinear)
+```
+
+VIF ≈ 20 for `stars` and `log(stars)` — a variable and its monotonic transformation are near-identical. The model cannot separate their effects and the standard errors become meaningless. The remedy is straightforward: pick one form and stick with it.
+
+---
+
+# Influential Observations
+
+## Building the leverage-residuals plot
+
+We need three quantities from `augment()`:
+
+- `.hat`: the *leverage* of each observation — how far it sits in predictor space ($h_{ii}$ from the hat matrix)
+- `.std.resid`: the *standardised residual* — how unusual the outcome is given the predictors
+- `.cooksd`: *Cook's distance* — combines both into a single influence measure
+
+```{r}
+hotels_aug     <- augment(model_work) |> bind_cols(hotels |> select(hotel_id, city))
+threshold_cook <- 4 / nrow(hotels)
+p_params       <- length(coef(model_work))   # number of estimated parameters
+```
+
+The straight horizontal lines at ±2 you might see in basic plots are a simplification — they only consider residual size and ignore leverage. An observation with high leverage but a small residual can still be highly influential. The correct visualisation uses **Cook's distance contour curves**, which show equal influence in the joint (leverage, residual) space. The contour at threshold $D^*$ is:
+
+$$|r_i| = \sqrt{D^* \cdot p \cdot \frac{1-h_{ii}}{h_{ii}}}$$
+
+where $p$ is the number of estimated parameters and $h_{ii}$ is the leverage. We add these curves to the manual plot using `threshold_cook = 4/n`.
+
+The y-axis is clipped with `coord_cartesian()` to suppress a handful of extreme standardised residuals — this clips the *display* without dropping any observations from the model.
+
+```{r}
+#| label: fig-leverage-manual
+#| fig-cap: "Leverage vs. standardised residuals with Cook's distance contour at the 4/n threshold. Red points exceed the threshold. Y-axis clipped at the 99.9th percentile of |std.resid| for readability."
+
+h_seq <- seq(1e-4, max(hotels_aug$.hat) * 1.05, length.out = 500)
+
+contour_df <- tibble(
+  h     = h_seq,
+  upper =  sqrt(threshold_cook * p_params * (1 - h_seq) / h_seq),
+  lower = -sqrt(threshold_cook * p_params * (1 - h_seq) / h_seq)
+)
+
+y_lim <- quantile(abs(hotels_aug$.std.resid), 0.999) * 1.1
+
+hotels_aug |>
+  ggplot(aes(.hat, .std.resid,
+             size  = .cooksd,
+             color = .cooksd > threshold_cook)) +
+  geom_point(alpha = 0.5) +
+  geom_line(data = contour_df, aes(x = h, y = upper),
+            inherit.aes = FALSE, color = "tomato", linetype = "dashed", linewidth = 0.7) +
+  geom_line(data = contour_df, aes(x = h, y = lower),
+            inherit.aes = FALSE, color = "tomato", linetype = "dashed", linewidth = 0.7) +
+  coord_cartesian(ylim = c(-y_lim, y_lim)) +
+  scale_color_manual(
+    values = c("steelblue", "tomato"),
+    labels = c("Below threshold", "Cook's D > 4/n"),
+    name   = NULL
+  ) +
+  scale_size_continuous(guide = "none") +
+  labs(x = "Leverage (h_ii)", y = "Standardised residuals",
+       title    = "Influential observations",
+       subtitle = "Dashed curves = Cook's D contour at 4/n") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+## Who are the most influential hotels?
+
+```{r}
+#| label: tbl-influential
+#| tbl-cap: "Ten most influential hotels by Cook's distance."
+
+hotels_aug |>
+  arrange(desc(.cooksd)) |>
+  filter(.cooksd > threshold_cook) |>
+  select(city, .cooksd, .hat, .std.resid) |>
+  head(10) |>
+  mutate(across(where(is.numeric), \(x) round(x, 4))) |>
+  rename(City = city, `Cook's D` = .cooksd,
+         Leverage = .hat, `Std. residual` = .std.resid) |>
+  flextable() |>
+  autofit()
+```
+
+## Sensitivity check
+
+```{r}
+#| label: tbl-infl-sensitivity
+#| tbl-cap: "Model with and without influential observations. The core results are robust."
+
+influential_ids <- hotels_aug |> filter(.cooksd > threshold_cook) |> pull(hotel_id)
+
+model_no_infl <- hotels |>
+  filter(!hotel_id %in% influential_ids) |>
+  lm(log(price) ~ log(distance + 0.1) + stars, data = _)
+
+modelsummary(
+  list("Full sample" = model_work, "Excl. influential" = model_no_infl),
+  stars       = TRUE,
+  gof_omit    = "AIC|BIC|Log|F|RMSE",
+  coef_rename = c("log(distance + 0.1)" = "log(distance)", "stars" = "Stars")
+)
+```
+
+The coefficients are stable — the influential observations are a concern worth noting but do not overturn the conclusions.
+
+---
+
+# Normality of Residuals
+
+## Building the Q-Q plot
+
+The Q-Q (quantile-quantile) plot compares the empirical distribution of the standardised residuals against the theoretical distribution assumed by OLS — the standard normal. If residuals are normally distributed, their quantiles will align with the theoretical normal quantiles and the points will fall on or near the diagonal.
+
+Deviations from the diagonal in the tails indicate that the residual distribution is heavier- or lighter-tailed than a normal. A pronounced S-shape (common with right-skewed data) means more extreme residuals than the normal distribution predicts.
+
+**Important caveat:** normality of residuals is required for *exact* finite-sample t- and F-tests, but with moderate-to-large $n$, the Central Limit Theorem ensures approximate normality of $\hat{\beta}$ regardless of the residual distribution. For our dataset with `r n_obs` observations, the Q-Q plot is informative but rarely a primary concern.
+
+```{r}
+#| label: fig-qq-manual
+#| fig-cap: "Q-Q plot: standardised residuals vs. theoretical normal quantiles."
+
+hotels_aug |>
+  ggplot(aes(sample = .std.resid)) +
+  stat_qq(alpha = 0.15, color = "steelblue", size = 0.7) +
+  stat_qq_line(color = "tomato", linewidth = 1) +
+  labs(x = "Theoretical normal quantiles",
+       y = "Sample quantiles of std. residuals",
+       title = "Q-Q plot of standardised residuals") +
+  theme_minimal()
+```
+
+The tails deviate slightly from the diagonal — heavier than a perfect normal. With $n = `r n_obs`$, the Central Limit Theorem ensures this does not affect our inference.
+
+## The Shapiro-Wilk trap
+
+The Shapiro-Wilk test assesses whether a sample could plausibly have been drawn from a normal distribution. It is based on the correlation between the sample quantiles and the quantiles expected under normality — a value close to 1 indicates normality, and a significant p-value suggests a departure. Because R's `shapiro.test()` is limited to a maximum of 5,000 observations, we draw a random subsample from the residuals rather than testing all `r n_obs` at once.
+
+```{r}
+set.seed(42)
+shapiro.test(sample(resid(model_work), 5000))
+```
+
+p $\ll$ 0.001. With `r n_obs` observations, Shapiro-Wilk has enough statistical power to detect even trivially small departures from normality that have no practical consequence for inference — the large $n$ makes the test hypersensitive. This result is not alarming; use the Q-Q plot for visual assessment instead.
+
+---
+
+# The Posterior Predictive Check
+
+The PPC is the one diagnostic that checks the model's *distributional* assumptions rather than its residuals. It simulates new response values from the fitted model many times and asks: does the distribution of the simulated data resemble the observed data?
+
+## model_base: a distributional failure
+
+```{r}
+#| label: fig-ppc-base
+#| fig-cap: "PPC for the level-level model. Simulated prices spread far beyond the observed range."
+
+plot(check_predictions(model_base)) +
+  labs(title    = "Level-level: price ~ distance + stars",
+       subtitle = "Residual skewness = 7.8 — simulated data spreads to €3,500+") +
+  theme_minimal()
+```
+
+The green (simulated) curves are nearly flat across a range the observed data never occupies. The level-level model generates plausible prices at the wrong scale.
+
+## model_work: much better
+
+```{r}
+#| label: fig-ppc-work
+#| fig-cap: "PPC for the log-log model. The distributions now broadly align."
+
+plot(check_predictions(model_work)) +
+  labs(title    = "Log-log: log(price) ~ log(distance) + stars",
+       subtitle = "Residual skewness ≈ 0 — distributions align") +
+  theme_minimal()
+```
+
+The PPC caught what the residual plot could not show as clearly: the level-level model's assumed data-generating process is fundamentally incompatible with the right-skewed distribution of hotel prices.
+
+---
+
+# Putting It Together: `performance::check_model()`
+
+We have now built each diagnostic plot by hand. `performance::check_model()` produces all of them in one call. Now that you understand what each panel shows, the automated output is much more informative:
+
+```{r}
+#| label: fig-checkmodel-final
+#| fig-cap: "Complete diagnostic dashboard for the log-log working model."
+#| fig-width: 10
+#| fig-height: 7
+
+performance::check_model(model_work)
+```
+
+| Panel | What it shows | Our finding |
+|---|---|---|
+| Posterior predictive check | Observed vs. simulated distribution of $y$ | Distributions align — log transformation fixed the failure |
+| Linearity | Residuals vs. fitted | Largely flat — log-log is the right form |
+| Homogeneity of variance | Scale-location | Remaining fan shape → use robust SEs |
+| Influential observations | Cook's D + leverage | Small cluster above threshold; results robust |
+| Collinearity | VIF bar chart | Both predictors < 2 — no concern |
+| Normality | Q-Q plot | Near-normal; CLT protects inference at $n \approx$ `r n_obs` |
+
+::: {.callout-note  collapse="true"}
+## Why does `check_model()` look so different?
+
+You might have noticed that the plot on influential observations provided by `performance::check_model()` looks different to our manual @fig-leverage-manual.
+The reasons is as follows: `performance::check_model()` draws contours at a **fixed** Cook's distance threshold (around $D^* = 0.5$–$0.7$), which was designed for small-sample regression. For our dataset with $n = `r nrow(hotels)`$, this threshold is enormous relative to the actual Cook's distances. Plugging into the contour formula at a typical leverage of $h \approx 0.0005$ and $D^* = 0.7$:
+
+$$|r_i| = \sqrt{0.7 \times 3 \times 0.9995 \,/\, 0.0005} \approx 65$$
+
+This pushes the y-axis to ±150, compressing all actual data points near zero and making the panel essentially unreadable. The $4/n$ rule scales with sample size and is the appropriate threshold for large $n$: it treats an observation as influential if removing it changes the fitted values by the equivalent of one standard error on average. In effect, our manual plot using $4/n$ is more informative for this dataset than the `check_model()` panel.
+:::
+---
+
+# What Diagnostics Cannot Detect
+
+## The limits of residual-based analysis
+
+Every panel above examines properties of the *residuals* — the part of $y$ the model did not explain. The residuals are defined relative to the model we already estimated: if an important variable is missing, the bias is baked into $\hat{\beta}$ before we ever look at the residuals.
+
+This is a general property of *all* routes to endogeneity ($E[u \mid X] \neq 0$):
+
+- **Omitted variable bias** — the confounder's effect is absorbed into $\hat{\beta}$; residuals show no trace
+- **Measurement error in regressors** — attenuation bias hides behind well-behaved residuals
+- **Simultaneity / reverse causality** — the endogenous regressor leaves no obvious pattern in $\hat{u}$
+
+All three share the same logic: the bias lives *inside* $\hat{\beta}$, not in $\hat{u}$. In what follows we focus on **omitted variable bias** as the most common case in business and economics research.
+
+## Demonstrating OVB: does adding city matter?
+
+```{r}
+#| label: tbl-ovb
+#| tbl-cap: "Without and with city controls. The distance coefficient shifts substantially."
+
+m_no_city   <- lm(log(price) ~ log(distance + 0.1) + stars,        data = hotels)
+m_with_city <- lm(log(price) ~ log(distance + 0.1) + stars + city,  data = hotels)
+
+modelsummary(
+  list("Without city" = m_no_city, "With city controls" = m_with_city),
+  coef_omit   = "city",
+  stars       = TRUE,
+  gof_omit    = "AIC|BIC|Log|F|RMSE",
+  coef_rename = c("log(distance + 0.1)" = "log(distance)", "stars" = "Stars"),
+  add_rows    = tribble(
+    ~term,     ~`Without city`, ~`With city controls`,
+    "City FE", "No",            "Yes"
+  )
+)
+```
+
+The distance coefficient changes substantially. Why? Expensive cities (Paris, London) are also more compact — hotels sit closer to the centre. Without controlling for city, the model confounds "expensive" with "central" and attributes the price difference to distance.
+
+## The residuals from the biased model look fine
+
+```{r}
+#| label: fig-ovb-residuals
+#| fig-cap: "Three diagnostic panels for the model omitting city. All pass — yet the distance coefficient is biased."
+#| fig-height: 9
+
+p1 <- augment(m_no_city) |>
+  ggplot(aes(.fitted, .resid)) +
+  geom_point(alpha = 0.12, color = "steelblue", size = 0.7) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  geom_smooth(method = "loess", se = FALSE, color = "tomato", linewidth = 1) +
+  labs(x = "Fitted values", y = "Residuals",
+       title = "Linearity (residuals vs. fitted)") +
+  theme_minimal()
+
+p2 <- augment(m_no_city) |>
+  ggplot(aes(.fitted, sqrt(abs(.std.resid)))) +
+  geom_point(alpha = 0.12, color = "steelblue", size = 0.7) +
+  geom_smooth(method = "loess", se = FALSE, color = "tomato", linewidth = 1) +
+  labs(x = "Fitted values", y = "√|Standardised residuals|",
+       title = "Homogeneity of variance (scale-location)") +
+  theme_minimal()
+
+p3 <- augment(m_no_city) |>
+  ggplot(aes(sample = .std.resid)) +
+  stat_qq(alpha = 0.15, color = "steelblue", size = 0.7) +
+  stat_qq_line(color = "tomato", linewidth = 1) +
+  labs(x = "Theoretical quantiles", y = "Sample quantiles",
+       title = "Normality of residuals (Q-Q)") +
+  theme_minimal()
+
+p1 / p2 / p3
+```
+
+Clean residuals, flat smoother, near-normal Q-Q. The bias is invisible because it has been absorbed into $\hat{\beta}_\text{distance}$. This is why OVB — and the other routes to endogeneity — require theoretical reasoning and better research design, not better diagnostics.
+
+## The direction of bias
+
+$$\text{sign(bias)} = \text{sign}(\text{effect of city on price}) \times \text{sign}(\text{corr(city, distance)})$$
+
+- City → price: positive (Paris > Budapest)
+- City → distance: negative (expensive cities are compact; hotels are more central)
+- Bias on $\hat{\beta}_\text{distance}$: negative → the estimated distance effect is *more negative* than it should be
+
+---
+
+# Summary: the diagnostic checklist
+
+For every regression you report, work through these six questions:
+
+1. **Residuals vs. fitted** — is the functional form right? (`augment()` + ggplot2, or `check_model()` linearity panel)
+2. **Scale-location** — is variance constant? If not, use robust SEs (`bptest()`, then `vcovHC()`)
+3. **Cook's D / leverage** — are a handful of observations driving your results? (augment + ggplot2, or `check_model()` panel 4)
+4. **VIF** — are predictors too correlated? (`car::vif()`, or `check_model()` panel 5)
+5. **Q-Q plot** — are there serious distributional departures? (augment + ggplot2, or `check_model()` panel 6)
+6. **Posterior predictive check** — does the model generate plausible data? (`check_predictions()`, or `check_model()` panel 1)
+7. **Think** — what variable did you leave out, and does measurement error or reverse causality apply? No function answers this.

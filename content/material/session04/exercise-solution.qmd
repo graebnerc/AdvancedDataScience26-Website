@@ -1,0 +1,332 @@
+---
+title: "Session 4: Exercise Solution"
+subtitle: "Advanced Data Science · Europa-Universität Flensburg"
+date: "2026-05-21"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    code-fold: false
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+  execute-dir: file
+---
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(broom)
+library(modelsummary)
+library(lmtest)
+library(sandwich)
+library(car)
+library(performance)
+library(see)
+library(patchwork)
+
+hotels <- read_csv("data/hotels_cs.csv", show_col_types = FALSE)
+```
+
+---
+
+# Task 1 — Functional form
+
+```{r}
+m_A <- lm(price ~ distance, data = hotels)
+m_B <- lm(log(price) ~ log(distance + 0.1), data = hotels)
+model_work <- lm(log(price) ~ log(distance + 0.1) + stars, data = hotels)
+```
+
+```{r}
+#| label: fig-task1
+#| fig-cap: "Residuals vs. fitted values for the linear and log–log specifications."
+#| fig-width: 10
+#| fig-height: 4
+
+make_resid_plot <- function(m, title) {
+  augment(m) |>
+    ggplot(aes(.fitted, .resid)) +
+    geom_point(alpha = 0.15, color = "steelblue", size = 0.8) +
+    geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+    geom_smooth(method = "loess", se = FALSE, color = "tomato", linewidth = 0.9) +
+    labs(x = "Fitted values", y = "Residuals", title = title) +
+    theme_minimal(base_size = 12)
+}
+
+make_resid_plot(m_A, "Model A: level–level") +
+make_resid_plot(m_B, "Model B: log–log")
+```
+
+**Answers:**
+
+a. Model B (log–log) shows a flatter smoother and more random scatter. The level–level model has a pronounced curve, indicating the linear form does not adequately capture the price–distance relationship.
+
+b. A curved smoother means the model is systematically over- or under-predicting across the range of fitted values — a sign that the functional form is misspecified. The errors are not random; they have a systematic component that the model failed to capture.
+
+c. Done above — `model_work` will be used throughout.
+
+---
+
+# Task 2 — Heteroskedasticity
+
+**2a. Scale-location plot:**
+
+```{r}
+#| label: fig-task2-scaleloc
+#| fig-cap: "Scale-location plot for model_work. The upward trend in the smoother indicates heteroskedasticity."
+#| fig-width: 8
+#| fig-height: 4
+
+augment(model_work) |>
+  ggplot(aes(.fitted, sqrt(abs(.std.resid)))) +
+  geom_point(alpha = 0.15, color = "steelblue", size = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "tomato", linewidth = 1) +
+  labs(x = "Fitted values", y = "√|Standardised residuals|",
+       title = "Scale-location plot: model_work") +
+  theme_minimal(base_size = 12)
+```
+
+**2b. Breusch-Pagan test:**
+
+```{r}
+bptest(model_work)
+```
+
+**2c. Standard vs. robust SEs:**
+
+```{r}
+#| label: tbl-task2
+#| tbl-cap: "Standard vs. HC1 robust standard errors."
+modelsummary(
+  list("Standard SEs" = model_work, "Robust SEs (HC1)" = model_work),
+  vcov      = list("classical", "HC1"),
+  stars     = TRUE,
+  gof_omit  = "AIC|BIC|Log|F",
+  coef_rename = c("log(distance + 0.1)" = "log(distance)", "stars" = "Stars")
+)
+```
+
+**Answers:**
+
+a. The smoother in the scale-location plot has a clear upward slope: the spread of standardised residuals increases with fitted values. This is the classic "fan" pattern of heteroskedasticity. Higher-priced hotels (larger fitted values) show more variation around the regression line than lower-priced ones.
+
+b. The Breusch-Pagan test rejects the null of homoskedasticity (p ≪ 0.05), confirming what the plot showed. Our standard errors are not reliable.
+
+c. The estimates are identical in both columns (as expected — robust SEs change the uncertainty, not the point estimates). The main observable effect is that standard errors typically increase slightly with HC1 correction. Any coefficient that was marginally significant under standard SEs should be interpreted with caution. The practical implication: when reporting this model, always use robust standard errors.
+
+---
+
+# Task 3 — Multicollinearity
+
+```{r}
+vif(model_work)
+```
+
+```{r}
+cor(log(hotels$distance + 0.1), hotels$stars, use = "complete.obs") |> round(3)
+```
+
+**Answers:**
+
+a. Both VIF values are well below 5 — no cause for concern. Collinearity is present (the predictors are not uncorrelated) but it is not severe enough to inflate standard errors substantially.
+
+b. The negative correlation (~−0.25) reflects a real pattern in the hotel market: higher-rated hotels tend to cluster in city centres (shorter distances), while lower-rated accommodation is more often found further out. This is not a data problem — it is a feature of how hotel markets are organised.
+
+c. No. Dropping `stars` to eliminate collinearity would introduce omitted variable bias: star rating affects price and is correlated with distance, so omitting it biases the distance coefficient. Trading a mild collinearity (low VIF) for OVB (potentially large bias) is a very bad trade. The right response to low VIF is to report the results as-is, acknowledge the correlation between predictors, and interpret each coefficient as the effect "holding the other predictor constant."
+
+---
+
+# Task 4 — Influential observations
+
+**4a. Top 10 most influential hotels:**
+
+```{r}
+threshold <- 4 / nrow(hotels)
+
+hotels_aug <- augment(model_work) |>
+  bind_cols(hotels |> select(hotel_id, city, price, distance))
+
+hotels_aug |>
+  filter(.cooksd > threshold) |>
+  arrange(desc(.cooksd)) |>
+  select(city, stars, price, distance, .cooksd) |>
+  head(10)
+```
+
+**4b. Leverage vs. residuals plot:**
+
+```{r}
+#| label: fig-task4-leverage
+#| fig-cap: "Leverage vs. standardised residuals. Influential observations (Cook's D > 4/n) highlighted in red."
+#| fig-width: 8
+#| fig-height: 5
+
+hotels_aug |>
+  ggplot(aes(.hat, .std.resid, size = .cooksd,
+             color = .cooksd > threshold)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = c(-2, 2), linetype = "dashed", color = "gray50") +
+  scale_color_manual(values = c("steelblue", "tomato"),
+                     labels = c("Below threshold", "Influential (Cook's D > 4/n)"),
+                     name = NULL) +
+  scale_size_continuous(guide = "none") +
+  labs(x = "Leverage", y = "Standardised residuals",
+       title = "Influential observations") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+**4c. Sensitivity analysis:**
+
+```{r}
+influential_ids <- hotels_aug |>
+  filter(.cooksd > threshold) |>
+  pull(hotel_id)
+
+model_no_infl <- hotels |>
+  filter(!hotel_id %in% influential_ids) |>
+  lm(log(price) ~ log(distance + 0.1) + stars, data = _)
+
+modelsummary(
+  list("Full sample" = model_work, "Excl. influential" = model_no_infl),
+  stars    = TRUE,
+  gof_omit = "AIC|BIC|Log|F",
+  coef_rename = c("log(distance + 0.1)" = "log(distance)", "stars" = "Stars")
+)
+```
+
+**Answers:**
+
+a. The most influential hotels tend to be at the extremes: either very expensive hotels in central locations or unusually cheap accommodation far from the centre. Many are likely luxury properties in expensive cities (London, Paris) with extreme prices that the model cannot predict well. High-leverage points tend to have unusual combinations of distance and star rating.
+
+b. There is no automatic answer. Before removing any observation, investigate: is this a data entry error, or a genuine extreme case? A 5-star London hotel with an extraordinary price is not an error — it is a real data point. Removing it would make the model less representative of the full market. The appropriate action is to report results with and without the influential observations and note the sensitivity.
+
+c. Results may vary depending on the dataset. Typically, removing influential observations tightens the fit but the direction and significance of coefficients remains stable — which suggests the model is reasonably robust. If the sign of the distance coefficient changed, that would be a serious concern.
+
+---
+
+# Task 5 — Normality of residuals
+
+**5a. Q-Q plot:**
+
+```{r}
+#| label: fig-task5-qq
+#| fig-cap: "Q-Q plot of standardised residuals. The tails deviate from the diagonal."
+#| fig-width: 6
+#| fig-height: 5
+
+hotels_aug |>
+  ggplot(aes(sample = .std.resid)) +
+  stat_qq(alpha = 0.2, color = "steelblue", size = 0.8) +
+  stat_qq_line(color = "tomato", linewidth = 1) +
+  labs(x = "Theoretical quantiles", y = "Sample quantiles",
+       title = "Q-Q plot of standardised residuals") +
+  theme_minimal(base_size = 12)
+```
+
+**5b. Shapiro-Wilk test:**
+
+```{r}
+set.seed(42)
+resid_sample <- resid(model_work) |> sample(5000)
+shapiro.test(resid_sample)
+```
+
+**Answers:**
+
+a. The Q-Q plot shows the characteristic S-shape of heavy-tailed residuals: the lower-left and upper-right points curve away from the diagonal. This means there are more extreme residuals (both positive and negative) than a normal distribution would predict. This is typical in price data, where a few very expensive properties create a long right tail.
+
+b. With $n = 11{,}577$ observations, the Shapiro-Wilk test has enormous statistical power — it can detect deviations from normality that are so small they have no practical consequence for inference. A p-value < 0.001 reflects the large sample size, not a catastrophic violation. The CLT guarantees that $\hat{\beta}$ is approximately normally distributed, and hypothesis tests remain valid.
+
+c. Normality matters practically in two situations: (1) very small samples ($n < 30$ approximately), where the CLT has not yet kicked in and t/F critical values based on normal errors may be materially wrong; (2) when constructing exact prediction intervals for individual observations — these require normally distributed errors even in large samples.
+
+---
+
+# Task 6 — OVB reflection
+
+**Suggested answer:** *City* is the most obvious omitted variable.
+
+a. **Variable:** which city the hotel is in (e.g., London vs. Istanbul).
+
+b. **Effect on log(price):** positive for expensive cities (London, Paris), negative for cheaper ones. The sign is city-specific, but omitting city aggregates this into a single misspecification.
+
+c. **Correlation with log(distance):** negative — expensive cities (London, Paris, Amsterdam) tend to be more compact, with most hotels located close to the centre. Cheaper cities (Istanbul, Budapest) have more hotels spread further out.
+
+d. **Bias direction:** positive city effect × negative city–distance correlation = **negative bias** on the distance coefficient. Without controlling for city, the distance coefficient is more negative than it should be — we are overestimating the price drop per unit of distance, because the model is confounding "being far from the centre" with "being in a cheaper city."
+
+e. The diagnostic plots examine residuals, which are defined as $y - \hat{y}$ with the misspecified model already fitted. The OVB is baked into $\hat{\beta}$ — the model uses the distance coefficient to partially explain what is actually a city effect. The residuals are therefore smaller in magnitude than they would be if the city effect were isolated, and they show no systematic pattern that would reveal the missing variable.
+
+---
+
+# Task 7 — Full diagnostic check
+
+```{r}
+#| label: fig-task7
+#| fig-cap: "Complete check_model() output for model_work."
+#| fig-width: 10
+#| fig-height: 7
+check_model(model_work)
+```
+
+**Answers:**
+
+a. Panel mapping:
+   - *Posterior predictive check / linearity* → residuals-vs-fitted (Task 1)
+   - *Homogeneity of variance* → scale-location plot (Task 2)
+   - *Influential observations* → Cook's distance / leverage plot (Task 4)
+   - *Collinearity* → VIF bar chart (Task 3)
+   - *Normality of residuals* → Q-Q plot (Task 5)
+
+b. The homoskedasticity panel (scale-location) flags the most clearly visible concern — the upward trend is unmistakable. The influential observations panel may also show a few hotels above the threshold.
+
+c. Overall assessment: the log–log specification is better than level–level. The main remaining concern is heteroskedasticity — this is addressed by using HC1 robust standard errors in any reported table. Collinearity is low. A few influential hotels are present but do not dramatically change the results. The biggest unresolved issue is OVB from city-level confounders, which diagnostics cannot detect and which would require adding city fixed effects (or working with within-city variation) to address. A responsible final model would: (1) use the log–log specification, (2) report robust SEs, and (3) include city as a control or flag it explicitly as a limitation.
+
+---
+
+# Bonus Task 8 — Quarto layout
+
+```{r}
+#| label: fig-bonus-pair
+#| fig-cap: "Key diagnostic plots for model_work."
+#| fig-subcap:
+#|   - "Scale-location plot indicating heteroskedasticity"
+#|   - "Q-Q plot of standardised residuals"
+#| layout-ncol: 2
+
+# Scale-location
+augment(model_work) |>
+  ggplot(aes(.fitted, sqrt(abs(.std.resid)))) +
+  geom_point(alpha = 0.15, color = "steelblue", size = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "tomato", linewidth = 1) +
+  labs(x = "Fitted values", y = "√|Std. residuals|") +
+  theme_minimal(base_size = 11)
+
+# Q-Q
+augment(model_work) |>
+  ggplot(aes(sample = .std.resid)) +
+  stat_qq(alpha = 0.2, color = "steelblue", size = 0.8) +
+  stat_qq_line(color = "tomato", linewidth = 1) +
+  labs(x = "Theoretical quantiles", y = "Sample quantiles") +
+  theme_minimal(base_size = 11)
+```
+
+As shown in @fig-bonus-pair-1, the spread of residuals increases with fitted values — clear evidence of heteroskedasticity. The Q-Q plot in @fig-bonus-pair-2 shows heavy tails but no dramatic departure from normality in the central range; given the large sample size ($n > 11{,}000$), this does not affect the validity of inference.
+
+---
+
+# Bonus Task 9 — RESET test
+
+```{r}
+resettest(m_A)
+resettest(m_B)
+```
+
+**Answers:**
+
+a. Both models are likely to reject, but Model B (log–log) typically produces a less extreme rejection than Model A (level–level), consistent with the visual evidence from the residual plots. With $n > 11{,}000$, the RESET test has very high power and will detect even small, practically insignificant departures from the specified functional form.
+
+b. A significant RESET result tells you something is wrong with the functional form — but not what. The next steps are: (1) inspect the residuals-vs-fitted plot to identify the pattern (is it a single curve, multiple modes, outliers?), (2) consider whether transformations you have not yet tried (quadratic terms, different log specifications) might address it, (3) consider whether there are omitted group-level variables (like city) that are creating the apparent functional form problem. In this dataset, the residual heterogeneity likely reflects between-city differences that no single functional form can fully absorb.

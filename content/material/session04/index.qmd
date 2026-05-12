@@ -1,32 +1,75 @@
 ---
 title: "Session 4: What Can Go Wrong — Biases and Diagnostics"
-date: "2026-05-07"
+date: "2026-05-21"
 date-modified: last-modified
 ---
 
 ::: {.callout-note}
-**Date:** Thursday, 07 May 2026, 16:00–19:00
+**Date:** Thursday, 21 May 2026, 16:00–19:00
 :::
 
 ## Business question
 
-*Does the hotel price–distance relationship hold across all European cities, or does it break down in some?*
+*Does the hotel price–distance relationship hold across all European cities, or does it break down in some? And when can we actually trust a regression output?*
 
 ## Learning goals
 
-- Identify key OLS assumption violations in practice
-- Detect multicollinearity, heteroskedasticity, and influential outliers
-- Understand omitted variable bias intuitively
-- Apply robust standard errors using `lmtest` and `sandwich`
+- Understand what OLS needs to work well: unbiasedness, efficiency, and the Gauss-Markov framework
+- Recognise when the linearity assumption fails and how to address it
+- Detect and correct for heteroskedasticity using robust standard errors
+- Identify multicollinearity and understand its consequences
+- Spot influential observations and assess their impact
+- Understand omitted variable bias and why diagnostics cannot detect it
 
 ## Dataset
 
-**hotels-europe** — 148,021 hotel-date observations across 46 European cities and 10 dates. The larger and more heterogeneous sample makes OLS assumption violations more visible.
+**hotels-europe** — cross-section of 9,648 hotels from 8 European cities (November 2017, complete cases on key variables), ranging from Istanbul (median price ~€52) to London (~€171). The wide variation across city types makes OLS assumption violations clearly visible.
+
+| Variable | Description |
+|---|---|
+| `price` | Hotel price per night (EUR) |
+| `distance` | Distance from city centre (km) |
+| `stars` | Star rating (1–5) |
+| `rating` | Guest rating |
+| `city` | City name |
+
+Source: Békés & Kézdi (2021). [Download full dataset](https://osf.io/r6uqb/).
+
+## Session outline
+
+| Time | Activity |
+|---|---|
+| 16:00–16:10 | Recap of previous sessions |
+| 16:10–16:50 | Input: OLS properties (BLUE), functional form, heteroskedasticity |
+| 16:50–17:10 | Live demo: comparing specifications and applying robust SEs |
+| 17:10–17:25 | Break |
+| 17:25–17:50 | Input: multicollinearity, influential observations, normality, OVB |
+| 17:50–18:45 | In-session exercise |
+| 18:45–19:00 | Debrief + Quarto skill: multi-panel figures and `@fig-` cross-references |
+
+## Materials
+
+| File | Description |
+|---|---|
+| [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_04/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Live demo](lecture_notes.qmd) | Coding document built during the session — complete diagnostic workflow |
+| [Exercise](https://classroom.github.com/a/WvlUfsyH) | In-session exercise: diagnosing and correcting a regression (via Github Classroom) |
+| [Exercise solution]() | Example solution (added after session) |
 
 ## Quarto skill introduced this session
 
-Embedding diagnostic plots in a report: figure captions, cross-references (`@fig-`), and layout options for multi-panel figures.
+Embedding diagnostic plots in a Quarto report: figure captions, `@fig-` cross-references, and multi-panel layouts using `layout-ncol`.
 
-::: {.callout-important}
-Material will be available here before the session.
-:::
+```{{r}}
+#| label: fig-diagnostics
+#| fig-cap: "Two key diagnostic plots."
+#| fig-subcap:
+#|   - "Scale-location plot"
+#|   - "Q-Q plot"
+#| layout-ncol: 2
+
+# plot 1
+# plot 2
+```
+
+Cross-reference in text: *As shown in @fig-diagnostics-1, ...*
