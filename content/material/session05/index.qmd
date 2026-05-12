@@ -1,11 +1,11 @@
 ---
 title: "Session 5: Causation vs. Correlation — Thinking Like an Economist"
-date: "2026-05-21"
+date: "2026-05-28"
 date-modified: last-modified
 ---
 
 ::: {.callout-note}
-**Date:** Thursday, 21 May 2026, 16:00–19:00
+**Date:** TBD
 :::
 
 ## Business question

@@ -84,7 +84,7 @@
     "text": "Note\n\n\n\nDate: Thursday, 18 June 2026, 16:00–19:00",
     "crumbs": [
       "Sessions",
-      "Session 9 — Recap"
+      "Session 8 — Recap"
     ]
   },
   {
@@ -95,7 +95,7 @@
     "text": "Learning goals\n\nConsolidate key concepts from the full course arc (description → association → causation → communication)\nReflect on the inference vs. prediction distinction: when do we estimate to understand, and when to forecast?\nDiscuss what comes next: an introduction to machine learning thinking and where to go from here\nPrepare for the final exam: what to expect and how to approach it",
     "crumbs": [
       "Sessions",
-      "Session 9 — Recap"
+      "Session 8 — Recap"
     ]
   },
   {
@@ -106,7 +106,7 @@
     "text": "Course arc recap\n\n\n\n\n\n\n\nSessions\nTheme\n\n\n\n\n1–4\nRegression toolkit: multiple predictors, binary outcomes, diagnostics\n\n\n5\nCausal thinking: confounding, selection bias, the identification problem\n\n\n6\nPanel data: fixed effects and unobserved heterogeneity\n\n\n7–8\nModern workflow: AI-assisted coding and data communication\n\n\n9\nConsolidation: inference vs. prediction, looking ahead",
     "crumbs": [
       "Sessions",
-      "Session 9 — Recap"
+      "Session 8 — Recap"
     ]
   },
   {
@@ -117,7 +117,7 @@
     "text": "The inference vs. prediction distinction\nOne of the most important conceptual lines in applied data science: are we estimating a coefficient to understand a relationship, or are we building a model to make forecasts? These require different choices — in model complexity, evaluation criteria, and how we report results. This session addresses the distinction conceptually, without a dedicated technical session on machine learning.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
     "crumbs": [
       "Sessions",
-      "Session 9 — Recap"
+      "Session 8 — Recap"
     ]
   },
   {
@@ -128,7 +128,7 @@
     "text": "Note\n\n\n\nDate: Thursday, 04 June 2026, 16:00–19:00",
     "crumbs": [
       "Sessions",
-      "Session 7 — Coding with AI"
+      "Session 6 — Coding with AI"
     ]
   },
   {
@@ -139,7 +139,7 @@
     "text": "Business question\nDoes working from home improve or reduce employee performance — and can we use AI tools to analyse this efficiently?",
     "crumbs": [
       "Sessions",
-      "Session 7 — Coding with AI"
+      "Session 6 — Coding with AI"
     ]
   },
   {
@@ -150,7 +150,7 @@
     "text": "Learning goals\n\nUse AI tools effectively for R coding, debugging, and documentation\nUnderstand the limitations and risks of AI-generated code (hallucinations, silent errors)\nDevelop a critical and efficient AI-assisted workflow\nVerify and test AI output rather than trusting it blindly",
     "crumbs": [
       "Sessions",
-      "Session 7 — Coding with AI"
+      "Session 6 — Coding with AI"
     ]
   },
   {
@@ -161,7 +161,7 @@
     "text": "Dataset\nworking-from-home — 249 employees from a randomised controlled experiment at a Chinese travel agency (Bloom et al., 2015). Performance (calls per minute), WFH assignment, tenure, demographics.",
     "crumbs": [
       "Sessions",
-      "Session 7 — Coding with AI"
+      "Session 6 — Coding with AI"
     ]
   },
   {
@@ -172,7 +172,7 @@
     "text": "Quarto skill introduced this session\nUsing AI to write, debug, and improve Quarto documents: prompt strategies, reviewing AI-generated prose, using AI for formatting and cross-referencing.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
     "crumbs": [
       "Sessions",
-      "Session 7 — Coding with AI"
+      "Session 6 — Coding with AI"
     ]
   },
   {
@@ -180,10 +180,10 @@
     "href": "content/material/session05/index.html",
     "title": "Session 5: Causation vs. Correlation — Thinking Like an Economist",
     "section": "",
-    "text": "Note\n\n\n\nDate: Thursday, 21 May 2026, 16:00–19:00",
+    "text": "Note\n\n\n\nDate: TBD",
     "crumbs": [
       "Sessions",
-      "Session 5 — Causation vs. Correlation"
+      "Session TBD — Causation vs. Correlation"
     ]
   },
   {
@@ -194,7 +194,7 @@
     "text": "Business question\nIs there a gender wage gap among market analysts — and if so, what explains it?",
     "crumbs": [
       "Sessions",
-      "Session 5 — Causation vs. Correlation"
+      "Session TBD — Causation vs. Correlation"
     ]
   },
   {
@@ -205,7 +205,7 @@
     "text": "Learning goals\n\nDistinguish causal from associational claims\nUnderstand confounding and selection bias through concrete business examples\nSee how adding controls changes an estimated gap — and what that means\nCritically evaluate causal claims in reports and media",
     "crumbs": [
       "Sessions",
-      "Session 5 — Causation vs. Correlation"
+      "Session TBD — Causation vs. Correlation"
     ]
   },
   {
@@ -216,7 +216,7 @@
     "text": "Dataset\ncps-earnings — 149,316 US workers from the 2014 Current Population Survey: hourly wage, gender, age, education, occupation. The gender wage gap is a textbook case for illustrating confounding.",
     "crumbs": [
       "Sessions",
-      "Session 5 — Causation vs. Correlation"
+      "Session TBD — Causation vs. Correlation"
     ]
   },
   {
@@ -227,7 +227,84 @@
     "text": "Quarto skill introduced this session\nStructuring an analytical narrative in Quarto: how to move from exploratory output to a coherent argument in a written report.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
     "crumbs": [
       "Sessions",
-      "Session 5 — Causation vs. Correlation"
+      "Session TBD — Causation vs. Correlation"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html",
+    "href": "content/material/session04/index.html",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "",
+    "text": "Note\n\n\n\nDate: Thursday, 21 May 2026, 16:00–19:00",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#business-question",
+    "href": "content/material/session04/index.html#business-question",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Business question",
+    "text": "Business question\nDoes the hotel price–distance relationship hold across all European cities, or does it break down in some? And when can we actually trust a regression output?",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#learning-goals",
+    "href": "content/material/session04/index.html#learning-goals",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Learning goals",
+    "text": "Learning goals\n\nUnderstand what OLS needs to work well: unbiasedness, efficiency, and the Gauss-Markov framework\nRecognise when the linearity assumption fails and how to address it\nDetect and correct for heteroskedasticity using robust standard errors\nIdentify multicollinearity and understand its consequences\nSpot influential observations and assess their impact\nUnderstand omitted variable bias and why diagnostics cannot detect it",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#datasets",
+    "href": "content/material/session04/index.html#datasets",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Datasets",
+    "text": "Datasets\nSlides and live demo — hotels-europe\nCross-section of 9,648 hotels from 8 European cities (November 2017, complete cases), ranging from Istanbul (median price ~€52) to London (~€171). The wide price variation across city types makes OLS assumption violations clearly visible.\n\n\n\nVariable\nDescription\n\n\n\n\nprice\nHotel price per night (EUR)\n\n\ndistance\nDistance from city centre (km)\n\n\nstars\nStar rating (1–5)\n\n\nrating\nGuest rating\n\n\ncity\nCity name\n\n\n\nSource: Békés & Kézdi (2021). Download full dataset.\nExercise — CPS earnings 2014\n120,434 full-time employed US workers from the 2014 Current Population Survey (CPS), Monthly Outgoing Rotation Group. Used for the in-session exercise: diagnosing a Mincer wage regression.\n\n\n\nVariable\nDescription\n\n\n\n\nwage\nHourly wage (USD) = weekly earnings / usual hours\n\n\nearnwke\nWeekly earnings (USD, top-coded at $2,884)\n\n\nuhours\nUsual hours worked per week\n\n\nage\nAge in years\n\n\neduc\nEducational attainment (CPS grade92 scale: 31–46)\n\n\nfemale\n1 = female, 0 = male\n\n\n\nSource: Békés & Kézdi (2021). Full dataset documentation. Dataset included in the exercise repository — no separate download needed.",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#session-outline",
+    "href": "content/material/session04/index.html#session-outline",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Session outline",
+    "text": "Session outline\n\nRecap of previous sessions\nInput: OLS properties (BLUE), functional form, heteroskedasticity\nLive demo: comparing specifications and applying robust SEs\nBreak\nInput: multicollinearity, influential observations, normality, OVB\nIn-session exercise\nDebrief + Quarto skill: multi-panel figures and @fig- cross-references",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#materials",
+    "href": "content/material/session04/index.html#materials",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Materials",
+    "text": "Materials\n\n\n\nFile\nDescription\n\n\n\n\nSlides\nLecture slides — open in browser, press F for fullscreen\n\n\nLive demo\nCoding document built during the session — complete diagnostic workflow\n\n\nExercise\nIn-session exercise: diagnosing and correcting a regression (via Github Classroom)\n\n\nExercise solution\nExample solution (added after session)",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
+    ]
+  },
+  {
+    "objectID": "content/material/session04/index.html#quarto-skill-introduced-this-session",
+    "href": "content/material/session04/index.html#quarto-skill-introduced-this-session",
+    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "section": "Quarto skill introduced this session",
+    "text": "Quarto skill introduced this session\nEmbedding diagnostic plots in a Quarto report: figure captions, @fig- cross-references, and multi-panel layouts using layout-ncol.\n```{r}\n#| label: fig-diagnostics\n#| fig-cap: \"Two key diagnostic plots.\"\n#| fig-subcap:\n#|   - \"Scale-location plot\"\n#|   - \"Q-Q plot\"\n#| layout-ncol: 2\n\n# plot 1\n# plot 2\n```\nCross-reference in text: As shown in @fig-diagnostics-1, …",
+    "crumbs": [
+      "Sessions",
+      "Session 4 — Biases & Diagnostics"
     ]
   },
   {
@@ -561,7 +638,7 @@
     "href": "content/material/index.html#full-schedule",
     "title": "Schedule & Overview",
     "section": "Full schedule",
-    "text": "Full schedule\n\n\n\n#\nDate\nTitle\nCommunication skill\n\n\n\n\n1\nThu, 12 Mar\nWelcome, recap & tooling upgrade\nDocument structure, YAML, BibTeX bibliography\n\n\n—\nThu, 19 Mar\nTake-home task 1 (part 1)\nFirst full Quarto report submitted independently\n\n\n—\nThu, 26 Mar\nTake-home task 1 (part 2)\n\n\n\n—\nThu, 02 Apr\nEaster break\n\n\n\n2\nThu, 09 Apr\nMultiple regression: going beyond the basics\nRegression tables with modelsummary\n\n\n—\nThu, 16 Apr\nTake-home task 2 (part 1)\nRegression table formatting, model comparison\n\n\n—\nThu, 23 Apr\nTake-home task 2 (part 2)\n\n\n\n3\nThu, 30 Apr\nModelling binary and categorical outcomes\nInline R code for automatic result reporting\n\n\n4\nThu, 07 May\nWhat can go wrong: biases and diagnostics\nDiagnostic plots, figure captions, cross-references\n\n\n—\nThu, 14 May\nNo lecture\n\n\n\n5\nThu, 21 May\nCausation vs. correlation: thinking like an economist\nStructuring an analytical narrative\n\n\n6\nThu, 28 May\nPanel data and fixed effects\nPanel model output with fixest\n\n\n7\nThu, 04 Jun\nCoding smarter: R and AI tools\nAI-assisted Quarto: debugging, improving prose\n\n\n8\nThu, 11 Jun\nCommunicating data: advanced visualization\nPublication-ready figures, multi-format export, Word output\n\n\n9\nThu, 18 Jun\nRecap and looking ahead",
+    "text": "Full schedule\n\n\n\n#\nDate\nTitle\nCommunication skill\n\n\n\n\n1\nThu, 12 Mar\nWelcome, recap & tooling upgrade\nDocument structure, YAML, BibTeX bibliography\n\n\n—\nThu, 19 Mar\nTake-home task 1 (part 1)\nFirst full Quarto report submitted independently\n\n\n—\nThu, 26 Mar\nTake-home task 1 (part 2)\n\n\n\n—\nThu, 02 Apr\nEaster break\n\n\n\n2\nThu, 09 Apr\nMultiple regression: going beyond the basics\nRegression tables with modelsummary\n\n\n—\nThu, 16 Apr\nTake-home task 2 (part 1)\nRegression table formatting, model comparison\n\n\n—\nThu, 23 Apr\nTake-home task 2 (part 2)\n\n\n\n-\nThu, 30 Apr\nCanceled; replacement date TBD\n\n\n\n3\nThu, 07 May\nModelling binary and categorical outcomes\nInline R code for automatic result reporting\n\n\n—\nThu, 14 May\nNo lecture\n\n\n\n4\nThu, 21 May\nWhat can go wrong: biases and diagnostics\nDiagnostic plots, figure captions, cross-references\n\n\n5\nThu, 28 May\nPanel data and fixed effects\nPanel model output with fixest\n\n\n6\nThu, 04 Jun\nCoding smarter: R and AI tools\nAI-assisted Quarto: debugging, improving prose\n\n\n7\nThu, 11 Jun\nCommunicating data: advanced visualization\nPublication-ready figures, multi-format export, Word output\n\n\n8\nThu, 18 Jun\nRecap and looking ahead\n\n\n\n-\nReplacement TBD\nCausation vs. correlation: thinking like an economist\nStructuring an analytical narrative",
     "crumbs": [
       "Material",
       "Overview & Schedule"
@@ -1106,59 +1183,179 @@
     "text": "Note\n\n\n\nSession business question: Can we predict which firms are likely to exit the market in the next year?\nWork through the tasks below. For each task, write your R code in the code chunk provided and your interpretation in the text below it. Aim to write complete sentences — imagine you are explaining your findings to a manager who has not studied statistics.\nYou have approximately 40 minutes.\n\n\n\n\n1 Setup\nRun the setup chunk to load packages and data.\n\nlibrary(tidyverse)\nlibrary(modelsummary)\nlibrary(marginaleffects)\nlibrary(broom)\n\nfirms &lt;- read_csv(\"data/bisnode-firms.csv\")\n\nTake two minutes to familiarise yourself with the data:\n\n# Explore the data\nglimpse(firms)\n\nRows: 17,506\nColumns: 11\n$ comp_id       &lt;dbl&gt; 1002029, 1011889, 1014183, 1018301, 1022796, 1035705, 10…\n$ exit          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,…\n$ sales_log     &lt;dbl&gt; 13.943477, 12.980031, 11.773208, 8.813174, 10.169549, 10…\n$ employees_log &lt;dbl&gt; -0.78015860, 0.48317409, -0.33508429, -1.87877086, -2.48…\n$ profit_margin &lt;dbl&gt; 0.008554417, 0.223101892, -0.018128871, -0.164738285, -0…\n$ age           &lt;dbl&gt; 6, 20, 11, 8, 11, 1, 14, 5, 2, 4, 2, 1, 2, 4, 16, 1, 23,…\n$ liquidity     &lt;dbl&gt; 1.69277357, 8.46944789, 24.16025018, 3.05624997, 0.90785…\n$ foreign       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,…\n$ female_ceo    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,…\n$ industry      &lt;dbl&gt; 27, 55, 55, 56, 56, 56, 29, 56, 56, 27, 41, 55, 56, 28, …\n$ urban         &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0,…\n\n\nQuestion: What does one row in this dataset represent? What does exit = 1 mean?\nYour answer:\n\n\n\n2 Task 1: Fit a Logistic Regression Model\nFit a logistic regression model that predicts firm exit using the following predictors:\n\nsales_log (log of sales revenue)\nprofit_margin (profit as a share of sales)\nemployees_log (log of number of employees)\nage (firm age in years)\n\nCall your model model_base.\n\n\n\n\n\n\nTip\n\n\n\nUse glm() with family = binomial. The syntax is otherwise the same as lm().\n\n\n\n# Fit the logistic regression model\n# model_base &lt;- ___\n\nInspect the output:\n\n# summary(model_base)\n\nQuestion 1a: Which predictors are statistically significant at the 5% level?\nYour answer:\nQuestion 1b: Based on the signs of the coefficients, which factors seem to increase the probability of exit, and which seem to decrease it? Does this make economic sense?\nYour answer:\n\n\n\n3 Task 2: Extend Your Model\nNow add at least two more predictors from the dataset to your model. Use your subject-matter intuition: which firm characteristics might predict exit?\nCall your extended model model_ext.\n\n# Look at available variables\n# names(firms)\n\n\n# Fit the extended model\n# model_ext &lt;- ___\n\nCompare your two models side-by-side using modelsummary():\n\n# YOUR CODE HERE\n\nQuestion 2a: Did adding the new predictors improve the model fit (use AIC to compare: lower is better)?\nYour answer:\nQuestion 2b: Did any coefficients change notably when you added the new variables? What might that indicate?\nYour answer:\n\n\n\n4 Task 3: Interpret Coefficients as Odds Ratios\nFor your extended model, compute and display the odds ratios (with 95% confidence intervals):\n\n# Odds ratios\n# exp(coef(model_ext))\n\n# With confidence intervals\n# exp(confint(model_ext))\n\nQuestion 3: Choose one predictor from your model and write a complete, businesslike interpretation of its odds ratio. Use the following template:\n\n“A one-unit increase in [variable] is associated with a multiplication of the odds of firm exit by [odds ratio]. This means the odds of exit [increase/decrease] by [X]%. This effect is [statistically significant / not statistically significant] at the 5% level.”\n\nYour answer:\n\n\n\n5 Task 4: Predicted Probabilities for Two Firm Profiles\nDefine two contrasting firm profiles and compute the predicted probability of exit for each. Choose profiles that tell an interesting story.\nFill in the scenario values below:\n\n# scenarios &lt;- tibble(\n#   label         = c(\"Profile A: ___\", \"Profile B: ___\"),\n#   sales_log     = c(___, ___),         # replace with values\n#   employees_log = c(___, ___),\n#   profit_margin = c(___, ___),\n#   age           = c(___, ___),\n#   # add your additional predictors here\n# )\n\n# scenarios &lt;- scenarios |&gt;\n#   mutate(pred_prob = predict(model_ext, newdata = scenarios, type = \"response\"))\n\nQuestion 4: Describe your two profiles in plain language. Why did you choose these particular values? What story do the predicted probabilities tell?\nYour answer:\n\n\n\n6 Task 5: Write a Finding Using Inline R Code\nWrite a short paragraph (3–5 sentences) summarising one key finding from your analysis. Your paragraph must include at least two numbers embedded as inline R code (not typed manually).\n\nYour paragraph:\nAccording to the logistic regression model, …\n(Continue writing here, embedding inline R code for your numbers)\n\n\n\n7 Bonus: Average Marginal Effects\n\n\n\n\n\n\nNote\n\n\n\nOptional — attempt this if you finish the main tasks early.\n\n\nCompute the average marginal effects (AMEs) for your extended model:\n\n# avg_slopes(...)\n\nBonus question: Compare the AME for profit_margin to the LPM coefficient for profit_margin (you may need to fit a quick LPM). Are they similar? What does this tell you about when the LPM might be acceptable?\n\n# Fit LPM for comparison\n# lpm &lt;- lm(exit ~ sales_log + profit_margin + employees_log + age,\n#           data = firms)\n\n# Compare coefficients\n\nYour answer:\n\n\n\n8 Wrap-up Reflection\nBefore we debrief, take 2 minutes to note:\n\nWhat was the most conceptually challenging part of this exercise?\nIf you had to explain logistic regression to a colleague with no statistics background, what analogy or example would you use?\n\nYour answers:"
   },
   {
-    "objectID": "content/material/session04/index.html",
-    "href": "content/material/session04/index.html",
-    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
+    "objectID": "content/material/session04/exercise-solution.html",
+    "href": "content/material/session04/exercise-solution.html",
+    "title": "Session 4: Exercise Solution",
     "section": "",
-    "text": "Note\n\n\n\nDate: Thursday, 07 May 2026, 16:00–19:00",
-    "crumbs": [
-      "Sessions",
-      "Session 4 — Biases & Diagnostics"
-    ]
+    "text": "library(tidyverse)\nlibrary(broom)\nlibrary(modelsummary)\nlibrary(lmtest)\nlibrary(sandwich)\nlibrary(car)\nlibrary(performance)\nlibrary(see)\nlibrary(patchwork)\n\nhotels &lt;- read_csv(\"data/hotels_cs.csv\", show_col_types = FALSE)\n\n\n\n1 Task 1 — Functional form\n\nm_A &lt;- lm(price ~ distance, data = hotels)\nm_B &lt;- lm(log(price) ~ log(distance + 0.1), data = hotels)\nmodel_work &lt;- lm(log(price) ~ log(distance + 0.1) + stars, data = hotels)\n\n\nmake_resid_plot &lt;- function(m, title) {\n  augment(m) |&gt;\n    ggplot(aes(.fitted, .resid)) +\n    geom_point(alpha = 0.15, color = \"steelblue\", size = 0.8) +\n    geom_hline(yintercept = 0, linetype = \"dashed\", color = \"gray50\") +\n    geom_smooth(method = \"loess\", se = FALSE, color = \"tomato\", linewidth = 0.9) +\n    labs(x = \"Fitted values\", y = \"Residuals\", title = title) +\n    theme_minimal(base_size = 12)\n}\n\nmake_resid_plot(m_A, \"Model A: level–level\") +\nmake_resid_plot(m_B, \"Model B: log–log\")\n\n\n\n\n\n\n\nFigure 1: Residuals vs. fitted values for the linear and log–log specifications.\n\n\n\n\n\nAnswers:\n\nModel B (log–log) shows a flatter smoother and more random scatter. The level–level model has a pronounced curve, indicating the linear form does not adequately capture the price–distance relationship.\nA curved smoother means the model is systematically over- or under-predicting across the range of fitted values — a sign that the functional form is misspecified. The errors are not random; they have a systematic component that the model failed to capture.\nDone above — model_work will be used throughout.\n\n\n\n\n2 Task 2 — Heteroskedasticity\n2a. Scale-location plot:\n\naugment(model_work) |&gt;\n  ggplot(aes(.fitted, sqrt(abs(.std.resid)))) +\n  geom_point(alpha = 0.15, color = \"steelblue\", size = 0.8) +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"tomato\", linewidth = 1) +\n  labs(x = \"Fitted values\", y = \"√|Standardised residuals|\",\n       title = \"Scale-location plot: model_work\") +\n  theme_minimal(base_size = 12)\n\n\n\n\n\n\n\nFigure 2: Scale-location plot for model_work. The upward trend in the smoother indicates heteroskedasticity.\n\n\n\n\n\n2b. Breusch-Pagan test:\n\nbptest(model_work)\n\n\n    studentized Breusch-Pagan test\n\ndata:  model_work\nBP = 192.96, df = 2, p-value &lt; 2.2e-16\n\n\n2c. Standard vs. robust SEs:\n\nmodelsummary(\n  list(\"Standard SEs\" = model_work, \"Robust SEs (HC1)\" = model_work),\n  vcov      = list(\"classical\", \"HC1\"),\n  stars     = TRUE,\n  gof_omit  = \"AIC|BIC|Log|F\",\n  coef_rename = c(\"log(distance + 0.1)\" = \"log(distance)\", \"stars\" = \"Stars\")\n)\n\n\n\nTable 1: Standard vs. HC1 robust standard errors.\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                Standard SEs\n                Robust SEs (HC1)\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  3.760***\n                  3.760***\n                \n                \n                  \n                  (0.025)\n                  (0.026)\n                \n                \n                  log(distance)\n                  -0.040***\n                  -0.040***\n                \n                \n                  \n                  (0.007)\n                  (0.006)\n                \n                \n                  Stars\n                  0.315***\n                  0.315***\n                \n                \n                  \n                  (0.007)\n                  (0.007)\n                \n                \n                  Num.Obs.\n                  9648\n                  9648\n                \n                \n                  R2\n                  0.184\n                  0.184\n                \n                \n                  R2 Adj.\n                  0.184\n                  0.184\n                \n                \n                  RMSE\n                  0.58\n                  0.58\n                \n                \n                  Std.Errors\n                  IID\n                  HC1\n                \n        \n      \n    \n\n\n\n\n\n\nAnswers:\n\nThe smoother in the scale-location plot has a clear upward slope: the spread of standardised residuals increases with fitted values. This is the classic “fan” pattern of heteroskedasticity. Higher-priced hotels (larger fitted values) show more variation around the regression line than lower-priced ones.\nThe Breusch-Pagan test rejects the null of homoskedasticity (p ≪ 0.05), confirming what the plot showed. Our standard errors are not reliable.\nThe estimates are identical in both columns (as expected — robust SEs change the uncertainty, not the point estimates). The main observable effect is that standard errors typically increase slightly with HC1 correction. Any coefficient that was marginally significant under standard SEs should be interpreted with caution. The practical implication: when reporting this model, always use robust standard errors.\n\n\n\n\n3 Task 3 — Multicollinearity\n\nvif(model_work)\n\nlog(distance + 0.1)               stars \n           1.005669            1.005669 \n\n\n\ncor(log(hotels$distance + 0.1), hotels$stars, use = \"complete.obs\") |&gt; round(3)\n\n[1] -0.075\n\n\nAnswers:\n\nBoth VIF values are well below 5 — no cause for concern. Collinearity is present (the predictors are not uncorrelated) but it is not severe enough to inflate standard errors substantially.\nThe negative correlation (~−0.25) reflects a real pattern in the hotel market: higher-rated hotels tend to cluster in city centres (shorter distances), while lower-rated accommodation is more often found further out. This is not a data problem — it is a feature of how hotel markets are organised.\nNo. Dropping stars to eliminate collinearity would introduce omitted variable bias: star rating affects price and is correlated with distance, so omitting it biases the distance coefficient. Trading a mild collinearity (low VIF) for OVB (potentially large bias) is a very bad trade. The right response to low VIF is to report the results as-is, acknowledge the correlation between predictors, and interpret each coefficient as the effect “holding the other predictor constant.”\n\n\n\n\n4 Task 4 — Influential observations\n4a. Top 10 most influential hotels:\n\nthreshold &lt;- 4 / nrow(hotels)\n\nhotels_aug &lt;- augment(model_work) |&gt;\n  bind_cols(hotels |&gt; select(hotel_id, city, price, distance))\n\nhotels_aug |&gt;\n  filter(.cooksd &gt; threshold) |&gt;\n  arrange(desc(.cooksd)) |&gt;\n  select(city, stars, price, distance, .cooksd) |&gt;\n  head(10)\n\n# A tibble: 10 × 5\n   city      stars price distance .cooksd\n   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;\n 1 Barcelona   1    1213      1.3 0.00843\n 2 Barcelona   1    1213      1.3 0.00843\n 3 Budapest    1     522      0.6 0.00491\n 4 Budapest    1     522      0.6 0.00491\n 5 London      5    1848      0.5 0.00263\n 6 Budapest    3.5    21      0.1 0.00254\n 7 Amsterdam   1     265      0.5 0.00241\n 8 Prague      3     696      0.1 0.00240\n 9 Budapest    2     464      0.2 0.00239\n10 Budapest    2     464      0.2 0.00239\n\n\n4b. Leverage vs. residuals plot:\n\nhotels_aug |&gt;\n  ggplot(aes(.hat, .std.resid, size = .cooksd,\n             color = .cooksd &gt; threshold)) +\n  geom_point(alpha = 0.5) +\n  geom_hline(yintercept = c(-2, 2), linetype = \"dashed\", color = \"gray50\") +\n  scale_color_manual(values = c(\"steelblue\", \"tomato\"),\n                     labels = c(\"Below threshold\", \"Influential (Cook's D &gt; 4/n)\"),\n                     name = NULL) +\n  scale_size_continuous(guide = \"none\") +\n  labs(x = \"Leverage\", y = \"Standardised residuals\",\n       title = \"Influential observations\") +\n  theme_minimal(base_size = 12) +\n  theme(legend.position = \"bottom\")\n\n\n\n\n\n\n\nFigure 3: Leverage vs. standardised residuals. Influential observations (Cook’s D &gt; 4/n) highlighted in red.\n\n\n\n\n\n4c. Sensitivity analysis:\n\ninfluential_ids &lt;- hotels_aug |&gt;\n  filter(.cooksd &gt; threshold) |&gt;\n  pull(hotel_id)\n\nmodel_no_infl &lt;- hotels |&gt;\n  filter(!hotel_id %in% influential_ids) |&gt;\n  lm(log(price) ~ log(distance + 0.1) + stars, data = _)\n\nmodelsummary(\n  list(\"Full sample\" = model_work, \"Excl. influential\" = model_no_infl),\n  stars    = TRUE,\n  gof_omit = \"AIC|BIC|Log|F\",\n  coef_rename = c(\"log(distance + 0.1)\" = \"log(distance)\", \"stars\" = \"Stars\")\n)\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                Full sample\n                Excl. influential\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  3.760***\n                  3.794***\n                \n                \n                  \n                  (0.025)\n                  (0.024)\n                \n                \n                  log(distance)\n                  -0.040***\n                  -0.026***\n                \n                \n                  \n                  (0.007)\n                  (0.007)\n                \n                \n                  Stars\n                  0.315***\n                  0.300***\n                \n                \n                  \n                  (0.007)\n                  (0.007)\n                \n                \n                  Num.Obs.\n                  9648\n                  9074\n                \n                \n                  R2\n                  0.184\n                  0.185\n                \n                \n                  R2 Adj.\n                  0.184\n                  0.185\n                \n                \n                  RMSE\n                  0.58\n                  0.52\n                \n        \n      \n    \n\n\n\nAnswers:\n\nThe most influential hotels tend to be at the extremes: either very expensive hotels in central locations or unusually cheap accommodation far from the centre. Many are likely luxury properties in expensive cities (London, Paris) with extreme prices that the model cannot predict well. High-leverage points tend to have unusual combinations of distance and star rating.\nThere is no automatic answer. Before removing any observation, investigate: is this a data entry error, or a genuine extreme case? A 5-star London hotel with an extraordinary price is not an error — it is a real data point. Removing it would make the model less representative of the full market. The appropriate action is to report results with and without the influential observations and note the sensitivity.\nResults may vary depending on the dataset. Typically, removing influential observations tightens the fit but the direction and significance of coefficients remains stable — which suggests the model is reasonably robust. If the sign of the distance coefficient changed, that would be a serious concern.\n\n\n\n\n5 Task 5 — Normality of residuals\n5a. Q-Q plot:\n\nhotels_aug |&gt;\n  ggplot(aes(sample = .std.resid)) +\n  stat_qq(alpha = 0.2, color = \"steelblue\", size = 0.8) +\n  stat_qq_line(color = \"tomato\", linewidth = 1) +\n  labs(x = \"Theoretical quantiles\", y = \"Sample quantiles\",\n       title = \"Q-Q plot of standardised residuals\") +\n  theme_minimal(base_size = 12)\n\n\n\n\n\n\n\nFigure 4: Q-Q plot of standardised residuals. The tails deviate from the diagonal.\n\n\n\n\n\n5b. Shapiro-Wilk test:\n\nset.seed(42)\nresid_sample &lt;- resid(model_work) |&gt; sample(5000)\nshapiro.test(resid_sample)\n\n\n    Shapiro-Wilk normality test\n\ndata:  resid_sample\nW = 0.99035, p-value &lt; 2.2e-16\n\n\nAnswers:\n\nThe Q-Q plot shows the characteristic S-shape of heavy-tailed residuals: the lower-left and upper-right points curve away from the diagonal. This means there are more extreme residuals (both positive and negative) than a normal distribution would predict. This is typical in price data, where a few very expensive properties create a long right tail.\nWith \\(n = 11{,}577\\) observations, the Shapiro-Wilk test has enormous statistical power — it can detect deviations from normality that are so small they have no practical consequence for inference. A p-value &lt; 0.001 reflects the large sample size, not a catastrophic violation. The CLT guarantees that \\(\\hat{\\beta}\\) is approximately normally distributed, and hypothesis tests remain valid.\nNormality matters practically in two situations: (1) very small samples (\\(n &lt; 30\\) approximately), where the CLT has not yet kicked in and t/F critical values based on normal errors may be materially wrong; (2) when constructing exact prediction intervals for individual observations — these require normally distributed errors even in large samples.\n\n\n\n\n6 Task 6 — OVB reflection\nSuggested answer: City is the most obvious omitted variable.\n\nVariable: which city the hotel is in (e.g., London vs. Istanbul).\nEffect on log(price): positive for expensive cities (London, Paris), negative for cheaper ones. The sign is city-specific, but omitting city aggregates this into a single misspecification.\nCorrelation with log(distance): negative — expensive cities (London, Paris, Amsterdam) tend to be more compact, with most hotels located close to the centre. Cheaper cities (Istanbul, Budapest) have more hotels spread further out.\nBias direction: positive city effect × negative city–distance correlation = negative bias on the distance coefficient. Without controlling for city, the distance coefficient is more negative than it should be — we are overestimating the price drop per unit of distance, because the model is confounding “being far from the centre” with “being in a cheaper city.”\nThe diagnostic plots examine residuals, which are defined as \\(y - \\hat{y}\\) with the misspecified model already fitted. The OVB is baked into \\(\\hat{\\beta}\\) — the model uses the distance coefficient to partially explain what is actually a city effect. The residuals are therefore smaller in magnitude than they would be if the city effect were isolated, and they show no systematic pattern that would reveal the missing variable.\n\n\n\n\n7 Task 7 — Full diagnostic check\n\ncheck_model(model_work)\n\n\n\n\n\n\n\nFigure 5: Complete check_model() output for model_work.\n\n\n\n\n\nAnswers:\n\nPanel mapping:\n\nPosterior predictive check / linearity → residuals-vs-fitted (Task 1)\nHomogeneity of variance → scale-location plot (Task 2)\nInfluential observations → Cook’s distance / leverage plot (Task 4)\nCollinearity → VIF bar chart (Task 3)\nNormality of residuals → Q-Q plot (Task 5)\n\nThe homoskedasticity panel (scale-location) flags the most clearly visible concern — the upward trend is unmistakable. The influential observations panel may also show a few hotels above the threshold.\nOverall assessment: the log–log specification is better than level–level. The main remaining concern is heteroskedasticity — this is addressed by using HC1 robust standard errors in any reported table. Collinearity is low. A few influential hotels are present but do not dramatically change the results. The biggest unresolved issue is OVB from city-level confounders, which diagnostics cannot detect and which would require adding city fixed effects (or working with within-city variation) to address. A responsible final model would: (1) use the log–log specification, (2) report robust SEs, and (3) include city as a control or flag it explicitly as a limitation.\n\n\n\n\n8 Bonus Task 8 — Quarto layout\n# Scale-location\naugment(model_work) |&gt;\n  ggplot(aes(.fitted, sqrt(abs(.std.resid)))) +\n  geom_point(alpha = 0.15, color = \"steelblue\", size = 0.8) +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"tomato\", linewidth = 1) +\n  labs(x = \"Fitted values\", y = \"√|Std. residuals|\") +\n  theme_minimal(base_size = 11)\n\n# Q-Q\naugment(model_work) |&gt;\n  ggplot(aes(sample = .std.resid)) +\n  stat_qq(alpha = 0.2, color = \"steelblue\", size = 0.8) +\n  stat_qq_line(color = \"tomato\", linewidth = 1) +\n  labs(x = \"Theoretical quantiles\", y = \"Sample quantiles\") +\n  theme_minimal(base_size = 11)\n\n\n\n\n\n\n\n\n\n\n\n(a) Scale-location plot indicating heteroskedasticity\n\n\n\n\n\n\n\n\n\n\n\n(b) Q-Q plot of standardised residuals\n\n\n\n\n\n\n\nFigure 6: Key diagnostic plots for model_work.\n\n\n\nAs shown in Figure 6 (a), the spread of residuals increases with fitted values — clear evidence of heteroskedasticity. The Q-Q plot in Figure 6 (b) shows heavy tails but no dramatic departure from normality in the central range; given the large sample size (\\(n &gt; 11{,}000\\)), this does not affect the validity of inference.\n\n\n\n9 Bonus Task 9 — RESET test\n\nresettest(m_A)\n\n\n    RESET test\n\ndata:  m_A\nRESET = 7.1487, df1 = 2, df2 = 9644, p-value = 0.00079\n\nresettest(m_B)\n\n\n    RESET test\n\ndata:  m_B\nRESET = 19.721, df1 = 2, df2 = 9644, p-value = 2.836e-09\n\n\nAnswers:\n\nBoth models are likely to reject, but Model B (log–log) typically produces a less extreme rejection than Model A (level–level), consistent with the visual evidence from the residual plots. With \\(n &gt; 11{,}000\\), the RESET test has very high power and will detect even small, practically insignificant departures from the specified functional form.\nA significant RESET result tells you something is wrong with the functional form — but not what. The next steps are: (1) inspect the residuals-vs-fitted plot to identify the pattern (is it a single curve, multiple modes, outliers?), (2) consider whether transformations you have not yet tried (quadratic terms, different log specifications) might address it, (3) consider whether there are omitted group-level variables (like city) that are creating the apparent functional form problem. In this dataset, the residual heterogeneity likely reflects between-city differences that no single functional form can fully absorb."
   },
   {
-    "objectID": "content/material/session04/index.html#business-question",
-    "href": "content/material/session04/index.html#business-question",
-    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
-    "section": "Business question",
-    "text": "Business question\nDoes the hotel price–distance relationship hold across all European cities, or does it break down in some?",
-    "crumbs": [
-      "Sessions",
-      "Session 4 — Biases & Diagnostics"
-    ]
+    "objectID": "content/material/session04/lecture_notes.html",
+    "href": "content/material/session04/lecture_notes.html",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "",
+    "text": "Does the hotel price–distance relationship hold across all European cities, or does it break down in some? And how do we know when to trust our regression output?\n\n\n\n\n\nlibrary(tidyverse)\nlibrary(broom)\nlibrary(modelsummary)\nlibrary(lmtest)\nlibrary(sandwich)\nlibrary(car)\nlibrary(performance)\nlibrary(see)\nlibrary(patchwork)\nlibrary(flextable)\n\nhotels &lt;- read_csv(\"data/hotels_cs.csv\", show_col_types = FALSE)\nglimpse(hotels)\n\nRows: 9,648\nColumns: 7\n$ hotel_id           &lt;dbl&gt; 1, 1, 2, 3, 3, 4, 5, 5, 6, 6, 7, 9, 9, 10, 11, 11, …\n$ city               &lt;chr&gt; \"Amsterdam\", \"Amsterdam\", \"Amsterdam\", \"Amsterdam\",…\n$ distance           &lt;dbl&gt; 3.1, 3.1, 0.9, 1.5, 1.5, 1.9, 1.8, 1.8, 1.9, 1.9, 0…\n$ stars              &lt;dbl&gt; 4.0, 4.0, 2.0, 4.0, 4.0, 3.0, 3.5, 3.5, 4.0, 4.0, 3…\n$ rating             &lt;dbl&gt; 4.3, 4.3, 4.1, 4.1, 4.1, 3.5, 4.0, 4.0, 4.1, 4.1, 4…\n$ accommodation_type &lt;chr&gt; \"Hotel\", \"Hotel\", \"Hostel\", \"Hotel\", \"Hotel\", \"Hote…\n$ price              &lt;dbl&gt; 172, 114, 119, 217, 117, 71, 922, 690, 127, 186, 16…\n\n\nWe have a cross-section of 9648 hotels from 8 European cities (November 2017, complete cases), ranging from Istanbul (median price ~€57) to London (~€171). The variation across cities shows up not just in average prices but in the structure of the data — making this a good setting for exploring what can go wrong in a regression.\n\nhotels |&gt;\n  group_by(city) |&gt;\n  summarise(\n    N             = n(),\n    `Median price (€)`      = median(price)   |&gt; round(1),\n    `Median distance (km)`  = median(distance) |&gt; round(2),\n    `Median stars`          = median(stars)    |&gt; round(1)\n  ) |&gt;\n  arrange(`Median price (€)`) |&gt;\n  rename(City = city) |&gt;\n  flextable() |&gt;\n  autofit() |&gt;\n  set_caption(\"Overview of the eight cities in the cross-section.\")\n\n\n\nTable 1: Overview of the eight cities in the cross-section.\n\n\n\nCityNMedian price (€)Median distance (km)Median starsIstanbul1,100571.14.0Budapest561700.83.5Prague886821.04.0Barcelona1,2001021.23.5Vienna7201201.53.5Amsterdam5351491.03.0Paris2,7061601.83.0London1,9401712.53.5\n\n\n\n\n\n\n\n\nWe start with a simple level-level model, then decide whether the log-log specification is better.\n\nmodel_base &lt;- lm(price      ~ distance,                     data = hotels)\nmodel_ext  &lt;- lm(price      ~ distance + stars,             data = hotels)\nmodel_work &lt;- lm(log(price) ~ log(distance + 0.1) + stars,  data = hotels)\n\n\n\n\n\n\n\nNoteWhy log(distance + 0.1) and not log(distance)?\n\n\n\n\n\n10 hotels in this cross-section have distance = 0 — they are recorded as being right at the city centre. log(0) is undefined (\\(-\\infty\\)), so a small positive offset is added before taking the log.\nThe choice of 0.1 is partly conventional: distances are measured in kilometres, and 0.1 km (100 metres) roughly corresponds to the resolution at which hotel locations are typically geocoded to a city reference point. For the vast majority of hotels — whose distances range from 0.1 to 18 km — the offset has negligible impact.\nA good practice is to verify that the results are not sensitive to the choice of constant. For example, re-estimating with log(distance + 0.05) or log(distance + 0.5) should yield very similar coefficients if the model is well-specified and the offset is small relative to typical distances.\n\n\n\nThe approach in this session: build every diagnostic plot by hand first, so you understand where the numbers come from. Once we have seen the mechanics, we use performance::check_model() to produce all panels in one call."
   },
   {
-    "objectID": "content/material/session04/index.html#learning-goals",
-    "href": "content/material/session04/index.html#learning-goals",
-    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
-    "section": "Learning goals",
-    "text": "Learning goals\n\nIdentify key OLS assumption violations in practice\nDetect multicollinearity, heteroskedasticity, and influential outliers\nUnderstand omitted variable bias intuitively\nApply robust standard errors using lmtest and sandwich",
-    "crumbs": [
-      "Sessions",
-      "Session 4 — Biases & Diagnostics"
-    ]
+    "objectID": "content/material/session04/lecture_notes.html#business-question",
+    "href": "content/material/session04/lecture_notes.html#business-question",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "",
+    "text": "Does the hotel price–distance relationship hold across all European cities, or does it break down in some? And how do we know when to trust our regression output?"
   },
   {
-    "objectID": "content/material/session04/index.html#dataset",
-    "href": "content/material/session04/index.html#dataset",
-    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
-    "section": "Dataset",
-    "text": "Dataset\nhotels-europe — 148,021 hotel-date observations across 46 European cities and 10 dates. The larger and more heterogeneous sample makes OLS assumption violations more visible.",
-    "crumbs": [
-      "Sessions",
-      "Session 4 — Biases & Diagnostics"
-    ]
+    "objectID": "content/material/session04/lecture_notes.html#packages-and-data",
+    "href": "content/material/session04/lecture_notes.html#packages-and-data",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(broom)\nlibrary(modelsummary)\nlibrary(lmtest)\nlibrary(sandwich)\nlibrary(car)\nlibrary(performance)\nlibrary(see)\nlibrary(patchwork)\nlibrary(flextable)\n\nhotels &lt;- read_csv(\"data/hotels_cs.csv\", show_col_types = FALSE)\nglimpse(hotels)\n\nRows: 9,648\nColumns: 7\n$ hotel_id           &lt;dbl&gt; 1, 1, 2, 3, 3, 4, 5, 5, 6, 6, 7, 9, 9, 10, 11, 11, …\n$ city               &lt;chr&gt; \"Amsterdam\", \"Amsterdam\", \"Amsterdam\", \"Amsterdam\",…\n$ distance           &lt;dbl&gt; 3.1, 3.1, 0.9, 1.5, 1.5, 1.9, 1.8, 1.8, 1.9, 1.9, 0…\n$ stars              &lt;dbl&gt; 4.0, 4.0, 2.0, 4.0, 4.0, 3.0, 3.5, 3.5, 4.0, 4.0, 3…\n$ rating             &lt;dbl&gt; 4.3, 4.3, 4.1, 4.1, 4.1, 3.5, 4.0, 4.0, 4.1, 4.1, 4…\n$ accommodation_type &lt;chr&gt; \"Hotel\", \"Hotel\", \"Hostel\", \"Hotel\", \"Hotel\", \"Hote…\n$ price              &lt;dbl&gt; 172, 114, 119, 217, 117, 71, 922, 690, 127, 186, 16…\n\n\nWe have a cross-section of 9648 hotels from 8 European cities (November 2017, complete cases), ranging from Istanbul (median price ~€57) to London (~€171). The variation across cities shows up not just in average prices but in the structure of the data — making this a good setting for exploring what can go wrong in a regression.\n\nhotels |&gt;\n  group_by(city) |&gt;\n  summarise(\n    N             = n(),\n    `Median price (€)`      = median(price)   |&gt; round(1),\n    `Median distance (km)`  = median(distance) |&gt; round(2),\n    `Median stars`          = median(stars)    |&gt; round(1)\n  ) |&gt;\n  arrange(`Median price (€)`) |&gt;\n  rename(City = city) |&gt;\n  flextable() |&gt;\n  autofit() |&gt;\n  set_caption(\"Overview of the eight cities in the cross-section.\")\n\n\n\nTable 1: Overview of the eight cities in the cross-section.\n\n\n\nCityNMedian price (€)Median distance (km)Median starsIstanbul1,100571.14.0Budapest561700.83.5Prague886821.04.0Barcelona1,2001021.23.5Vienna7201201.53.5Amsterdam5351491.03.0Paris2,7061601.83.0London1,9401712.53.5"
   },
   {
-    "objectID": "content/material/session04/index.html#quarto-skill-introduced-this-session",
-    "href": "content/material/session04/index.html#quarto-skill-introduced-this-session",
-    "title": "Session 4: What Can Go Wrong — Biases and Diagnostics",
-    "section": "Quarto skill introduced this session",
-    "text": "Quarto skill introduced this session\nEmbedding diagnostic plots in a report: figure captions, cross-references (@fig-), and layout options for multi-panel figures.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
-    "crumbs": [
-      "Sessions",
-      "Session 4 — Biases & Diagnostics"
-    ]
+    "objectID": "content/material/session04/lecture_notes.html#two-models-we-will-diagnose",
+    "href": "content/material/session04/lecture_notes.html#two-models-we-will-diagnose",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "",
+    "text": "We start with a simple level-level model, then decide whether the log-log specification is better.\n\nmodel_base &lt;- lm(price      ~ distance,                     data = hotels)\nmodel_ext  &lt;- lm(price      ~ distance + stars,             data = hotels)\nmodel_work &lt;- lm(log(price) ~ log(distance + 0.1) + stars,  data = hotels)\n\n\n\n\n\n\n\nNoteWhy log(distance + 0.1) and not log(distance)?\n\n\n\n\n\n10 hotels in this cross-section have distance = 0 — they are recorded as being right at the city centre. log(0) is undefined (\\(-\\infty\\)), so a small positive offset is added before taking the log.\nThe choice of 0.1 is partly conventional: distances are measured in kilometres, and 0.1 km (100 metres) roughly corresponds to the resolution at which hotel locations are typically geocoded to a city reference point. For the vast majority of hotels — whose distances range from 0.1 to 18 km — the offset has negligible impact.\nA good practice is to verify that the results are not sensitive to the choice of constant. For example, re-estimating with log(distance + 0.05) or log(distance + 0.5) should yield very similar coefficients if the model is well-specified and the offset is small relative to typical distances.\n\n\n\nThe approach in this session: build every diagnostic plot by hand first, so you understand where the numbers come from. Once we have seen the mechanics, we use performance::check_model() to produce all panels in one call."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#starting-point-is-the-level-level-specification-reasonable",
+    "href": "content/material/session04/lecture_notes.html#starting-point-is-the-level-level-specification-reasonable",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "2.1 Starting point: is the level-level specification reasonable?",
+    "text": "2.1 Starting point: is the level-level specification reasonable?\n\nmodelsummary(model_ext,\n             gof_omit    = \"AIC|BIC|Log|F\",\n             stars       = TRUE,\n             coef_rename = c(\"distance\" = \"Distance (km)\", \"stars\" = \"Stars\"))\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                (1)\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  -30.704***\n                \n                \n                  \n                  (5.146)\n                \n                \n                  Distance (km)\n                  -4.653***\n                \n                \n                  \n                  (0.484)\n                \n                \n                  Stars\n                  57.128***\n                \n                \n                  \n                  (1.413)\n                \n                \n                  Num.Obs.\n                  9648\n                \n                \n                  R2\n                  0.156\n                \n                \n                  R2 Adj.\n                  0.155\n                \n                \n                  RMSE\n                  119.50\n                \n        \n      \n    \n\n\n\nThe coefficient on distance is negative (further \\(\\rightarrow\\) cheaper), stars is positive (higher rated \\(\\rightarrow\\) more expensive). This seems plausible. But should we trust the functional form? The first diagnostic is the residuals-vs-fitted plot."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#building-the-residuals-vs-fitted-plot",
+    "href": "content/material/session04/lecture_notes.html#building-the-residuals-vs-fitted-plot",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "2.2 Building the residuals-vs-fitted plot",
+    "text": "2.2 Building the residuals-vs-fitted plot\nbroom::augment() attaches fitted values (.fitted) and residuals (.resid) directly to the data frame returned by lm(). That is all we need to build the plot:\n\n\n\n\n\n\nTipHow to extract fitted values and residuals without augment()\n\n\n\n\n\naugment() is convenient, but the same quantities are available directly from the model object:\nfitted_vals &lt;- fitted(model_ext)      # equivalent: model_ext$fitted.values\nresiduals_  &lt;- resid(model_ext)       # equivalent: model_ext$residuals\naugment() is preferred in this workflow because it returns a tidy data frame that includes the original variables alongside .fitted, .resid, .hat, .std.resid, and .cooksd, making it easy to pipe straight into ggplot2.\n\n\n\n\naugment(model_ext) |&gt;\n  ggplot(aes(.fitted, .resid)) +\n  geom_point(alpha = 0.12, color = \"steelblue\", size = 0.7) +\n  geom_hline(yintercept = 0, linetype = \"dashed\", color = \"gray50\") +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"tomato\", linewidth = 1) +\n  labs(x = \"Fitted values (€)\", y = \"Residuals (€)\",\n       title = \"Level-level: price ~ distance + stars\",\n       subtitle = \"The smoother should be flat — it is not\") +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 1: Residuals vs. fitted values for the level-level model. The red smoother curves upward — the functional form is misspecified.\n\n\n\n\n\nThe upward curve at high fitted values tells us the model systematically underpredicts expensive hotels. The relationship is not linear in levels."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#comparing-specifications",
+    "href": "content/material/session04/lecture_notes.html#comparing-specifications",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "2.3 Comparing specifications",
+    "text": "2.3 Comparing specifications\nLet us compare the residual plots for two alternative specifications, shown in Figure 2 (also called Tukey-Anscombe plots).\nFirst, a model with a quadratic distance term, which allows the price penalty to change with distance:\n\\[\\text{price}_i = \\beta_0 + \\beta_1 \\cdot \\text{distance}_i + \\beta_2 \\cdot \\text{distance}_i^2 + \\beta_3 \\cdot \\text{stars}_i + \\varepsilon_i\\]\nSecond, a log-log specification, which assumes a constant elasticity relationship between price and distance:\n\\[\\log(\\text{price}_i) = \\beta_0 + \\beta_1 \\cdot \\log(\\text{distance}_i + 0.1) + \\beta_2 \\cdot \\text{stars}_i + \\varepsilon_i\\]\n\nmake_resid &lt;- function(m, title) {\n  augment(m) |&gt;\n    ggplot(aes(.fitted, .resid)) +\n    geom_point(alpha = 0.12, color = \"steelblue\", size = 0.7) +\n    geom_hline(yintercept = 0, linetype = \"dashed\", color = \"gray50\") +\n    geom_smooth(method = \"loess\", se = FALSE, color = \"tomato\", linewidth = 0.9) +\n    labs(x = \"Fitted values\", y = \"Residuals\", title = title) +\n    theme_minimal(base_size = 11)\n}\n\nm_quad &lt;- lm(price ~ distance + I(distance^2) + stars, data = hotels)\n\nmake_resid(model_ext,  \"Level-level\") +\nmake_resid(m_quad,     \"Quadratic\") +\nmake_resid(model_work, \"Log-log\")\n\n\n\n\n\n\n\nFigure 2: Residuals vs. fitted for three specifications. The log-log model produces the flattest smoother.\n\n\n\n\n\nThe log-log model is clearly best. We adopt it as our working model."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#the-reset-test-a-formal-functional-form-check",
+    "href": "content/material/session04/lecture_notes.html#the-reset-test-a-formal-functional-form-check",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "2.4 The RESET test: a formal functional form check",
+    "text": "2.4 The RESET test: a formal functional form check\nThe Ramsey RESET (Regression Equation Specification Error Test) checks whether the functional form of a regression is correctly specified. The key idea: if the model is well-specified, adding polynomial powers of the fitted values (\\(\\hat{y}^2, \\hat{y}^3, \\ldots\\)) as additional regressors should not improve the fit — the fitted values already summarise all systematic variation that the model can explain.\n\n\\(H_0\\): the functional form is correctly specified\n\\(H_a\\): at least one polynomial power of \\(\\hat{y}\\) has a non-zero coefficient (something is missing)\n\nA significant test statistic (small p-value) signals misspecification but does not tell you what is wrong or how to fix it.\n\nresettest(model_ext)\n\n\n    RESET test\n\ndata:  model_ext\nRESET = 386.33, df1 = 2, df2 = 9643, p-value &lt; 2.2e-16\n\nresettest(model_work)\n\n\n    RESET test\n\ndata:  model_work\nRESET = 156.44, df1 = 2, df2 = 9643, p-value &lt; 2.2e-16\n\n\nThe level-level model rejects strongly. The log-log model also rejects, but with a much smaller test statistic.\n\n\n\n\n\n\nNote\n\n\n\nWhy does the log-log model still fail? With 9648 observations, the RESET test has very high statistical power — it can detect even tiny, practically irrelevant deviations from the specified form. The remaining systematic structure likely reflects city-level price heterogeneity that no two-variable regression can absorb. This is a preview of the omitted variable problem we address at the end of this session.\n\n\n\n\n\n\n\n\nTip\n\n\n\nA useful workflow: RESET first to flag a problem, residual plot to diagnose it, revised model to fix it."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#building-the-scale-location-plot",
+    "href": "content/material/session04/lecture_notes.html#building-the-scale-location-plot",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "3.1 Building the scale-location plot",
+    "text": "3.1 Building the scale-location plot\nThe scale-location plot shows \\(\\sqrt{|\\tilde{e}_i|}\\) on the y-axis, where \\(\\tilde{e}_i\\) are the standardised residuals. If error variance is constant, this band should be flat and horizontal. We build it manually from augment():\n\n\n\n\n\n\nTipComputing these values without augment()\n\n\n\n\n\nThe standardised residuals are available directly via rstandard():\nstd_resid &lt;- rstandard(model_work)    # standardised residuals: e_i / (sigma * sqrt(1 - h_ii))\nsqrt_abs  &lt;- sqrt(abs(std_resid))\nfitted_v  &lt;- fitted(model_work)\nrstandard() divides each residual by \\(\\hat{\\sigma}\\sqrt{1 - h_{ii}}\\), where \\(h_{ii}\\) is the leverage of observation \\(i\\). This scaling makes residuals from high-leverage observations comparable to the rest.\n\n\n\n\naugment(model_work) |&gt;\n  ggplot(aes(.fitted, sqrt(abs(.std.resid)))) +\n  geom_point(alpha = 0.12, color = \"steelblue\", size = 0.7) +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"tomato\", linewidth = 1) +\n  labs(\n    x = \"Fitted values (log scale)\",\n    y = \"√|Standardised residuals|\",\n    title = \"Scale-location: log(price) ~ log(distance) + stars\",\n    subtitle = \"A flat horizontal smoother = homoskedastic\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 3: Scale-location plot: the upward slope reveals heteroskedasticity in the log-log model.\n\n\n\n\n\nThe smoother rises toward higher fitted values — hotels in expensive cities show more price dispersion than the model can absorb. OLS estimates are still unbiased, but standard errors are unreliable."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#the-breusch-pagan-test",
+    "href": "content/material/session04/lecture_notes.html#the-breusch-pagan-test",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "3.2 The Breusch-Pagan test",
+    "text": "3.2 The Breusch-Pagan test\nThe Breusch-Pagan test formalises what the scale-location plot showed visually. If errors are homoskedastic, the squared residuals \\(\\hat{u}_i^2\\) should not be systematically related to the regressors — knowing \\(X\\) should not help predict how large the error will be. The test regresses \\(\\hat{u}_i^2\\) on the fitted values (or on the original regressors, depending on the variant) and uses a \\(\\chi^2\\)-test to check whether this auxiliary regression has any explanatory power:\n\n\\(H_0\\): homoskedasticity — \\(\\text{Var}(u_i \\mid X_i) = \\sigma^2\\) (constant)\n\\(H_a\\): heteroskedasticity — \\(\\text{Var}(u_i \\mid X_i) = h(X_i)\\) for some function \\(h(\\cdot)\\)\n\nUnder \\(H_0\\), the test statistic follows a \\(\\chi^2\\) distribution with degrees of freedom equal to the number of variables in the auxiliary regression.\n\nbptest(model_work)\n\n\n    studentized Breusch-Pagan test\n\ndata:  model_work\nBP = 192.96, df = 2, p-value &lt; 2.2e-16\n\n\nThe tiny p-value confirms what the plot showed: the error variance is not constant. We reject homoskedasticity."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#robust-standard-errors",
+    "href": "content/material/session04/lecture_notes.html#robust-standard-errors",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "3.3 Robust standard errors",
+    "text": "3.3 Robust standard errors\nThe fix is to replace the classical standard errors with heteroskedasticity-consistent (HC) ones. The estimates do not change — only the expressed uncertainty.\n\ncoeftest(model_work, vcov = vcovHC(model_work, type = \"HC1\"))\n\n\nt test of coefficients:\n\n                      Estimate Std. Error t value  Pr(&gt;|t|)    \n(Intercept)          3.7599122  0.0258337 145.543 &lt; 2.2e-16 ***\nlog(distance + 0.1) -0.0404109  0.0064885  -6.228  4.92e-10 ***\nstars                0.3150797  0.0073421  42.914 &lt; 2.2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nFor reporting, compare both in a single table:\n\nmodelsummary(\n  list(\"Classical SEs\" = model_work, \"HC1 robust SEs\" = model_work),\n  vcov        = list(\"classical\", \"HC1\"),\n  stars       = TRUE,\n  gof_omit    = \"AIC|BIC|Log|F|RMSE\",\n  coef_rename = c(\"log(distance + 0.1)\" = \"log(distance)\", \"stars\" = \"Stars\")\n)\n\n\n\nTable 2: Classical vs. HC1 robust SEs. Estimates identical; inference differs.\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                Classical SEs\n                HC1 robust SEs\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  3.760***\n                  3.760***\n                \n                \n                  \n                  (0.025)\n                  (0.026)\n                \n                \n                  log(distance)\n                  -0.040***\n                  -0.040***\n                \n                \n                  \n                  (0.007)\n                  (0.006)\n                \n                \n                  Stars\n                  0.315***\n                  0.315***\n                \n                \n                  \n                  (0.007)\n                  (0.007)\n                \n                \n                  Num.Obs.\n                  9648\n                  9648\n                \n                \n                  R2\n                  0.184\n                  0.184\n                \n                \n                  R2 Adj.\n                  0.184\n                  0.184\n                \n                \n                  Std.Errors\n                  IID\n                  HC1\n                \n        \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nWith cross-sectional data, use robust SEs by default. The additional cost is zero."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#vif-for-the-working-model",
+    "href": "content/material/session04/lecture_notes.html#vif-for-the-working-model",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "4.1 VIF for the working model",
+    "text": "4.1 VIF for the working model\nThe Variance Inflation Factor (VIF) for predictor \\(j\\) measures how much collinearity with the other predictors inflates the variance of \\(\\hat{\\beta}_j\\). It is computed by regressing \\(x_j\\) on all other predictors and using the resulting \\(R^2_j\\):\n\\[\\text{VIF}_j = \\frac{1}{1 - R^2_j}\\]\nA VIF of 1 means no inflation at all; a VIF of 5 means the standard error of \\(\\hat{\\beta}_j\\) is \\(\\sqrt{5} \\approx 2.2\\) times larger than it would be without collinearity; a VIF of 10 means roughly a 3-fold inflation. Values above 5 warrant attention; values above 10 are serious.\n\nvif(model_work)\n\nlog(distance + 0.1)               stars \n           1.005669            1.005669 \n\n\nBoth VIFs are close to 1 — no concern. The two predictors are measuring genuinely different things."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#what-problematic-vif-looks-like",
+    "href": "content/material/session04/lecture_notes.html#what-problematic-vif-looks-like",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "4.2 What problematic VIF looks like",
+    "text": "4.2 What problematic VIF looks like\nA researcher might wonder whether to use stars in raw form or log form. Including both creates severe collinearity:\n\nmodel_collinear &lt;- lm(log(price) ~ log(distance + 0.1) + stars + log(stars), data = hotels)\nvif(model_collinear)\n\nlog(distance + 0.1)               stars          log(stars) \n           1.010177           20.646750           20.600907 \n\n\nVIF ≈ 20 for stars and log(stars) — a variable and its monotonic transformation are near-identical. The model cannot separate their effects and the standard errors become meaningless. The remedy is straightforward: pick one form and stick with it."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#building-the-leverage-residuals-plot",
+    "href": "content/material/session04/lecture_notes.html#building-the-leverage-residuals-plot",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "5.1 Building the leverage-residuals plot",
+    "text": "5.1 Building the leverage-residuals plot\nWe need three quantities from augment():\n\n.hat: the leverage of each observation — how far it sits in predictor space (\\(h_{ii}\\) from the hat matrix)\n.std.resid: the standardised residual — how unusual the outcome is given the predictors\n.cooksd: Cook’s distance — combines both into a single influence measure\n\n\nhotels_aug     &lt;- augment(model_work) |&gt; bind_cols(hotels |&gt; select(hotel_id, city))\nthreshold_cook &lt;- 4 / nrow(hotels)\np_params       &lt;- length(coef(model_work))   # number of estimated parameters\n\nThe straight horizontal lines at ±2 you might see in basic plots are a simplification — they only consider residual size and ignore leverage. An observation with high leverage but a small residual can still be highly influential. The correct visualisation uses Cook’s distance contour curves, which show equal influence in the joint (leverage, residual) space. The contour at threshold \\(D^*\\) is:\n\\[|r_i| = \\sqrt{D^* \\cdot p \\cdot \\frac{1-h_{ii}}{h_{ii}}}\\]\nwhere \\(p\\) is the number of estimated parameters and \\(h_{ii}\\) is the leverage. We add these curves to the manual plot using threshold_cook = 4/n.\nThe y-axis is clipped with coord_cartesian() to suppress a handful of extreme standardised residuals — this clips the display without dropping any observations from the model.\n\nh_seq &lt;- seq(1e-4, max(hotels_aug$.hat) * 1.05, length.out = 500)\n\ncontour_df &lt;- tibble(\n  h     = h_seq,\n  upper =  sqrt(threshold_cook * p_params * (1 - h_seq) / h_seq),\n  lower = -sqrt(threshold_cook * p_params * (1 - h_seq) / h_seq)\n)\n\ny_lim &lt;- quantile(abs(hotels_aug$.std.resid), 0.999) * 1.1\n\nhotels_aug |&gt;\n  ggplot(aes(.hat, .std.resid,\n             size  = .cooksd,\n             color = .cooksd &gt; threshold_cook)) +\n  geom_point(alpha = 0.5) +\n  geom_line(data = contour_df, aes(x = h, y = upper),\n            inherit.aes = FALSE, color = \"tomato\", linetype = \"dashed\", linewidth = 0.7) +\n  geom_line(data = contour_df, aes(x = h, y = lower),\n            inherit.aes = FALSE, color = \"tomato\", linetype = \"dashed\", linewidth = 0.7) +\n  coord_cartesian(ylim = c(-y_lim, y_lim)) +\n  scale_color_manual(\n    values = c(\"steelblue\", \"tomato\"),\n    labels = c(\"Below threshold\", \"Cook's D &gt; 4/n\"),\n    name   = NULL\n  ) +\n  scale_size_continuous(guide = \"none\") +\n  labs(x = \"Leverage (h_ii)\", y = \"Standardised residuals\",\n       title    = \"Influential observations\",\n       subtitle = \"Dashed curves = Cook's D contour at 4/n\") +\n  theme_minimal() +\n  theme(legend.position = \"bottom\")\n\n\n\n\n\n\n\nFigure 4: Leverage vs. standardised residuals with Cook’s distance contour at the 4/n threshold. Red points exceed the threshold. Y-axis clipped at the 99.9th percentile of |std.resid| for readability."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#who-are-the-most-influential-hotels",
+    "href": "content/material/session04/lecture_notes.html#who-are-the-most-influential-hotels",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "5.2 Who are the most influential hotels?",
+    "text": "5.2 Who are the most influential hotels?\n\nhotels_aug |&gt;\n  arrange(desc(.cooksd)) |&gt;\n  filter(.cooksd &gt; threshold_cook) |&gt;\n  select(city, .cooksd, .hat, .std.resid) |&gt;\n  head(10) |&gt;\n  mutate(across(where(is.numeric), \\(x) round(x, 4))) |&gt;\n  rename(City = city, `Cook's D` = .cooksd,\n         Leverage = .hat, `Std. residual` = .std.resid) |&gt;\n  flextable() |&gt;\n  autofit()\n\n\n\nTable 3: Ten most influential hotels by Cook’s distance.\n\n\n\nCityCook's DLeverageStd. residualBarcelona0.00840.00095.2236Barcelona0.00840.00095.2236Budapest0.00490.00113.7266Budapest0.00490.00113.7266London0.00260.00063.7217Budapest0.00250.0007-3.2362Amsterdam0.00240.00112.5508Prague0.00240.00083.0506Budapest0.00240.00082.9235Budapest0.00240.00082.9235"
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#sensitivity-check",
+    "href": "content/material/session04/lecture_notes.html#sensitivity-check",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "5.3 Sensitivity check",
+    "text": "5.3 Sensitivity check\n\ninfluential_ids &lt;- hotels_aug |&gt; filter(.cooksd &gt; threshold_cook) |&gt; pull(hotel_id)\n\nmodel_no_infl &lt;- hotels |&gt;\n  filter(!hotel_id %in% influential_ids) |&gt;\n  lm(log(price) ~ log(distance + 0.1) + stars, data = _)\n\nmodelsummary(\n  list(\"Full sample\" = model_work, \"Excl. influential\" = model_no_infl),\n  stars       = TRUE,\n  gof_omit    = \"AIC|BIC|Log|F|RMSE\",\n  coef_rename = c(\"log(distance + 0.1)\" = \"log(distance)\", \"stars\" = \"Stars\")\n)\n\n\n\nTable 4: Model with and without influential observations. The core results are robust.\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                Full sample\n                Excl. influential\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  3.760***\n                  3.794***\n                \n                \n                  \n                  (0.025)\n                  (0.024)\n                \n                \n                  log(distance)\n                  -0.040***\n                  -0.026***\n                \n                \n                  \n                  (0.007)\n                  (0.007)\n                \n                \n                  Stars\n                  0.315***\n                  0.300***\n                \n                \n                  \n                  (0.007)\n                  (0.007)\n                \n                \n                  Num.Obs.\n                  9648\n                  9074\n                \n                \n                  R2\n                  0.184\n                  0.185\n                \n                \n                  R2 Adj.\n                  0.184\n                  0.185\n                \n        \n      \n    \n\n\n\n\n\n\nThe coefficients are stable — the influential observations are a concern worth noting but do not overturn the conclusions."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#building-the-q-q-plot",
+    "href": "content/material/session04/lecture_notes.html#building-the-q-q-plot",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "6.1 Building the Q-Q plot",
+    "text": "6.1 Building the Q-Q plot\nThe Q-Q (quantile-quantile) plot compares the empirical distribution of the standardised residuals against the theoretical distribution assumed by OLS — the standard normal. If residuals are normally distributed, their quantiles will align with the theoretical normal quantiles and the points will fall on or near the diagonal.\nDeviations from the diagonal in the tails indicate that the residual distribution is heavier- or lighter-tailed than a normal. A pronounced S-shape (common with right-skewed data) means more extreme residuals than the normal distribution predicts.\nImportant caveat: normality of residuals is required for exact finite-sample t- and F-tests, but with moderate-to-large \\(n\\), the Central Limit Theorem ensures approximate normality of \\(\\hat{\\beta}\\) regardless of the residual distribution. For our dataset with 9648 observations, the Q-Q plot is informative but rarely a primary concern.\n\nhotels_aug |&gt;\n  ggplot(aes(sample = .std.resid)) +\n  stat_qq(alpha = 0.15, color = \"steelblue\", size = 0.7) +\n  stat_qq_line(color = \"tomato\", linewidth = 1) +\n  labs(x = \"Theoretical normal quantiles\",\n       y = \"Sample quantiles of std. residuals\",\n       title = \"Q-Q plot of standardised residuals\") +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 5: Q-Q plot: standardised residuals vs. theoretical normal quantiles.\n\n\n\n\n\nThe tails deviate slightly from the diagonal — heavier than a perfect normal. With \\(n = 9648\\), the Central Limit Theorem ensures this does not affect our inference."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#the-shapiro-wilk-trap",
+    "href": "content/material/session04/lecture_notes.html#the-shapiro-wilk-trap",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "6.2 The Shapiro-Wilk trap",
+    "text": "6.2 The Shapiro-Wilk trap\nThe Shapiro-Wilk test assesses whether a sample could plausibly have been drawn from a normal distribution. It is based on the correlation between the sample quantiles and the quantiles expected under normality — a value close to 1 indicates normality, and a significant p-value suggests a departure. Because R’s shapiro.test() is limited to a maximum of 5,000 observations, we draw a random subsample from the residuals rather than testing all 9648 at once.\n\nset.seed(42)\nshapiro.test(sample(resid(model_work), 5000))\n\n\n    Shapiro-Wilk normality test\n\ndata:  sample(resid(model_work), 5000)\nW = 0.99035, p-value &lt; 2.2e-16\n\n\np \\(\\ll\\) 0.001. With 9648 observations, Shapiro-Wilk has enough statistical power to detect even trivially small departures from normality that have no practical consequence for inference — the large \\(n\\) makes the test hypersensitive. This result is not alarming; use the Q-Q plot for visual assessment instead."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#model_base-a-distributional-failure",
+    "href": "content/material/session04/lecture_notes.html#model_base-a-distributional-failure",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "7.1 model_base: a distributional failure",
+    "text": "7.1 model_base: a distributional failure\n\nplot(check_predictions(model_base)) +\n  labs(title    = \"Level-level: price ~ distance + stars\",\n       subtitle = \"Residual skewness = 7.8 — simulated data spreads to €3,500+\") +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 6: PPC for the level-level model. Simulated prices spread far beyond the observed range.\n\n\n\n\n\nThe green (simulated) curves are nearly flat across a range the observed data never occupies. The level-level model generates plausible prices at the wrong scale."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#model_work-much-better",
+    "href": "content/material/session04/lecture_notes.html#model_work-much-better",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "7.2 model_work: much better",
+    "text": "7.2 model_work: much better\n\nplot(check_predictions(model_work)) +\n  labs(title    = \"Log-log: log(price) ~ log(distance) + stars\",\n       subtitle = \"Residual skewness ≈ 0 — distributions align\") +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 7: PPC for the log-log model. The distributions now broadly align.\n\n\n\n\n\nThe PPC caught what the residual plot could not show as clearly: the level-level model’s assumed data-generating process is fundamentally incompatible with the right-skewed distribution of hotel prices."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#the-limits-of-residual-based-analysis",
+    "href": "content/material/session04/lecture_notes.html#the-limits-of-residual-based-analysis",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "9.1 The limits of residual-based analysis",
+    "text": "9.1 The limits of residual-based analysis\nEvery panel above examines properties of the residuals — the part of \\(y\\) the model did not explain. The residuals are defined relative to the model we already estimated: if an important variable is missing, the bias is baked into \\(\\hat{\\beta}\\) before we ever look at the residuals.\nThis is a general property of all routes to endogeneity (\\(E[u \\mid X] \\neq 0\\)):\n\nOmitted variable bias — the confounder’s effect is absorbed into \\(\\hat{\\beta}\\); residuals show no trace\nMeasurement error in regressors — attenuation bias hides behind well-behaved residuals\nSimultaneity / reverse causality — the endogenous regressor leaves no obvious pattern in \\(\\hat{u}\\)\n\nAll three share the same logic: the bias lives inside \\(\\hat{\\beta}\\), not in \\(\\hat{u}\\). In what follows we focus on omitted variable bias as the most common case in business and economics research."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#demonstrating-ovb-does-adding-city-matter",
+    "href": "content/material/session04/lecture_notes.html#demonstrating-ovb-does-adding-city-matter",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "9.2 Demonstrating OVB: does adding city matter?",
+    "text": "9.2 Demonstrating OVB: does adding city matter?\n\nm_no_city   &lt;- lm(log(price) ~ log(distance + 0.1) + stars,        data = hotels)\nm_with_city &lt;- lm(log(price) ~ log(distance + 0.1) + stars + city,  data = hotels)\n\nmodelsummary(\n  list(\"Without city\" = m_no_city, \"With city controls\" = m_with_city),\n  coef_omit   = \"city\",\n  stars       = TRUE,\n  gof_omit    = \"AIC|BIC|Log|F|RMSE\",\n  coef_rename = c(\"log(distance + 0.1)\" = \"log(distance)\", \"stars\" = \"Stars\"),\n  add_rows    = tribble(\n    ~term,     ~`Without city`, ~`With city controls`,\n    \"City FE\", \"No\",            \"Yes\"\n  )\n)\n\n\n\nTable 5: Without and with city controls. The distance coefficient shifts substantially.\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                 \n                Without city\n                With city controls\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  3.760***\n                  3.903***\n                \n                \n                  \n                  (0.025)\n                  (0.024)\n                \n                \n                  log(distance)\n                  -0.040***\n                  -0.185***\n                \n                \n                  \n                  (0.007)\n                  (0.005)\n                \n                \n                  Stars\n                  0.315***\n                  0.370***\n                \n                \n                  \n                  (0.007)\n                  (0.005)\n                \n                \n                  Num.Obs.\n                  9648\n                  9648\n                \n                \n                  R2\n                  0.184\n                  0.606\n                \n                \n                  R2 Adj.\n                  0.184\n                  0.606\n                \n                \n                  City FE\n                  No\n                  Yes\n                \n        \n      \n    \n\n\n\n\n\n\nThe distance coefficient changes substantially. Why? Expensive cities (Paris, London) are also more compact — hotels sit closer to the centre. Without controlling for city, the model confounds “expensive” with “central” and attributes the price difference to distance."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#the-residuals-from-the-biased-model-look-fine",
+    "href": "content/material/session04/lecture_notes.html#the-residuals-from-the-biased-model-look-fine",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "9.3 The residuals from the biased model look fine",
+    "text": "9.3 The residuals from the biased model look fine\n\np1 &lt;- augment(m_no_city) |&gt;\n  ggplot(aes(.fitted, .resid)) +\n  geom_point(alpha = 0.12, color = \"steelblue\", size = 0.7) +\n  geom_hline(yintercept = 0, linetype = \"dashed\", color = \"gray50\") +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"tomato\", linewidth = 1) +\n  labs(x = \"Fitted values\", y = \"Residuals\",\n       title = \"Linearity (residuals vs. fitted)\") +\n  theme_minimal()\n\np2 &lt;- augment(m_no_city) |&gt;\n  ggplot(aes(.fitted, sqrt(abs(.std.resid)))) +\n  geom_point(alpha = 0.12, color = \"steelblue\", size = 0.7) +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"tomato\", linewidth = 1) +\n  labs(x = \"Fitted values\", y = \"√|Standardised residuals|\",\n       title = \"Homogeneity of variance (scale-location)\") +\n  theme_minimal()\n\np3 &lt;- augment(m_no_city) |&gt;\n  ggplot(aes(sample = .std.resid)) +\n  stat_qq(alpha = 0.15, color = \"steelblue\", size = 0.7) +\n  stat_qq_line(color = \"tomato\", linewidth = 1) +\n  labs(x = \"Theoretical quantiles\", y = \"Sample quantiles\",\n       title = \"Normality of residuals (Q-Q)\") +\n  theme_minimal()\n\np1 / p2 / p3\n\n\n\n\n\n\n\nFigure 9: Three diagnostic panels for the model omitting city. All pass — yet the distance coefficient is biased.\n\n\n\n\n\nClean residuals, flat smoother, near-normal Q-Q. The bias is invisible because it has been absorbed into \\(\\hat{\\beta}_\\text{distance}\\). This is why OVB — and the other routes to endogeneity — require theoretical reasoning and better research design, not better diagnostics."
+  },
+  {
+    "objectID": "content/material/session04/lecture_notes.html#the-direction-of-bias",
+    "href": "content/material/session04/lecture_notes.html#the-direction-of-bias",
+    "title": "Session 4: Biases and Diagnostics — Live Demo",
+    "section": "9.4 The direction of bias",
+    "text": "9.4 The direction of bias\n\\[\\text{sign(bias)} = \\text{sign}(\\text{effect of city on price}) \\times \\text{sign}(\\text{corr(city, distance)})\\]\n\nCity → price: positive (Paris &gt; Budapest)\nCity → distance: negative (expensive cities are compact; hotels are more central)\nBias on \\(\\hat{\\beta}_\\text{distance}\\): negative → the estimated distance effect is more negative than it should be"
   },
   {
     "objectID": "content/material/session06/index.html",
@@ -1168,7 +1365,7 @@
     "text": "Note\n\n\n\nDate: Thursday, 28 May 2026, 16:00–19:00",
     "crumbs": [
       "Sessions",
-      "Session 6 — Panel Data"
+      "Session 5 — Panel Data"
     ]
   },
   {
@@ -1179,7 +1376,7 @@
     "text": "Business question\nDoes better management quality lead to better firm performance — and does this relationship hold within countries?",
     "crumbs": [
       "Sessions",
-      "Session 6 — Panel Data"
+      "Session 5 — Panel Data"
     ]
   },
   {
@@ -1190,7 +1387,7 @@
     "text": "Learning goals\n\nUnderstand the logic of panel data (units observed over time)\nApply fixed effects estimation to control for unobserved unit-level heterogeneity\nDistinguish within- vs. between-variation and interpret each\nUse fixest for efficient fixed effects estimation",
     "crumbs": [
       "Sessions",
-      "Session 6 — Panel Data"
+      "Session 5 — Panel Data"
     ]
   },
   {
@@ -1201,7 +1398,7 @@
     "text": "Dataset\nwms-management-survey — manufacturing firms across 24 countries, 2004–2015 (World Management Survey). Management quality scores, firm characteristics, performance indicators.",
     "crumbs": [
       "Sessions",
-      "Session 6 — Panel Data"
+      "Session 5 — Panel Data"
     ]
   },
   {
@@ -1212,7 +1409,7 @@
     "text": "Quarto skill introduced this session\nPresenting panel model output cleanly with fixest and modelsummary: handling multiple fixed effects, notes on standard error clustering.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
     "crumbs": [
       "Sessions",
-      "Session 6 — Panel Data"
+      "Session 5 — Panel Data"
     ]
   },
   {
@@ -1223,7 +1420,7 @@
     "text": "Note\n\n\n\nDate: Thursday, 11 June 2026, 16:00–19:00",
     "crumbs": [
       "Sessions",
-      "Session 8 — Data Visualization"
+      "Session 7 — Data Visualization"
     ]
   },
   {
@@ -1234,7 +1431,7 @@
     "text": "Business question\nHow do health outcomes relate to income globally — and how do we show this clearly?",
     "crumbs": [
       "Sessions",
-      "Session 8 — Data Visualization"
+      "Session 7 — Data Visualization"
     ]
   },
   {
@@ -1245,7 +1442,7 @@
     "text": "Learning goals\n\nCreate publication-ready figures with ggplot2 and patchwork\nVisualise uncertainty and model results effectively\nLabel outliers, annotate trends, and use colour intentionally\nAdapt output for different audiences and formats (HTML vs. Word)",
     "crumbs": [
       "Sessions",
-      "Session 8 — Data Visualization"
+      "Session 7 — Data Visualization"
     ]
   },
   {
@@ -1256,7 +1453,7 @@
     "text": "Datasets\n\nworldbank-lifeexpectancy — 182 countries: life expectancy and GDP per capita, 2017\nworld-bank-immunization — 172 countries, 1998–2017: immunisation rates and child survival\n\nTogether these datasets enable scatter plots, line plots over time, faceted comparisons, and annotated figures — the full range of ggplot2 capabilities.",
     "crumbs": [
       "Sessions",
-      "Session 8 — Data Visualization"
+      "Session 7 — Data Visualization"
     ]
   },
   {
@@ -1267,7 +1464,7 @@
     "text": "Quarto skill introduced this session\nPublication-ready figures: figure sizing, cross-references, captions, and exporting to Word with correct figure placement.\n\n\n\n\n\n\nImportant\n\n\n\nMaterial will be available here before the session.",
     "crumbs": [
       "Sessions",
-      "Session 8 — Data Visualization"
+      "Session 7 — Data Visualization"
     ]
   },
   {

@@ -21,9 +21,11 @@ date-modified: last-modified
 - Spot influential observations and assess their impact
 - Understand omitted variable bias and why diagnostics cannot detect it
 
-## Dataset
+## Datasets
 
-**hotels-europe** — cross-section of 9,648 hotels from 8 European cities (November 2017, complete cases on key variables), ranging from Istanbul (median price ~€52) to London (~€171). The wide variation across city types makes OLS assumption violations clearly visible.
+**Slides and live demo — hotels-europe**
+
+Cross-section of 9,648 hotels from 8 European cities (November 2017, complete cases), ranging from Istanbul (median price ~€52) to London (~€171). The wide price variation across city types makes OLS assumption violations clearly visible.
 
 | Variable | Description |
 |---|---|
@@ -35,17 +37,30 @@ date-modified: last-modified
 
 Source: Békés & Kézdi (2021). [Download full dataset](https://osf.io/r6uqb/).
 
+**Exercise — CPS earnings 2014**
+
+120,434 full-time employed US workers from the 2014 Current Population Survey (CPS), Monthly Outgoing Rotation Group. Used for the in-session exercise: diagnosing a Mincer wage regression.
+
+| Variable | Description |
+|---|---|
+| `wage` | Hourly wage (USD) = weekly earnings / usual hours |
+| `earnwke` | Weekly earnings (USD, top-coded at $2,884) |
+| `uhours` | Usual hours worked per week |
+| `age` | Age in years |
+| `educ` | Educational attainment (CPS grade92 scale: 31–46) |
+| `female` | 1 = female, 0 = male |
+
+Source: Békés & Kézdi (2021). [Full dataset documentation](https://gabors-data-analysis.com/datasets/cps-earnings). Dataset included in the exercise repository — no separate download needed.
+
 ## Session outline
 
-| Time | Activity |
-|---|---|
-| 16:00–16:10 | Recap of previous sessions |
-| 16:10–16:50 | Input: OLS properties (BLUE), functional form, heteroskedasticity |
-| 16:50–17:10 | Live demo: comparing specifications and applying robust SEs |
-| 17:10–17:25 | Break |
-| 17:25–17:50 | Input: multicollinearity, influential observations, normality, OVB |
-| 17:50–18:45 | In-session exercise |
-| 18:45–19:00 | Debrief + Quarto skill: multi-panel figures and `@fig-` cross-references |
+- Recap of previous sessions
+- Input: OLS properties (BLUE), functional form, heteroskedasticity
+- Live demo: comparing specifications and applying robust SEs
+- Break
+- Input: multicollinearity, influential observations, normality, OVB
+- In-session exercise
+- Debrief + Quarto skill: multi-panel figures and `@fig-` cross-references
 
 ## Materials
 
@@ -72,4 +87,4 @@ Embedding diagnostic plots in a Quarto report: figure captions, `@fig-` cross-re
 # plot 2
 ```
 
-Cross-reference in text: *As shown in @fig-diagnostics-1, ...*
+Cross-reference in text: *As shown in `@fig-diagnostics-1`, ...*
