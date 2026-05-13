@@ -1,0 +1,268 @@
+---
+title: "Session 5: Causation vs. Correlation — Live Demo"
+subtitle: "Advanced Data Science · Europa-Universität Flensburg"
+author: "Claudius Gräbner-Radkowitsch"
+date: "2026-05-21"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    code-tools: true
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+  eval: false
+---
+
+::: {.callout-note}
+Place `morg-2014-emp.csv` in a `data/` subfolder next to this file before rendering.
+The data file is the same raw CPS MORG extract used in the Session 5 exercise.
+:::
+
+# Setup
+
+## Business question
+
+> *Is there a gender wage gap among US workers? And what would it take to interpret a regression coefficient as evidence of discrimination?*
+
+## Packages and data
+
+```{r}
+library(tidyverse)
+library(broom)
+library(modelsummary)
+library(patchwork)
+
+raw <- read_csv("data/morg-2014-emp.csv", show_col_types = FALSE)
+```
+
+The raw file contains `r nrow(raw)` observations with 23 variables from the CPS MORG. We keep only what we need and construct the relevant variables:
+
+```{r}
+cps <- raw |>
+  filter(
+    !is.na(earnwke), earnwke > 0,
+    !is.na(uhours),  uhours  > 0,
+    !is.na(occ2012), !is.na(grade92),
+    !is.na(age), !is.na(sex)
+  ) |>
+  mutate(
+    wage   = earnwke / uhours,
+    female = as.integer(sex == 2),
+    educ   = grade92,
+    occ    = factor(occ2012)
+  ) |>
+  filter(wage > 0, wage < 500) |>
+  select(wage, female, age, educ, occ)
+
+glimpse(cps)
+```
+
+```{r}
+#| include: false
+n_obs    <- nrow(cps)
+n_female <- sum(cps$female)
+med_m    <- cps |> filter(female == 0) |> pull(wage) |> median() |> round(2)
+med_f    <- cps |> filter(female == 1) |> pull(wage) |> median() |> round(2)
+raw_gap  <- round((med_m - med_f) / med_m * 100, 1)
+```
+
+We have `r n_obs` workers after cleaning. The median hourly wage is \$`r med_m` for men and \$`r med_f` for women — a raw gap of `r raw_gap`%.
+
+---
+
+# The raw picture
+
+## Summary statistics by gender
+
+```{r}
+cps |>
+  mutate(gender = if_else(female == 1, "Female", "Male")) |>
+  group_by(gender) |>
+  summarise(
+    N            = n(),
+    `Median wage`  = median(wage)    |> round(2),
+    `Mean wage`    = mean(wage)      |> round(2),
+    `SD wage`      = sd(wage)        |> round(2),
+    `Median age`   = median(age),
+    `Median educ`  = median(educ)
+  )
+```
+
+## Wage distribution by gender
+
+```{r}
+#| label: fig-wage-dist
+#| fig-cap: "Log wage distributions by gender. The female distribution sits to the left — but the overlap is large."
+
+cps |>
+  mutate(gender = if_else(female == 1, "Female", "Male")) |>
+  ggplot(aes(log(wage), fill = gender)) +
+  geom_density(alpha = 0.45, colour = NA) +
+  scale_fill_manual(values = c("Female" = "tomato", "Male" = "steelblue")) +
+  labs(
+    x     = "log(hourly wage, USD)",
+    y     = "Density",
+    fill  = NULL,
+    title = "Wage distribution by gender",
+    subtitle = paste0("CPS 2014 · n = ", format(n_obs, big.mark = ","))
+  ) +
+  theme_minimal()
+```
+
+There is a clear leftward shift for women, but the distributions overlap substantially. Before concluding this is discrimination, we need to ask: *what else differs between men and women in this sample?*
+
+---
+
+# Three models, three questions
+
+The core claim of this session: every regression answers a specific question. The question changes when you add or remove controls. This is not a matter of some models being "more controlled" — it is a matter of which causal pathway you are estimating.
+
+## Estimating the models
+
+```{r}
+m1 <- lm(log(wage) ~ female,                    data = cps)
+m2 <- lm(log(wage) ~ female + age + educ,        data = cps)
+m3 <- lm(log(wage) ~ female + age + educ + occ,  data = cps)
+```
+
+```{r}
+#| include: false
+gap_m1 <- coef(m1)["female"] |> round(3)
+gap_m2 <- coef(m2)["female"] |> round(3)
+gap_m3 <- coef(m3)["female"] |> round(3)
+```
+
+## The side-by-side comparison
+
+```{r}
+#| label: tbl-models
+#| tbl-cap: "Three models of the gender wage gap. Outcome: log(hourly wage)."
+
+modelsummary(
+  list(
+    "Model 1: Raw gap"        = m1,
+    "Model 2: + Demographics" = m2,
+    "Model 3: + Occupation"   = m3
+  ),
+  coef_map = c(
+    "female" = "Female",
+    "age"    = "Age",
+    "educ"   = "Education (grade92)"
+  ),
+  gof_omit = "AIC|BIC|Log|F|RMSE",
+  stars    = TRUE,
+  notes    = "Occupation dummies (Model 3) omitted from display."
+)
+```
+
+The female coefficient moves from `r gap_m1` (Model 1) to `r gap_m2` (Model 2) to `r gap_m3` (Model 3). **This does not mean Model 3 is the most correct.** Each model answers a different question.
+
+---
+
+# DAG-based interpretation
+
+## What each model claims
+
+**Model 1 — the raw gap**
+
+$$\log(\text{wage}_i) = \alpha + \beta_1 \cdot \text{female}_i + \varepsilon_i$$
+
+This is a pure descriptive statement: female workers earn, on average, `r abs(gap_m1) * 100`% less per hour in log terms. It makes no causal claim. The coefficient absorbs everything that co-varies with gender: age, education, occupation, unobserved family background, and actual pay discrimination.
+
+**Model 2 — controlling for demographics**
+
+$$\log(\text{wage}_i) = \alpha + \beta_1 \cdot \text{female}_i + \beta_2 \cdot \text{age}_i + \beta_3 \cdot \text{educ}_i + \varepsilon_i$$
+
+Age and education are plausible confounders: they affect wages and are systematically related to gender (the sample shows some difference in educational composition). Adding them closes those back-door paths — but only if age and education are truly confounders and not mediators.
+
+::: {.callout-note}
+Are age and education confounders or mediators here? They are treated as confounders — they affect wages independently of gender, and they are not caused by gender. This is defensible if we think of "gender" as a fixed attribute the worker enters the labour market with.
+:::
+
+**Model 3 — adding occupation**
+
+$$\log(\text{wage}_i) = \alpha + \beta_1 \cdot \text{female}_i + \beta_2 \cdot \text{age}_i + \beta_3 \cdot \text{educ}_i + \sum_k \gamma_k \cdot \text{occ}_{ik} + \varepsilon_i$$
+
+This is the key model — and the key trap.
+
+If gender discrimination causes occupational sorting (women are pushed toward lower-paying occupations by social and structural forces), then occupation is a **mediator**: it lies *on the causal path* from gender to wage. Controlling for it blocks part of the very effect we are trying to measure.
+
+The coefficient `r gap_m3` is not a more precise estimate of discrimination. It is an estimate of the pay gap **within** occupation groups — the direct channel of discrimination, net of occupational sorting. Whether that narrower quantity is what we want depends entirely on the research question.
+
+## The bad control in plain terms
+
+::: {.callout-important}
+**The bad control lesson:** Adding occupation does not make the estimate better. It answers a different question: *"Do women earn less than men in the same occupation, at the same age and education level?"* That is sometimes the right question. But if we want to know the total effect of gender on wages — including the sorting mechanism — Model 3 gives us the wrong answer, not a better one.
+:::
+
+```{r}
+#| label: fig-gap-shrinkage
+#| fig-cap: "The gender coefficient across three models. The shrinkage from Model 2 to Model 3 is not precision — it is a change in the question being answered."
+
+tibble(
+  model = factor(
+    c("Model 1\nRaw gap", "Model 2\n+ Demographics", "Model 3\n+ Occupation"),
+    levels = c("Model 1\nRaw gap", "Model 2\n+ Demographics", "Model 3\n+ Occupation")
+  ),
+  estimate = c(gap_m1, gap_m2, gap_m3),
+  se       = c(
+    summary(m1)$coefficients["female", "Std. Error"],
+    summary(m2)$coefficients["female", "Std. Error"],
+    summary(m3)$coefficients["female", "Std. Error"]
+  )
+) |>
+  ggplot(aes(model, estimate)) +
+  geom_hline(yintercept = 0, linetype = "dashed", colour = "gray50") +
+  geom_pointrange(
+    aes(ymin = estimate - 1.96 * se, ymax = estimate + 1.96 * se),
+    colour = "steelblue", linewidth = 0.8, size = 0.7
+  ) +
+  labs(
+    x     = NULL,
+    y     = "Coefficient on Female",
+    title = "Gender wage gap across specifications",
+    subtitle = "95% confidence intervals shown"
+  ) +
+  theme_minimal()
+```
+
+---
+
+# The identification gap
+
+## Why none of these models proves discrimination
+
+Each model is a conditional association. Even Model 2 — our best effort at controlling for observable confounders — cannot rule out unobserved differences between men and women that drive both wages and are correlated with gender: differences in negotiation behaviour, network access, industry composition, or employer-level pay-setting practices, for example.
+
+An **identification argument** would need to claim: *"The variation in gender I am exploiting is as good as random with respect to wages, conditional on my controls."* No observational regression on this data can make that claim credibly.
+
+::: {.callout-note}
+This is not a failure of the data or the technique. It is a property of the question. Gender is not randomly assigned, and the labour market is not an experiment.
+:::
+
+## What would help?
+
+Two strategies introduced in upcoming sessions address similar problems:
+
+- **Panel fixed effects (Session 6):** if we had panel data on the same workers over time, we could control for *all* stable unobserved worker-level characteristics. This would eliminate time-invariant confounders but not time-varying ones.
+
+- **Randomised experiments (Session 7):** résumé audit studies — randomly assigning gender-signalling names to identical applications — provide clean causal identification of name-based discrimination. This is a real identification strategy for *one* narrow channel of the gap.
+
+Neither strategy eliminates all confounding for the full gender wage gap. The point is that credibility comes from the *research design*, not from adding more controls.
+
+---
+
+# Summary
+
+| Model | Controls | Question answered | Causal? |
+|-------|----------|-------------------|---------|
+| 1 | None | Average raw difference in log wages | No — pure association |
+| 2 | Age, education | Gap net of demographic composition | Partially — if no unobserved confounders |
+| 3 | + Occupation | Gap within occupation, conditional on demographics | Different question — occupation is a mediator |
+
+The key insight: the coefficient shrinks across models not because we are getting closer to the truth, but because we are changing the question. Understanding *which* question each model answers is the skill this session develops.

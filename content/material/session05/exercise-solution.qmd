@@ -1,0 +1,220 @@
+---
+title: "Session 5: Exercise Solution"
+subtitle: "Advanced Data Science · Europa-Universität Flensburg"
+date: "2026-05-21"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    code-fold: false
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+  eval: false
+---
+
+::: {.callout-note}
+Place `morg-2014-emp.csv` in a `data/` subfolder next to this file and set `eval: true` before rendering.
+:::
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(broom)
+library(modelsummary)
+library(patchwork)
+
+raw <- read_csv("data/morg-2014-emp.csv", show_col_types = FALSE)
+
+cps <- raw |>
+  filter(
+    !is.na(earnwke), earnwke > 0,
+    !is.na(uhours),  uhours  > 0,
+    !is.na(occ2012), !is.na(grade92),
+    !is.na(age), !is.na(sex)
+  ) |>
+  mutate(
+    wage   = earnwke / uhours,
+    female = as.integer(sex == 2),
+    educ   = grade92,
+    occ    = factor(occ2012)
+  ) |>
+  filter(wage > 0, wage < 500) |>
+  select(wage, female, age, educ, occ)
+```
+
+---
+
+# Task 1 — Exploring the gap
+
+**1a. Summary table:**
+
+```{r}
+cps |>
+  mutate(gender = if_else(female == 1, "Female", "Male")) |>
+  group_by(gender) |>
+  summarise(
+    N              = n(),
+    `Median wage`    = median(wage)    |> round(2),
+    `Mean log(wage)` = mean(log(wage)) |> round(3),
+    `SD wage`        = sd(wage)        |> round(2)
+  )
+```
+
+```{r}
+#| include: false
+med_m   <- cps |> filter(female == 0) |> pull(wage) |> median()
+med_f   <- cps |> filter(female == 1) |> pull(wage) |> median()
+raw_pct <- round((med_m - med_f) / med_m * 100, 1)
+```
+
+**Answer (1a):** The median hourly wage is approximately \$`r round(med_m, 2)` for men and \$`r round(med_f, 2)` for women — a raw gap of `r raw_pct`% in favour of men. In log-wage terms, this is `r round(log(med_m) - log(med_f), 3)` log points, which approximates the percentage difference for small gaps.
+
+**1b. Density plot:**
+
+```{r}
+#| label: fig-task1
+#| fig-cap: "Log wage distributions by gender. The female distribution is shifted left, with broadly similar spread."
+
+cps |>
+  mutate(gender = if_else(female == 1, "Female", "Male")) |>
+  ggplot(aes(log(wage), fill = gender)) +
+  geom_density(alpha = 0.45, colour = NA) +
+  scale_fill_manual(values = c("Female" = "tomato", "Male" = "steelblue")) +
+  labs(
+    x        = "log(hourly wage, USD)",
+    y        = "Density",
+    fill     = NULL,
+    title    = "Wage distribution by gender",
+    subtitle = "CPS 2014"
+  ) +
+  theme_minimal()
+```
+
+**Answer (1b):** The female distribution is shifted to the left — women are concentrated at lower log wages — but the two distributions overlap substantially. The shape and spread are similar. This suggests the gap is primarily a difference in location (the mean/median), not a dramatic difference in spread. The overlap matters: there are many women who earn more than many men, which a single coefficient cannot capture.
+
+---
+
+# Task 2 — The three-model progression
+
+```{r}
+m1 <- lm(log(wage) ~ female,                    data = cps)
+m2 <- lm(log(wage) ~ female + age + educ,        data = cps)
+m3 <- lm(log(wage) ~ female + age + educ + occ,  data = cps)
+```
+
+**2a. Regression table:**
+
+```{r}
+#| label: tbl-task2
+#| tbl-cap: "Three models of the gender wage gap. Outcome: log(hourly wage)."
+
+modelsummary(
+  list(
+    "Model 1: Raw gap"        = m1,
+    "Model 2: + Demographics" = m2,
+    "Model 3: + Occupation"   = m3
+  ),
+  coef_map = c(
+    "female" = "Female",
+    "age"    = "Age",
+    "educ"   = "Education (grade92)"
+  ),
+  gof_omit = "AIC|BIC|Log|F|RMSE",
+  stars    = TRUE,
+  notes    = "Occupation dummies (Model 3) omitted from display."
+)
+```
+
+```{r}
+#| include: false
+gap_m1 <- coef(m1)["female"] |> round(3)
+gap_m2 <- coef(m2)["female"] |> round(3)
+gap_m3 <- coef(m3)["female"] |> round(3)
+```
+
+**2b. Causal interpretation of each model:**
+
+*Model 1:*
+The coefficient of `r gap_m1` says that female workers earn on average `r abs(gap_m1) * 100`% less per hour in log terms than male workers. This is a descriptive statement — a conditional mean comparison. It makes no causal claim, because the raw gap reflects everything that varies with gender in this sample: differences in age, education, occupation, sector, and any direct pay discrimination. To interpret `r gap_m1` as evidence of discrimination, we would need to rule out all of these alternative explanations, which we cannot do with this model.
+
+*Model 2:*
+Adding age and education reduces the gap to `r gap_m2`. This is our best estimate of the gender gap *holding age and education constant*. Age and education are plausible confounders — they affect wages, and they are correlated with gender in the population. Adding them closes those back-door paths. However, this model cannot claim to be causal because there are many unobserved variables (e.g. family background, negotiation tendencies, employer practices) that may still confound the relationship. The gap has narrowed, but not because we found a better estimate of discrimination — we found a narrower association that is closer to the direct effect, but still not a causal estimate.
+
+*Model 3:*
+The `female` coefficient shrinks further to `r gap_m3` when we add occupation. This model answers a narrower question: *do women earn less than men within the same occupation, holding age and education constant?* Whether this is the right question depends on whether occupation is a confounder or a mediator — which is the subject of Task 3. If occupational sorting is itself driven by gender discrimination (women are steered toward lower-paying occupations), then controlling for occupation removes part of the very effect we are trying to measure. Model 3 is not wrong — it just answers a different question than Model 1 or 2.
+
+---
+
+# Task 3 — Causal reasoning
+
+**3a. Is occupation a confounder, mediator, or collider?**
+
+Occupation is a **mediator** for the question "does gender affect wages?"
+
+- *Does gender affect occupation?* Yes. Occupational sorting by gender is well-documented: women are systematically under-represented in high-paying fields (technology, finance, senior management) and over-represented in lower-paying ones (education, care work, administrative roles). This sorting reflects a mix of preferences, socialization, hiring discrimination, and barriers to entry.
+- *Does occupation affect wages?* Yes, directly — different occupations have different pay scales.
+- *Is there a direct effect of gender on wages not through occupation?* Yes — within the same occupation, pay-setting practices can discriminate directly.
+
+The causal structure is: gender → occupation → wage (mediation) AND gender → wage directly (discrimination in pay setting). Occupation sits *on the causal path* from gender to wage. It is not an independent cause of both — it is caused by gender and then causes wages.
+
+**3b. What happens when we control for occupation?**
+
+The correct answer is **(b): the coefficient estimates a different, narrower quantity — the direct pay gap within occupations.**
+
+When we add occupation as a control, we block the mediated path (gender → occupation → wage) and estimate only the direct channel (gender → wage, net of occupational sorting). This is not a more precise estimate of total discrimination — it is an estimate of one component of it. If the research question is "is there discrimination in pay-setting within occupational categories?", Model 3 is the right tool. If the question is "what is the total effect of gender on wages, including sorting?", Model 3 gives the wrong answer.
+
+**3c. A genuine confounder:**
+
+*Family background* (parental education, household wealth, social networks) is a confounder not in this dataset. It affects wages (through connections, education quality, cultural capital) and is correlated with gender only weakly — but more importantly, it is correlated with both wage outcomes and the educational choices and occupational paths that men and women pursue.
+
+A clearer example: *sector of employment* (private vs. public sector, unionised vs. non-union). Women are more likely to work in the public sector, where wages are more compressed. Public sector employment causes both lower average wages *and* is correlated with gender — it is not caused by gender discrimination, so it is a confounder, not a mediator.
+
+Direction of bias: public sector → lower wages (negative effect on wages); female → more likely in public sector (positive correlation with female indicator). By the direction-of-bias rule: omitting sector overstates the male advantage — we attribute to gender what is partly a sector composition effect.
+
+---
+
+# Task 4 — Analytical narrative
+
+Below is an example of how the analytical narrative could be structured.
+
+---
+
+## The raw gap
+
+The raw gender wage gap in the 2014 CPS is `r abs(gap_m1) * 100`% (Model 1 coefficient: `r gap_m1`). This means female workers earn, on average, `r abs(gap_m1) * 100`% less per hour than male workers on a log scale. This figure describes a real difference in the data, but it cannot be interpreted as evidence of discrimination. The gap reflects the combined effect of every way men and women differ in this sample: age, education, occupation, sector, and any direct pay discrimination. Distinguishing these mechanisms requires additional modelling.
+
+## Controlling for demographics
+
+Adding age and education shrinks the estimated gap to `r gap_m2`. Age and education are plausible confounders: both affect wages independently, and both are distributed differently across genders in the workforce. By adding them as controls, we close these alternative explanations and obtain a gap estimate that is net of demographic composition differences. The gap is smaller, but it would be wrong to conclude it has "been explained" — there are many unobserved confounders that neither model can address.
+
+## The occupation question
+
+::: {.callout-important}
+**Key caveat:** Adding occupation (Model 3, coefficient = `r gap_m3`) does not produce a more accurate estimate of the gender wage gap. Occupation is a mediator — if gender discrimination causes women to be sorted into lower-paying occupations, controlling for occupation blocks that causal channel and produces a narrower estimate that reflects only *within-occupation* pay differences. Model 3 answers a different question than Model 1 or 2, not a more correct one.
+:::
+
+Model 3 tells us the pay gap between men and women *in the same occupation*, holding age and education constant. This is a meaningful quantity if the research question is specifically about pay discrimination within job categories. But if we want to measure total wage inequality by gender — including the occupational sorting component — Model 3 understates it.
+
+---
+
+# Bonus — Alternative DAG scenario
+
+**B1. DAG for advertising and sales:**
+
+The causal structure involves three main variables:
+
+- **Product quality** → **advertising spend** (better products justify larger marketing budgets)
+- **Product quality** → **sales revenue** (better products sell more)
+- **Advertising spend** → **sales revenue** (advertising may drive awareness and purchases)
+
+Product quality is a **confounder** — it causes both advertising spend and sales revenue without being caused by either. Without controlling for it, the observed positive relationship between advertising and sales overstates the causal effect of advertising, because high-advertising firms also tend to have better products.
+
+**B2.** Product quality is a **confounder**. It is a common cause of both advertising spend (the treatment) and sales revenue (the outcome), and it is not caused by either. Omitting it from a regression of sales on advertising would produce an upward-biased estimate of the advertising effect.
+
+**B3.** Manager experience is also a **confounder**, not a mediator. The analyst's description is correct: experienced managers spend more on advertising AND work at firms with better products. Both paths lead to higher sales. Including it as a control is appropriate — it closes a back-door path from manager quality to both advertising and sales. This is a good idea, as long as we do not think manager experience is *caused by* advertising decisions (which seems implausible).
+
+**B4.** To establish that advertising *causes* sales, we would need an **experiment**: randomly assign advertising budgets to otherwise comparable firms (or time periods for the same firm) and measure the effect on sales. In practice, firms often use A/B tests for digital advertising — showing different ad levels to randomly selected customer segments — which provides clean identification of the causal effect within those segments.

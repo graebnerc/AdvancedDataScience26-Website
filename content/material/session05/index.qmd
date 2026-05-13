@@ -1,32 +1,72 @@
 ---
 title: "Session 5: Causation vs. Correlation — Thinking Like an Economist"
-date: "2026-05-28"
+date: "2026-05-21"
 date-modified: last-modified
 ---
 
 ::: {.callout-note}
-**Date:** TBD
+**Date:** Thursday, 21 May 2026, 16:00–19:00
 :::
 
 ## Business question
 
-*Is there a gender wage gap among market analysts — and if so, what explains it?*
+*Is there a gender wage gap among US workers — and what would it take to interpret a regression coefficient as evidence of discrimination?*
 
 ## Learning goals
 
-- Distinguish causal from associational claims
-- Understand confounding and selection bias through concrete business examples
-- See how adding controls changes an estimated gap — and what that means
-- Critically evaluate causal claims in reports and media
+- Distinguish causal from associational claims — and articulate why the difference matters in business and policy contexts
+- Read and draw a simple DAG: identify confounders, mediators, and colliders
+- Explain the bad control problem: why controlling for a mediator answers a different question
+- Interpret a sequence of regression models on the gender wage gap given a stated causal model
+- Critically evaluate causal claims in business reports and media using DAG reasoning
 
 ## Dataset
 
-**cps-earnings** — 149,316 US workers from the 2014 Current Population Survey: hourly wage, gender, age, education, occupation. The gender wage gap is a textbook case for illustrating confounding.
+**CPS earnings 2014** — US Current Population Survey, Monthly Outgoing Rotation Group.
+
+| Variable | Description |
+|---|---|
+| `wage` | Hourly wage (USD) = weekly earnings / usual weekly hours |
+| `female` | 1 = female, 0 = male |
+| `age` | Age in years |
+| `educ` | Educational attainment (CPS grade92 scale: 31–46) |
+| `occ` | Occupation group (Census 2010 codes) |
+
+Source: Békés & Kézdi (2021). Full dataset documentation: <https://gabors-data-analysis.com/datasets/cps-earnings>.
+
+## Session outline
+
+- Take-home Task 2 debrief (~30 min)
+- Input: the identification question; DAGs; confounders, mediators, colliders
+- Live demo: three-model wage gap progression with DAG interpretation
+- Break
+- In-session exercise
+- Debrief + Quarto skill: structuring an analytical narrative
+
+## Materials
+
+| File | Description |
+|---|---|
+| [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_05/session05-slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Live demo](lecture_notes.qmd) | Coding document built during the session — three models, DAG interpretation |
+| [Exercise](https://classroom.github.com/a/K0h_16lo) | In-session exercise: interpreting the gender wage gap (via GitHub Classroom) |
+| [Exercise solution](exercise-solution.qmd) | Example solution (added after session) |
 
 ## Quarto skill introduced this session
 
-Structuring an analytical narrative in Quarto: how to move from exploratory output to a coherent argument in a written report.
+Structuring an analytical narrative: how to move from exploratory output to a coherent written argument.
 
-::: {.callout-important}
-Material will be available here before the session.
-:::
+```{{r}}
+#| label: tbl-models
+#| tbl-cap: "Three models of the gender wage gap."
+
+modelsummary(
+  list("Raw gap" = m1, "+ Demographics" = m2, "+ Occupation" = m3),
+  coef_map = c("female" = "Female"),
+  stars = TRUE
+)
+```
+
+- **Section headers** signal the logical structure of your analysis — claim, evidence, interpretation, caveat
+- **Callout boxes** isolate key assumptions: `{.callout-important}` for critical caveats, `{.callout-note}` for context
+- **Inline R values** anchor written claims to actual output: `` `r round(coef(m1)["female"], 3)` ``
