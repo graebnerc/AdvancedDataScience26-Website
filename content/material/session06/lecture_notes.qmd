@@ -1,0 +1,455 @@
+---
+title: "Session 6: Panel Data and Fixed Effects"
+subtitle: "Live Demo & Lecture Notes"
+author: "Claudius Gräbner-Radkowitsch"
+date: "28 May 2026"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Introduction
+
+## Business question
+
+> *Does better management quality lead to better firm performance —
+> and does this relationship hold within countries?*
+
+This question matters for managers, investors, and policy-makers alike.
+If better-managed firms perform better, investing in management quality
+pays off. But answering it carefully requires panel data methods: firms
+differ in many stable, hard-to-measure ways (culture, sector, ownership
+history), and a naive cross-sectional comparison will confuse management
+quality with those background characteristics.
+
+## Packages and data
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(fixest)
+library(modelsummary)
+```
+
+We use the `wms-management-survey` dataset from Békés & Kézdi (2021),
+containing manufacturing firms across 24 countries surveyed between
+2004 and 2015. The same firm can appear in multiple survey waves,
+giving us the panel structure we need.
+
+```{r}
+#| label: load-data
+wms <- read_csv("data/wms_da_textbook.csv")
+
+glimpse(wms)
+```
+
+The key variables we will use today:
+
+| Variable | Description |
+|---|---|
+| `firmid` | Unique firm identifier |
+| `cty` | Country code |
+| `wave` | Survey wave (year) |
+| `management` | Management quality score (1–5 scale) |
+| `emp_firm` | Number of employees |
+| `degree_nm` | Share of non-managers with college degree |
+| `degree_m` | Share of managers with college degree |
+| `ownership` | Ownership type (founder, family, dispersed, etc.) |
+
+---
+
+# What Is Panel Data?
+
+## Data structure
+
+Our dataset has the classic panel structure: the same units (firms)
+observed at multiple time points (survey waves).
+
+```{r}
+#| label: panel-structure
+
+# How many firms? How many waves?
+wms |>
+  summarise(
+    n_firms = n_distinct(firmid),
+    n_waves = n_distinct(wave),
+    n_obs   = n()
+  )
+```
+
+```{r}
+#| label: panel-balance
+
+# Is the panel balanced? How many times is each firm observed?
+wms |>
+  count(firmid) |>
+  count(n, name = "n_firms") |>
+  rename(times_observed = n)
+```
+
+Most firms appear only once or twice — this is an **unbalanced panel**,
+which is typical for survey-based firm data. Fixed effects estimation
+handles unbalanced panels without any special adjustments.
+
+## The composite error: motivating fixed effects
+
+A naive approach: regress firm performance (proxied by `management` score
+as outcome, or alternatively a performance measure) on firm size and
+human capital. But firms differ in many unobserved stable ways —
+their founding era, their industry norms, their country's business culture.
+
+Let us make this concrete. Do firms in different countries have
+systematically different management scores?
+
+```{r}
+#| label: country-variation
+
+wms |>
+  group_by(cty) |>
+  summarise(mean_mgmt = mean(management, na.rm = TRUE)) |>
+  arrange(desc(mean_mgmt)) |>
+  ggplot(aes(x = reorder(cty, mean_mgmt), y = mean_mgmt)) +
+  geom_col(fill = "#2C5F8A", alpha = 0.8) +
+  coord_flip() +
+  labs(
+    title = "Average management score by country",
+    x = NULL,
+    y = "Mean management score (1–5)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+Large cross-country differences exist. If we regress management on
+firm size without accounting for country, we are comparing German firms
+to Mexican firms — and country differences will contaminate the result.
+
+---
+
+# The Fixed Effects Estimator
+
+## Pooled OLS as a baseline
+
+Let us start with the naive pooled OLS: regress management score on
+log firm size and manager education, ignoring any panel structure.
+
+```{r}
+#| label: ols-pooled
+
+wms <- wms |>
+  mutate(log_emp = log(emp_firm))
+
+m_ols <- feols(management ~ log_emp + degree_m,
+               data = wms)
+
+m_ols
+```
+
+This estimate mixes together two types of variation:
+
+- **Between firms:** do larger firms have better management on average?
+- **Within firms:** when a firm grows, does its management improve?
+
+The pooled OLS coefficient reflects both, dominated by the between
+comparison — which is contaminated by unobserved firm and country
+characteristics.
+
+## Visualising within vs. between variation
+
+Before running FE, it helps to see the difference intuitively.
+Let us pick a handful of countries and plot management vs. firm size,
+highlighting the cross-country vs. within-country patterns.
+
+```{r}
+#| label: within-between-plot
+
+wms |>
+  filter(cty %in% c("US", "DE", "IN", "MX", "GB")) |>
+  ggplot(aes(x = log_emp, y = management, colour = cty)) +
+  geom_point(alpha = 0.3, size = 1) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
+  labs(
+    title = "Management score vs. firm size, selected countries",
+    subtitle = "Between-country differences are large; within-country slopes may differ",
+    x = "Log(employees)",
+    y = "Management score (1–5)",
+    colour = "Country"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+The between-country differences (gaps between the coloured clouds) are
+large. Fixed effects removes those gaps and estimates the
+**within-country** slope.
+
+## The within-transformation by hand
+
+Before using `feols()`, let us see the within-transformation manually
+for one country. The idea: subtract each firm's own mean over time,
+leaving only within-firm variation.
+
+```{r}
+#| label: within-transform
+
+# For firms with multiple observations: demean within firm
+wms_demeaned <- wms |>
+  group_by(firmid) |>
+  mutate(
+    management_dm = management - mean(management, na.rm = TRUE),
+    log_emp_dm    = log_emp   - mean(log_emp,   na.rm = TRUE),
+    degree_m_dm   = degree_m  - mean(degree_m,  na.rm = TRUE)
+  ) |>
+  ungroup()
+
+# Run OLS on demeaned data (no intercept — it was removed by demeaning)
+m_fe_manual <- feols(management_dm ~ log_emp_dm + degree_m_dm - 1,
+                     data = wms_demeaned)
+
+m_fe_manual
+```
+
+## Unit FE with `feols()`
+
+`feols()` does the within-transformation automatically and efficiently.
+The `|` operator specifies the fixed effects:
+
+```{r}
+#| label: unit-fe
+
+m_fe_firm <- feols(management ~ log_emp + degree_m | firmid,
+                   vcov = ~firmid,
+                   data = wms)
+
+m_fe_firm
+```
+
+Notice two things:
+
+1. The coefficient on `log_emp` has likely changed relative to pooled OLS.
+   That is the fixed effects doing their job — removing between-firm noise.
+2. `firmid` fixed effects are not shown as coefficient rows. They are
+   absorbed into unit-specific intercepts.
+
+## Country fixed effects vs. firm fixed effects
+
+It is worth pausing here. We can include FE at different levels:
+
+```{r}
+#| label: country-fe
+
+# Country fixed effects — controls for stable country characteristics
+m_fe_cty <- feols(management ~ log_emp + degree_m | cty,
+                  vcov = ~cty,
+                  data = wms)
+
+m_fe_cty
+```
+
+Country FE answers: within a country, do larger firms have better management?
+Firm FE (below) answers: when a firm grows, does its management improve?
+
+These are different questions with potentially different answers.
+
+---
+
+# Two-Way Fixed Effects
+
+## Adding time fixed effects
+
+Even within countries, there may be year-specific shocks: a global
+management consulting boom, a financial crisis that restructures firms,
+or changes in survey methodology. Time fixed effects control for anything
+affecting all firms in a given year.
+
+```{r}
+#| label: twoway-fe
+
+m_fe_2way <- feols(management ~ log_emp + degree_m | firmid + wave,
+                   vcov = ~firmid,
+                   data = wms)
+
+m_fe_2way
+```
+
+The coefficient on `log_emp` is now identified from variation that is
+neither explained by which firm it is nor which year it is —
+pure within-firm, within-year deviations from both baselines.
+
+## Comparing models side by side
+
+Now we can present the full progression clearly:
+
+```{r}
+#| label: model-comparison
+
+modelsummary(
+  list(
+    "Pooled OLS"  = m_ols,
+    "Country FE"  = m_fe_cty,
+    "Firm FE"     = m_fe_firm,
+    "Two-way FE"  = m_fe_2way
+  ),
+  gof_map = c("nobs", "r.squared", "r2.within"),
+  stars   = TRUE,
+  notes   = "Standard errors: pooled OLS uses HC1; FE models clustered at firm level."
+)
+```
+
+**How to read this table:**
+
+- Moving from Pooled OLS to Country FE: removes cross-country noise
+- Moving from Country FE to Firm FE: removes all stable firm-level
+  differences — the most important step
+- Moving from Firm FE to Two-way FE: additionally removes year-specific
+  shocks common to all firms
+
+The within-$R^2$ (row `r2.within`) is the relevant fit statistic for
+FE models — it measures fit on demeaned data only.
+
+---
+
+# Interpreting FE Results
+
+## What the coefficient means
+
+In the two-way FE model, $\hat\beta_{log\_emp}$ answers:
+
+> For the *same firm*, when employment increases by 1% (i.e.,
+> log-employment increases by 0.01), how much does the management
+> score change, holding constant any year-specific shock?
+
+This is a within-firm estimate. We are not comparing Siemens to a
+small Mexican manufacturer — we are comparing Siemens to itself in
+an earlier or later wave.
+
+## What FE cannot tell us
+
+Fixed effects removes all time-invariant variation.
+This means we cannot estimate:
+
+- The effect of `ownership` type (if ownership does not change across waves)
+- Country-level effects with firm FE
+- Any covariate that is constant within units over time
+
+```{r}
+#| label: time-invariant-warning
+
+# Ownership type — does it vary within firms across waves?
+wms |>
+  group_by(firmid) |>
+  summarise(n_ownership_types = n_distinct(ownership)) |>
+  count(n_ownership_types)
+```
+
+If ownership is mostly constant within firms (which it typically is),
+including it alongside firm FE will either drop or produce unreliable estimates.
+
+## Clustered standard errors: why they matter
+
+Errors within the same firm across years are correlated. Let us compare
+standard (non-clustered) and clustered standard errors to see the difference:
+
+```{r}
+#| label: se-comparison
+
+m_fe_nocluster <- feols(management ~ log_emp + degree_m | firmid + wave,
+                        data = wms)   # default: heteroskedasticity-robust
+
+m_fe_cluster <- feols(management ~ log_emp + degree_m | firmid + wave,
+                      vcov = ~firmid,
+                      data = wms)   # clustered at firm level
+
+modelsummary(
+  list("Non-clustered" = m_fe_nocluster, "Clustered (firm)" = m_fe_cluster),
+  gof_map = c("nobs", "r2.within"),
+  stars   = TRUE,
+  notes   = "Two-way FE (firm + wave) in both models."
+)
+```
+
+Clustered standard errors are typically larger — this is the correct
+direction. Non-clustered SEs understate uncertainty by ignoring
+within-firm correlation across time.
+
+---
+
+# Quarto Skill: Presenting Panel Results
+
+When you present panel results in a report, three things matter:
+
+**1. Show the progression.** Always include at least pooled OLS and your
+main FE specification. This makes the effect of each layer of controls
+visible.
+
+**2. Name the fixed effects clearly.** Add a row or note indicating
+which FEs are included in each column. `modelsummary` does this
+automatically when you use `feols()` — it adds a row labelling the FEs.
+
+**3. Report the within-$R^2$.** Use `gof_map` to select it explicitly:
+
+```{r}
+#| label: quarto-skill-demo
+
+modelsummary(
+  list(
+    "Pooled OLS" = m_ols,
+    "Firm FE"    = m_fe_firm,
+    "Two-way FE" = m_fe_2way
+  ),
+  gof_map = c("nobs", "r.squared", "r2.within"),
+  stars   = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
+  notes   = c(
+    "Standard errors in parentheses.",
+    "FE models: SEs clustered at firm level.",
+    "* p<0.1, ** p<0.05, *** p<0.01"
+  )
+)
+```
+
+**Tip:** In a polished report, use a footnote rather than a coefficient
+row to communicate which FEs are included. For example: *"Firm and wave
+fixed effects included in columns (2) and (3)."*
+
+---
+
+# Summary
+
+Panel data — the same units observed over time — allow us to control
+for stable, unobserved unit-level characteristics that would otherwise
+bias our estimates.
+
+**Key concepts:**
+
+- **Composite error** $\epsilon_{it} = \eta_i + v_{it}$: the stable
+  unit component $\eta_i$ causes OVB when correlated with $x_{it}$
+- **Within-transformation:** subtract each unit's time-mean; $\eta_i$
+  cancels out; OLS on demeaned data = FE estimator
+- **Between vs. within:** two different questions — be deliberate
+- **Two-way FE:** adds time fixed effects $\gamma_t$ for common
+  period shocks
+- **Clustered SEs:** always cluster at the unit level in panel applications
+- **Within-$R^2$:** the relevant fit statistic for FE models
+
+**In R:** `fixest::feols(y ~ x | unit_id + time_id, vcov = ~unit_id)`
+
+---
+
+# Further Reading
+
+- Békés, G. & Kézdi, G. (2021). *Data Analysis for Business, Economics,
+  and Policy*. Cambridge UP. Ch. 24 (Panel data).
+  Available at [gabors-data-analysis.com](https://gabors-data-analysis.com)
+- Huntington-Klein, N. (2022). *The Effect: An Introduction to Research
+  Design and Causality*. Ch. 16 (Fixed Effects).
+  Available at [theeffectbook.net](https://theeffectbook.net)
+- Cunningham, S. (2021). *Causal Inference: The Mixtape*. Ch. 8
+  (Panel data and fixed effects). Available at
+  [mixtape.scunning.com](https://mixtape.scunning.com)

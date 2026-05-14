@@ -13,12 +13,9 @@ execute:
   echo: true
   warning: false
   message: false
-  eval: false
+  eval: true
+  execute-dir: file
 ---
-
-::: {.callout-note}
-Place `morg-2014-emp.csv` in a `data/` subfolder next to this file and set `eval: true` before rendering.
-:::
 
 ```{r}
 #| label: setup

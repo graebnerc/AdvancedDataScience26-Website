@@ -15,13 +15,9 @@ execute:
   echo: true
   warning: false
   message: false
-  eval: false
+  eval: true
+  execute-dir: file
 ---
-
-::: {.callout-note}
-Place `morg-2014-emp.csv` in a `data/` subfolder next to this file before rendering.
-The data file is the same raw CPS MORG extract used in the Session 5 exercise.
-:::
 
 # Setup
 
