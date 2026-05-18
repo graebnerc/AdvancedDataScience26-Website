@@ -1,455 +1,617 @@
 ---
-title: "Session 6: Panel Data and Fixed Effects"
-subtitle: "Live Demo & Lecture Notes"
+title: "Session 6: Panel Data and Fixed Effects — Live Demo"
+subtitle: "Advanced Data Science · Europa-Universität Flensburg"
 author: "Claudius Gräbner-Radkowitsch"
-date: "28 May 2026"
+date: "2026-05-28"
 format:
   html:
     toc: true
     toc-depth: 3
     number-sections: true
-    code-fold: false
-    theme: cosmo
+    code-fold: true
+    code-tools: true
     self-contained: true
 execute:
   echo: true
   warning: false
   message: false
+  execute-dir: file
 ---
 
-# Introduction
+# Setup
 
 ## Business question
 
-> *Does better management quality lead to better firm performance —
-> and does this relationship hold within countries?*
+> *Does rising income make countries happier — and what would it take to interpret that relationship causally?*
 
-This question matters for managers, investors, and policy-makers alike.
-If better-managed firms perform better, investing in management quality
-pays off. But answering it carefully requires panel data methods: firms
-differ in many stable, hard-to-measure ways (culture, sector, ownership
-history), and a naive cross-sectional comparison will confuse management
-quality with those background characteristics.
+This question has a deceptively simple answer in cross-sectional data (yes, richer countries are happier) and a much less clear answer when we follow countries over time (the Easterlin paradox). Panel data methods let us be precise about which comparison we are making and what we can credibly claim.
 
 ## Packages and data
 
 ```{r}
 #| label: setup
+here::i_am("content/material/session06/lecture_notes.qmd")
+library(here)
 library(tidyverse)
 library(fixest)
 library(modelsummary)
+library(flextable)
+library(patchwork)
+
+dat <- read_csv(
+  here("content/material/session06/data/happiness_income.csv"), 
+  show_col_types = FALSE)
+glimpse(dat)
 ```
 
-We use the `wms-management-survey` dataset from Békés & Kézdi (2021),
-containing manufacturing firms across 24 countries surveyed between
-2004 and 2015. The same firm can appear in multiple survey waves,
-giving us the panel structure we need.
+The dataset merges three sources:
 
-```{r}
-#| label: load-data
-wms <- read_csv("data/wms_da_textbook.csv")
-
-glimpse(wms)
-```
-
-The key variables we will use today:
-
-| Variable | Description |
-|---|---|
-| `firmid` | Unique firm identifier |
-| `cty` | Country code |
-| `wave` | Survey wave (year) |
-| `management` | Management quality score (1–5 scale) |
-| `emp_firm` | Number of employees |
-| `degree_nm` | Share of non-managers with college degree |
-| `degree_m` | Share of managers with college degree |
-| `ownership` | Ownership type (founder, family, dispersed, etc.) |
+| Variable | Source | Description |
+|---|---|---|
+| `happiness` | World Happiness Report 2026 | Life satisfaction (0–10, 3-year average) |
+| `GDP_pc` | World Bank WDI | GDP per capita, PPP (constant 2017 int'l $) |
+| `gini_disp` | SWIID 9.2 | Disposable income Gini coefficient |
+| `unemployment` | World Bank WDI | Unemployment rate (% of labour force) |
+| `population` | World Bank WDI | Total population |
 
 ---
 
-# What Is Panel Data?
+# Exploring the Data
 
-## Data structure
-
-Our dataset has the classic panel structure: the same units (firms)
-observed at multiple time points (survey waves).
+## Panel structure
 
 ```{r}
 #| label: panel-structure
-
-# How many firms? How many waves?
-wms |>
+dat |>
   summarise(
-    n_firms = n_distinct(firmid),
-    n_waves = n_distinct(wave),
-    n_obs   = n()
-  )
+    n_countries = n_distinct(country),
+    n_years     = n_distinct(year),
+    year_min    = min(year),
+    year_max    = max(year),
+    n_obs       = n()
+  ) |> 
+  flextable() |> 
+  theme_vanilla() |> 
+  autofit()
 ```
 
 ```{r}
 #| label: panel-balance
-
-# Is the panel balanced? How many times is each firm observed?
-wms |>
-  count(firmid) |>
-  count(n, name = "n_firms") |>
-  rename(times_observed = n)
+dat |>
+  count(country) |>
+  count(n, name = "n_countries") |>
+  rename(years_observed = n)|> 
+  flextable() |> 
+  theme_vanilla() |> 
+  autofit()
 ```
 
-Most firms appear only once or twice — this is an **unbalanced panel**,
-which is typical for survey-based firm data. Fixed effects estimation
-handles unbalanced panels without any special adjustments.
+The panel is **unbalanced** — not every country is observed in every year. This is typical for survey-based cross-country data and causes no problems for fixed effects estimation.
 
-## The composite error: motivating fixed effects
+## Cross-country variation in happiness
 
-A naive approach: regress firm performance (proxied by `management` score
-as outcome, or alternatively a performance measure) on firm size and
-human capital. But firms differ in many unobserved stable ways —
-their founding era, their industry norms, their country's business culture.
-
-Let us make this concrete. Do firms in different countries have
-systematically different management scores?
+Before running any regression, it helps to see the structure of the data. How much of the variation in happiness is *between* countries vs. *within* countries over time?
 
 ```{r}
-#| label: country-variation
+#| label: fig-country-means
+#| fig-cap: "Average happiness and log GDP per capita by country (full-period means). Richer countries are clearly happier in cross-section."
+#| fig-height: 5
 
-wms |>
-  group_by(cty) |>
-  summarise(mean_mgmt = mean(management, na.rm = TRUE)) |>
-  arrange(desc(mean_mgmt)) |>
-  ggplot(aes(x = reorder(cty, mean_mgmt), y = mean_mgmt)) +
-  geom_col(fill = "#2C5F8A", alpha = 0.8) +
-  coord_flip() +
+dat |>
+  group_by(country) |>
+  summarise(
+    happiness = mean(happiness, na.rm = TRUE),
+    log_gdp   = mean(log(GDP_pc), na.rm = TRUE),
+    .groups   = "drop"
+  ) |>
+  filter(!is.na(happiness), !is.na(log_gdp)) |>
+  ggplot(aes(log_gdp, happiness)) +
+  geom_point(colour = "#2C5F8A", alpha = 0.7, size = 2) +
+  geom_smooth(method = "lm", colour = "#D04A2F", se = TRUE,
+              fill = "#D04A2F", alpha = 0.12, linewidth = 1) +
   labs(
-    title = "Average management score by country",
-    x = NULL,
-    y = "Mean management score (1–5)"
+    x = "Log GDP per capita (PPP), country mean",
+    y = "Life satisfaction (0–10), country mean"
   ) +
-  theme_minimal(base_size = 12)
+  theme_minimal(base_size = 13)
 ```
 
-Large cross-country differences exist. If we regress management on
-firm size without accounting for country, we are comparing German firms
-to Mexican firms — and country differences will contaminate the result.
+The cross-sectional correlation is strong and positive. But is this evidence that income *causes* happiness?
+
+## Within-country trends: the Easterlin challenge
+
+```{r}
+#| label: fig-within-trends
+#| fig-cap: "Happiness over time for selected countries. GDP per capita rose substantially in all of them — but happiness trends differ."
+#| fig-height: 4
+
+highlight <- c("United States", "Japan", "South Korea", "China", "Germany")
+
+col_hl <- c(
+  "United States" = "#D04A2F",
+  "Japan"         = "#e67e22",
+  "South Korea"   = "#8e44ad",
+  "China"         = "#2C5F8A",
+  "Germany"       = "#4A9B6F"
+)
+
+dat |>
+  filter(country %in% highlight, !is.na(happiness)) |>
+  ggplot(aes(year, happiness, colour = country)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 1.8) +
+  scale_colour_manual(values = col_hl, name = NULL) +
+  scale_x_continuous(breaks = seq(2006, 2024, by = 4)) +
+  labs(x = NULL, y = "Life satisfaction (0–10)",
+       caption = "Source: World Happiness Report (3-year averages)") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "right")
+```
+
+China's GDP per capita roughly quadrupled over this period. Its happiness score rose modestly. The United States had strong aggregate growth — yet happiness has trended flat or downward. This is the Easterlin paradox in the data.
 
 ---
 
-# The Fixed Effects Estimator
+# The Model Progression
 
-## Pooled OLS as a baseline
+## Step 0 — Pooled OLS: the naive baseline
 
-Let us start with the naive pooled OLS: regress management score on
-log firm size and manager education, ignoring any panel structure.
+Pool all country-year observations and regress happiness on log income, ignoring panel structure entirely.
 
 ```{r}
-#| label: ols-pooled
+#| label: model-pooled
+m0 <- feols(happiness ~ log(GDP_pc), data = dat)
 
-wms <- wms |>
-  mutate(log_emp = log(emp_firm))
-
-m_ols <- feols(management ~ log_emp + degree_m,
-               data = wms)
-
-m_ols
+modelsummary(
+  list("Pooled OLS" = m0),
+  coef_map  = c("log(GDP_pc)" = "Log GDP per capita"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared"),
+  stars     = TRUE,
+  output    = "flextable"
+) |> autofit()
 ```
 
-This estimate mixes together two types of variation:
+The large positive coefficient is not surprising — it reflects the strong cross-sectional pattern we already saw. But it conflates between-country differences (richer country = happier country) with within-country change (rising income → rising happiness). The former is dominated by stable country characteristics that we have not controlled for.
 
-- **Between firms:** do larger firms have better management on average?
-- **Within firms:** when a firm grows, does its management improve?
+## The composite error — why pooled OLS is biased
 
-The pooled OLS coefficient reflects both, dominated by the between
-comparison — which is contaminated by unobserved firm and country
-characteristics.
+The pooled OLS error $\epsilon_{it}$ has two components:
 
-## Visualising within vs. between variation
+$$\epsilon_{it} = \eta_i + v_{it}$$
 
-Before running FE, it helps to see the difference intuitively.
-Let us pick a handful of countries and plot management vs. firm size,
-highlighting the cross-country vs. within-country patterns.
+- $\eta_i$: everything stable about country $i$ that we do not observe — culture, institutions, social trust, history
+- $v_{it}$: genuine year-to-year noise
+
+If $\eta_i$ correlates with $\log(\text{GDP}_{it})$ — and it clearly does, since rich institutional environments produce both high income *and* high happiness — pooled OLS is biased. This is OVB with an unobserved variable.
+
+## Step 1 — Country fixed effects: removing stable confounders
+
+Country FE absorbs $\eta_i$ entirely by subtracting each country's time-mean from every variable:
+
+$$\tilde{y}_{it} = y_{it} - \bar{y}_i \qquad \tilde{x}_{it} = x_{it} - \bar{x}_i$$
+
+Because $\eta_i - \bar{\eta}_i = 0$, the stable country component disappears. The coefficient is now identified from **within-country variation only**: when a country's income rises above its own historical average, does its happiness rise too?
 
 ```{r}
-#| label: within-between-plot
+#| label: model-country-fe
+m1 <- feols(happiness ~ log(GDP_pc) | country,
+            vcov = ~country,
+            data = dat)
 
-wms |>
-  filter(cty %in% c("US", "DE", "IN", "MX", "GB")) |>
-  ggplot(aes(x = log_emp, y = management, colour = cty)) +
-  geom_point(alpha = 0.3, size = 1) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
-  labs(
-    title = "Management score vs. firm size, selected countries",
-    subtitle = "Between-country differences are large; within-country slopes may differ",
-    x = "Log(employees)",
-    y = "Management score (1–5)",
-    colour = "Country"
-  ) +
-  theme_minimal(base_size = 12)
+modelsummary(
+  list("Country FE" = m1),
+  coef_map  = c("log(GDP_pc)" = "Log GDP per capita"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  output    = "flextable"
+) |> autofit()
 ```
 
-The between-country differences (gaps between the coloured clouds) are
-large. Fixed effects removes those gaps and estimates the
-**within-country** slope.
+Contrary to a naive expectation, the country FE coefficient is *larger* than in pooled OLS — see the full discussion below.
 
-## The within-transformation by hand
+### Visualising the within-transformation
 
-Before using `feols()`, let us see the within-transformation manually
-for one country. The idea: subtract each firm's own mean over time,
-leaving only within-firm variation.
+To build intuition, let us manually demean one slice of the data and overlay the within-country slopes on the raw scatter.
 
 ```{r}
-#| label: within-transform
+#| label: fig-within-slopes
+#| fig-cap: "Raw data vs. demeaned data for selected countries. The grey overall trend is dominated by between-country differences; coloured lines show within-country slopes only."
+#| fig-height: 5
 
-# For firms with multiple observations: demean within firm
-wms_demeaned <- wms |>
-  group_by(firmid) |>
+within_dat <- dat |>
+  filter(country %in% highlight) |>
+  group_by(country) |>
   mutate(
-    management_dm = management - mean(management, na.rm = TRUE),
-    log_emp_dm    = log_emp   - mean(log_emp,   na.rm = TRUE),
-    degree_m_dm   = degree_m  - mean(degree_m,  na.rm = TRUE)
+    happiness_dm = happiness   - mean(happiness,    na.rm = TRUE),
+    log_gdp_dm   = log(GDP_pc) - mean(log(GDP_pc),  na.rm = TRUE)
   ) |>
   ungroup()
 
-# Run OLS on demeaned data (no intercept — it was removed by demeaning)
-m_fe_manual <- feols(management_dm ~ log_emp_dm + degree_m_dm - 1,
-                     data = wms_demeaned)
+p_raw <- dat |>
+  filter(country %in% highlight) |>
+  ggplot(aes(log(GDP_pc), happiness)) +
+  geom_point(colour = "grey70", alpha = 0.4, size = 1.5) +
+  geom_smooth(method = "lm", colour = "#D04A2F", se = FALSE,
+              linewidth = 0.8, linetype = "dashed") +
+  geom_smooth(aes(colour = country), method = "lm", se = FALSE, linewidth = 1) +
+  scale_colour_manual(values = col_hl, guide = "none") +
+  labs(x = "Log GDP per capita", y = "Happiness",
+       title = "Raw data", subtitle = "Dashed = pooled OLS") +
+  theme_minimal(base_size = 11)
 
-m_fe_manual
+p_demeaned <- within_dat |>
+  ggplot(aes(log_gdp_dm, happiness_dm)) +
+  geom_point(aes(colour = country), alpha = 0.6, size = 1.5) +
+  geom_smooth(method = "lm", colour = "#D04A2F", se = FALSE, linewidth = 1) +
+  scale_colour_manual(values = col_hl, name = NULL) +
+  labs(x = "Log GDP (demeaned)", y = "Happiness (demeaned)",
+       title = "Demeaned data", subtitle = "Within-country variation only") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom")
+
+p_raw + p_demeaned
 ```
 
-## Unit FE with `feols()`
+The between-country slope (dashed, left panel) is steep. The within-country slope (right panel) is flatter — in some countries barely positive. This is the Easterlin paradox captured in a single figure.
 
-`feols()` does the within-transformation automatically and efficiently.
-The `|` operator specifies the fixed effects:
+## Step 2 — Two-way fixed effects: controlling for global time shocks
+
+Country FE removes stable country differences. But what about shocks that hit all countries in the same year — a global recession, a pandemic, a commodity price surge? If such shocks correlate with income changes, country-only FE is not enough.
+
+**Two-way FE** adds a separate intercept for each year:
+
+$$y_{it} = \alpha_i + \gamma_t + \beta \log(\text{GDP}_{it}) + v_{it}$$
+
+$\hat\beta$ is now identified from variation that is neither explained by *which country* nor *which year*.
 
 ```{r}
-#| label: unit-fe
+#| label: model-twoway-fe
+m2 <- feols(happiness ~ log(GDP_pc) | country + year,
+            vcov = ~country,
+            data = dat)
 
-m_fe_firm <- feols(management ~ log_emp + degree_m | firmid,
-                   vcov = ~firmid,
-                   data = wms)
-
-m_fe_firm
+modelsummary(
+  list("Two-way FE" = m2),
+  coef_map  = c("log(GDP_pc)" = "Log GDP per capita"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  output    = "flextable"
+) |> autofit()
 ```
 
-Notice two things:
-
-1. The coefficient on `log_emp` has likely changed relative to pooled OLS.
-   That is the fixed effects doing their job — removing between-firm noise.
-2. `firmid` fixed effects are not shown as coefficient rows. They are
-   absorbed into unit-specific intercepts.
-
-## Country fixed effects vs. firm fixed effects
-
-It is worth pausing here. We can include FE at different levels:
 
 ```{r}
-#| label: country-fe
+#| label: inline-values-1
+#| include: true
+#| echo: false
 
-# Country fixed effects — controls for stable country characteristics
-m_fe_cty <- feols(management ~ log_emp + degree_m | cty,
-                  vcov = ~cty,
-                  data = wms)
+# Point estimates (log GDP_pc coefficient)
+b_m0 <- round(coef(m0)[["log(GDP_pc)"]], 2)
+b_m1 <- round(coef(m1)[["log(GDP_pc)"]], 2)
+b_m2 <- round(coef(m2)[["log(GDP_pc)"]], 2)
+# 95% confidence intervals
+ci_m0 <- round(confint(m0)["log(GDP_pc)", ], 2)
+ci_m1 <- round(confint(m1)["log(GDP_pc)", ], 2)
+ci_m2 <- round(confint(m2)["log(GDP_pc)", ], 2)
 
-m_fe_cty
+lo_m0 <- ci_m0[[1]]; hi_m0 <- ci_m0[[2]]
+lo_m1 <- ci_m1[[1]]; hi_m1 <- ci_m1[[2]]
+lo_m2 <- ci_m2[[1]]; hi_m2 <- ci_m2[[2]]
+
+# Within-R²
+r2w_m1 <- round(r2(m1)[["war2"]], 2)
+r2w_m2 <- round(r2(m2)[["war2"]], 2)
+
+# Sample sizes
+n_m2   <- nobs(m2)
 ```
 
-Country FE answers: within a country, do larger firms have better management?
-Firm FE (below) answers: when a firm grows, does its management improve?
+## The standard progression side by side
 
-These are different questions with potentially different answers.
+```{r}
+#| label: tbl-main-progression
+#| tbl-cap: "Three models of the income–happiness relationship. 95% confidence intervals in brackets. Within-R² is the relevant fit statistic for FE models."
+
+modelsummary(
+  list("Pooled OLS" = m0, "Country FE" = m1, "Two-way FE" = m2),
+  coef_map  = c("log(GDP_pc)" = "Log GDP per capita"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  notes     = "95% CIs in brackets. Pooled OLS: HC1 SEs. FE models: clustered at country level.",
+  output    = "flextable"
+) |> autofit()
+```
+
+**Reading the table:**
+
+- **Pooled OLS → Country FE:** The coefficient *increases* from `r b_m0` to `r b_m1`. This is counter-intuitive but real: the within-country income–happiness relationship is *stronger* than the cross-sectional comparison between countries. Countries going through active income growth (e.g. emerging markets) show larger happiness gains than the gap between a rich and a poor country at one point in time would suggest. The cross-sectional estimate is compressed partly by diminishing returns at high income levels and by stable between-country differences in happiness baselines.
+- **Country FE → Two-way FE:** The coefficient increases further to `r b_m2`. Year FE removes global shocks that simultaneously raised incomes and happiness everywhere (good global years); after removing those, the within-country, within-year income–happiness signal is stronger.
+- **Within-R²** (`r r2w_m1`–`r r2w_m2`): income explains roughly `r round(r2w_m1 * 100)`–`r round(r2w_m2 * 100)`% of within-country happiness variation — meaningful but modest. Happiness has many determinants beyond income.
 
 ---
 
-# Two-Way Fixed Effects
+# Causal Interpretation
 
-## Adding time fixed effects
+## What the FE estimate claims — and does not claim
 
-Even within countries, there may be year-specific shocks: a global
-management consulting boom, a financial crisis that restructures firms,
-or changes in survey methodology. Time fixed effects control for anything
-affecting all firms in a given year.
+The two-way FE coefficient answers:
+
+> When a country's income rises above its own historical average in a year that is not unusually good or bad for all countries, does its happiness tend to rise?
+
+**Country FE already controls for:**
+
+- All time-invariant country characteristics: stable institutions, culture, geography, social trust, historical development path
+- This includes most of what makes Scandinavian countries both rich *and* happy — it is absorbed into $\alpha_i$
+
+**Year FE already controls for:**
+
+- Global shocks affecting all countries in a given year: financial crises, pandemics, commodity cycles
+
+**What is still potentially uncontrolled:**
+
+Time-varying factors that change *differently across countries* and independently affect both income and happiness. Two obvious candidates in our data: **income inequality** and **unemployment**.
+
+## Three estimands — precision about what you want to estimate
+
+Before adding more controls, it is worth being precise about which causal quantity you are actually after.
+
+| Estimand | What you condition on | What it answers |
+|---|---|---|
+| **Total effect** of income on happiness | Nothing on the causal path | "Does richer = happier, all channels included?" |
+| **Controlled direct effect** (CDE) | Mediators held fixed (e.g. healthcare) | "Does income matter *beyond* health, trust, etc.?" |
+| **Indirect / path-specific effect** via M | Estimated via mediation analysis | "How much of the income effect runs *through* health?" |
+
+Our main estimate (`m2`) is an attempt at the **total within-country effect** — it includes all pathways through which rising income may raise happiness: better healthcare, reduced stress, more autonomy, improved public services, and any direct effect.
+
+## A common temptation: controlling for WHR variables
+
+The WHR reports several variables alongside happiness: social support, healthy life expectancy, freedom to make life choices, perceptions of corruption. The temptation is to add these as controls to "isolate the direct income effect" or "remove confounding."
+
+::: {.callout-warning}
+## This is the bad-control problem again
+
+Most of these WHR variables are **mediators**, not confounders:
+
+- Healthy life expectancy: income → health → happiness
+- Social support: income enables social networks → happiness
+- Freedom to choose: affluence enables autonomy → happiness
+
+Conditioning on a mediator does two things simultaneously:
+
+1. It removes part of the income effect (blocking the mediated path)
+2. If the mediator also has independent determinants (culture, geography), it opens new backdoor paths — introducing bias rather than removing it
+
+The result is a **controlled direct effect** that answers a different question than the total effect — and does so with additional bias from the newly opened paths. This is precisely the "bad control" problem from Session 5, applied at the macro level.
+:::
+
+## Stage 1 — Total effect with time-varying confounders
+
+The appropriate additions are variables that independently affect both income and happiness *and change over time within countries*, without lying on the causal path from income to happiness.
+
+**Income inequality (`gini_disp`):** The US Easterlin story is partly about rising inequality — aggregate GDP grew, but most of the gains went to the top, so median incomes stagnated. Gini is a time-varying confounder (or effect modifier): it captures distributional changes that affect happiness independently of average income.
+
+**Unemployment (`unemployment`):** Labour market conditions affect wellbeing through channels (job security, social belonging) that are partly independent of aggregate income.
 
 ```{r}
-#| label: twoway-fe
+#| label: model-with-confounders
+m3a <- feols(happiness ~ log(GDP_pc) + gini_disp               | country + year,
+             vcov = ~country, data = dat)
 
-m_fe_2way <- feols(management ~ log_emp + degree_m | firmid + wave,
-                   vcov = ~firmid,
-                   data = wms)
+m3b <- feols(happiness ~ log(GDP_pc) + unemployment            | country + year,
+             vcov = ~country, data = dat)
 
-m_fe_2way
+m3  <- feols(happiness ~ log(GDP_pc) + gini_disp + unemployment | country + year,
+             vcov = ~country, data = dat)
 ```
 
-The coefficient on `log_emp` is now identified from variation that is
-neither explained by which firm it is nor which year it is —
-pure within-firm, within-year deviations from both baselines.
+```{r}
+#| label: inline-values-2
+#| include: true
+#| echo: false
 
-## Comparing models side by side
+# Point estimates (log GDP_pc coefficient)
+b_m3 <- round(coef(m3)[["log(GDP_pc)"]], 2)
 
-Now we can present the full progression clearly:
+# 95% confidence intervals
+ci_m3 <- round(confint(m3)["log(GDP_pc)", ], 2)
+
+lo_m3 <- ci_m3[[1]]; hi_m3 <- ci_m3[[2]]
+
+# Within-R²
+r2w_m3 <- round(r2(m3)[["war2"]], 2)
+
+# Sample sizes
+n_m3a  <- nobs(m3a)
+n_drop <- n_m2 - n_m3a  # observations lost when adding Gini
+
+# % change in income coefficient m2 → m3
+pct_drop <- round(abs(b_m2 - b_m3) / b_m2 * 100)
+```
 
 ```{r}
-#| label: model-comparison
+#| label: tbl-confounders
+#| tbl-cap: "Adding time-varying confounders to the two-way FE baseline. 95% confidence intervals in brackets. Note: the sample shrinks when Gini is included (missing data)."
 
 modelsummary(
   list(
-    "Pooled OLS"  = m_ols,
-    "Country FE"  = m_fe_cty,
-    "Firm FE"     = m_fe_firm,
-    "Two-way FE"  = m_fe_2way
+    "Two-way FE"    = m2,
+    "+ Gini"        = m3a,
+    "+ Unemployment"= m3b,
+    "+ Both"        = m3
   ),
-  gof_map = c("nobs", "r.squared", "r2.within"),
-  stars   = TRUE,
-  notes   = "Standard errors: pooled OLS uses HC1; FE models clustered at firm level."
-)
+  coef_map = c(
+    "log(GDP_pc)"  = "Log GDP per capita",
+    "gini_disp"    = "Gini (disposable income)",
+    "unemployment" = "Unemployment rate"
+  ),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  notes     = "Two-way FE (country + year) throughout. SEs clustered at country level.",
+  output    = "flextable"
+) |> autofit()
 ```
 
-**How to read this table:**
+::: {.callout-note}
+## Interpreting the results
 
-- Moving from Pooled OLS to Country FE: removes cross-country noise
-- Moving from Country FE to Firm FE: removes all stable firm-level
-  differences — the most important step
-- Moving from Firm FE to Two-way FE: additionally removes year-specific
-  shocks common to all firms
+The income coefficient remains **large and significant** throughout (`r b_m2` → `r b_m3` in the full model, 95% CI well above zero). The key findings from each column:
 
-The within-$R^2$ (row `r2.within`) is the relevant fit statistic for
-FE models — it measures fit on demeaned data only.
+- **+ Gini only:** The Gini coefficient is negative but not statistically significant at conventional levels. The sample shrinks substantially due to missing Gini observations — results should be interpreted cautiously.
+- **+ Unemployment only:** Unemployment is negative and highly significant — higher unemployment reduces happiness within countries even after controlling for income and fixed effects. Adding unemployment leaves the income coefficient largely unchanged.
+- **+ Both:** The income coefficient falls modestly (`r pct_drop`% relative to the baseline). Most of the action comes from unemployment, not Gini. The income–happiness relationship is robust to these time-varying controls.
+
+**A note on sample composition:** adding Gini reduces the sample by `r n_drop` observations (from `r n_m2` to `r n_m3a`). Part of the income coefficient shift when Gini is included may reflect this sample restriction rather than the Gini control itself. Compare columns (1) and (3) — the unemployment-only model uses nearly the same sample as the baseline — to isolate the cleaner comparison.
+:::
+
+## Stage 2 — Why mediation analysis, not more controls
+
+The concern *"maybe it is not income but good healthcare that makes people happier"* is a question about **indirect effects**: how much of the total income–happiness relationship runs through healthcare?
+
+That is a legitimate question — but it requires a **different estimand** than what we have been computing, and a different analytical strategy.
+
+**The wrong approach:** add healthcare (or WHR healthy life expectancy) to the main regression. As explained above, this gives the controlled direct effect, introduces mediator bias, and does not actually answer the indirect effect question.
+
+**The right approach — causal mediation decomposition:**
+
+$$\underbrace{\hat\beta_{\text{total}}}_{\text{Total effect}} = \underbrace{\hat\beta_{\text{direct}}}_{\text{Income → Happiness, not via M}} + \underbrace{\hat\beta_{\text{indirect}}}_{\text{Income → M → Happiness}}$$
+
+This requires:
+
+1. A model for the **mediator** (e.g., healthy life expectancy ~ income + country FE + year FE + confounders)
+2. A model for **happiness** including both income and the mediator
+3. Strong identification assumptions — crucially, no unmeasured confounders of the mediator–outcome relationship, which is demanding at the macro level
+
+The practical upshot: if a mediation analysis found a large indirect effect through healthcare (i.e., most of the income effect runs through better health), that would support the view that policies improving health *without* income growth could also raise happiness — a different policy conclusion than if the income effect were mostly direct.
+
+::: {.callout-note}
+## Further reading
+The World Happiness Report investigates mediation pathways in its statistical appendices — see the methods notes in recent editions for their approach to decomposing the cross-country happiness gaps. Note that findings on the relative importance of income vs. social variables differ across WHR editions and decomposition methods, and these are cross-sectional decompositions, not panel FE estimates.
+:::
+
+**Mediation analysis is beyond the scope of this session**, but if you pursue this line of research, the `mediation` package in R implements the Imai et al. framework for causal mediation under the sequential ignorability assumption.
 
 ---
 
-# Interpreting FE Results
+# Reporting Panel Results in Quarto
 
-## What the coefficient means
-
-In the two-way FE model, $\hat\beta_{log\_emp}$ answers:
-
-> For the *same firm*, when employment increases by 1% (i.e.,
-> log-employment increases by 0.01), how much does the management
-> score change, holding constant any year-specific shock?
-
-This is a within-firm estimate. We are not comparing Siemens to a
-small Mexican manufacturer — we are comparing Siemens to itself in
-an earlier or later wave.
-
-## What FE cannot tell us
-
-Fixed effects removes all time-invariant variation.
-This means we cannot estimate:
-
-- The effect of `ownership` type (if ownership does not change across waves)
-- Country-level effects with firm FE
-- Any covariate that is constant within units over time
+## What to include in every panel table
 
 ```{r}
-#| label: time-invariant-warning
-
-# Ownership type — does it vary within firms across waves?
-wms |>
-  group_by(firmid) |>
-  summarise(n_ownership_types = n_distinct(ownership)) |>
-  count(n_ownership_types)
-```
-
-If ownership is mostly constant within firms (which it typically is),
-including it alongside firm FE will either drop or produce unreliable estimates.
-
-## Clustered standard errors: why they matter
-
-Errors within the same firm across years are correlated. Let us compare
-standard (non-clustered) and clustered standard errors to see the difference:
-
-```{r}
-#| label: se-comparison
-
-m_fe_nocluster <- feols(management ~ log_emp + degree_m | firmid + wave,
-                        data = wms)   # default: heteroskedasticity-robust
-
-m_fe_cluster <- feols(management ~ log_emp + degree_m | firmid + wave,
-                      vcov = ~firmid,
-                      data = wms)   # clustered at firm level
-
-modelsummary(
-  list("Non-clustered" = m_fe_nocluster, "Clustered (firm)" = m_fe_cluster),
-  gof_map = c("nobs", "r2.within"),
-  stars   = TRUE,
-  notes   = "Two-way FE (firm + wave) in both models."
-)
-```
-
-Clustered standard errors are typically larger — this is the correct
-direction. Non-clustered SEs understate uncertainty by ignoring
-within-firm correlation across time.
-
----
-
-# Quarto Skill: Presenting Panel Results
-
-When you present panel results in a report, three things matter:
-
-**1. Show the progression.** Always include at least pooled OLS and your
-main FE specification. This makes the effect of each layer of controls
-visible.
-
-**2. Name the fixed effects clearly.** Add a row or note indicating
-which FEs are included in each column. `modelsummary` does this
-automatically when you use `feols()` — it adds a row labelling the FEs.
-
-**3. Report the within-$R^2$.** Use `gof_map` to select it explicitly:
-
-```{r}
-#| label: quarto-skill-demo
+#| label: tbl-final-quarto
+#| tbl-cap: "Income and happiness: pooled OLS, country FE, two-way FE, and two-way FE with time-varying controls. 95% confidence intervals in brackets. Preferred specification: column (4)."
 
 modelsummary(
   list(
-    "Pooled OLS" = m_ols,
-    "Firm FE"    = m_fe_firm,
-    "Two-way FE" = m_fe_2way
+    "(1) Pooled OLS"      = m0,
+    "(2) Country FE"      = m1,
+    "(3) Two-way FE"      = m2,
+    "(4) + Gini & Unemp." = m3
   ),
-  gof_map = c("nobs", "r.squared", "r2.within"),
-  stars   = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
-  notes   = c(
-    "Standard errors in parentheses.",
-    "FE models: SEs clustered at firm level.",
-    "* p<0.1, ** p<0.05, *** p<0.01"
-  )
+  coef_map  = c(
+    "log(GDP_pc)"  = "Log GDP per capita",
+    "gini_disp"    = "Gini coefficient",
+    "unemployment" = "Unemployment rate"
+  ),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  notes     = c(
+    "95% CIs in brackets.",
+    "Column (1): HC1 standard errors.",
+    "Columns (2)–(4): clustered at country level.",
+    "Country and year fixed effects in columns (3) and (4)."
+  ),
+  output    = "flextable"
+) |> autofit()
+```
+
+**Five rules for panel tables:**
+
+1. **Show the progression** — pooled OLS to your preferred specification. The reader needs to see what each layer of controls does.
+2. **Report CIs, not SEs** — confidence intervals communicate both precision and the range of compatible effect sizes more directly than standard errors.
+3. **Report which FEs are included** — a footnote is cleaner than coefficient rows: *"Country and year fixed effects in columns (3) and (4)."*
+4. **Report the within-$R^2$** — use `gof_map = c("nobs", "r.squared", "r2.within")`. The overall $R^2$ is inflated by the fixed effects.
+5. **State the clustering** — always note clustering level in the table footer.
+
+## Reporting confidence intervals in `modelsummary`
+
+By default `modelsummary` shows standard errors below point estimates. To show 95% confidence intervals instead:
+
+```{r}
+#| eval: false
+modelsummary(
+  list("Model" = m),
+  statistic  = "conf.int",   # [lower, upper] replaces (SE)
+  conf_level = 0.95
 )
 ```
 
-**Tip:** In a polished report, use a footnote rather than a coefficient
-row to communicate which FEs are included. For example: *"Firm and wave
-fixed effects included in columns (2) and (3)."*
+To show the estimate and CI on the same line (common in reports):
+
+```{r}
+#| eval: false
+modelsummary(
+  list("Model" = m),
+  estimate   = "{estimate} [{conf.low}, {conf.high}]",
+  statistic  = NULL           # suppress the second row entirely
+)
+```
+
+For a **publication-ready flextable**, add `output = "flextable"` and pipe through `autofit()`:
+
+```{r}
+#| eval: false
+modelsummary(
+  list("Model" = m),
+  statistic = "conf.int",
+  conf_level = 0.95,
+  output    = "flextable"
+) |>
+  autofit()
+```
+
+## Writing up the result
+
+A clean analytical paragraph based on the actual results:
+
+> Table 1 shows the relationship between log GDP per capita and life satisfaction across countries and years. The pooled OLS estimate (column 1) suggests a positive association (β = `r b_m0`, 95% CI [`r lo_m0`, `r hi_m0`]), but this conflates stable between-country differences with within-country income changes. Contrary to a naive reading of the Easterlin paradox, country fixed effects (column 2) reveal a *stronger* within-country relationship (β = `r b_m1`, 95% CI [`r lo_m1`, `r hi_m1`]): countries experiencing income growth show larger happiness gains than the cross-sectional gap between rich and poor countries would predict. Adding year fixed effects (column 3) increases the coefficient further to β = `r b_m2` (95% CI [`r lo_m2`, `r hi_m2`]), as global time trends that simultaneously affected incomes and happiness everywhere are removed. Column 4 adds time-varying controls for inequality and unemployment; the income coefficient falls modestly to β = `r b_m3` (95% CI [`r lo_m3`, `r hi_m3`]), driven mainly by the significant negative effect of unemployment rather than by Gini (which is not significant). The evidence points to a robust, positive within-country income–happiness relationship — with unemployment emerging as an important independent determinant of within-country happiness variation.
 
 ---
 
 # Summary
 
-Panel data — the same units observed over time — allow us to control
-for stable, unobserved unit-level characteristics that would otherwise
-bias our estimates.
+**What we did:**
 
-**Key concepts:**
+1. Established the cross-sectional income–happiness correlation and the Easterlin challenge
+2. Ran the standard FE progression: pooled OLS → country FE → two-way FE
+3. Clarified what each model estimates and what confounders remain
+4. Distinguished three estimands: total effect, controlled direct effect, indirect effect
+5. Added time-varying confounders (Gini, unemployment) as Stage 1 extensions
+6. Explained why conditioning on WHR variables (health, trust) is the wrong way to address mediator concerns — and what the right way (mediation analysis) would look like
 
-- **Composite error** $\epsilon_{it} = \eta_i + v_{it}$: the stable
-  unit component $\eta_i$ causes OVB when correlated with $x_{it}$
-- **Within-transformation:** subtract each unit's time-mean; $\eta_i$
-  cancels out; OLS on demeaned data = FE estimator
-- **Between vs. within:** two different questions — be deliberate
-- **Two-way FE:** adds time fixed effects $\gamma_t$ for common
-  period shocks
-- **Clustered SEs:** always cluster at the unit level in panel applications
-- **Within-$R^2$:** the relevant fit statistic for FE models
+**Key takeaways:**
 
-**In R:** `fixest::feols(y ~ x | unit_id + time_id, vcov = ~unit_id)`
+- The within-country income–happiness relationship is **stronger** than the cross-sectional comparison — the FE coefficient exceeds pooled OLS
+- Country FE eliminates all stable confounders; year FE removes common time shocks
+- Unemployment is a significant time-varying confounder; Gini is not significant in this panel (possibly due to limited within-country variation and missing data)
+- WHR social/health variables are mediators — adding them gives a controlled direct effect, not a cleaner total effect, and may introduce new bias
+- Mediation analysis is the right framework for decomposing pathways; it requires stronger assumptions and is a separate analytical step
+
+**In R:** `fixest::feols(y ~ x + controls | country + year, vcov = ~country)`
 
 ---
 
 # Further Reading
 
-- Békés, G. & Kézdi, G. (2021). *Data Analysis for Business, Economics,
-  and Policy*. Cambridge UP. Ch. 24 (Panel data).
-  Available at [gabors-data-analysis.com](https://gabors-data-analysis.com)
-- Huntington-Klein, N. (2022). *The Effect: An Introduction to Research
-  Design and Causality*. Ch. 16 (Fixed Effects).
-  Available at [theeffectbook.net](https://theeffectbook.net)
-- Cunningham, S. (2021). *Causal Inference: The Mixtape*. Ch. 8
-  (Panel data and fixed effects). Available at
-  [mixtape.scunning.com](https://mixtape.scunning.com)
+- Békés, G. & Kézdi, G. (2021). *Data Analysis for Business, Economics, and Policy*. Cambridge UP. Ch. 24 (Panel data).
+- Huntington-Klein, N. (2022). *The Effect*. Ch. 16 (Fixed Effects). [theeffectbook.net](https://theeffectbook.net)
+- Cunningham, S. (2021). *Causal Inference: The Mixtape*. Ch. 8 (Panel data). [mixtape.scunning.com](https://mixtape.scunning.com)
+- Pearl, J. & Mackenzie, D. (2018). *The Book of Why*. Ch. 9 (Mediation) — accessible treatment of direct vs. indirect effects
+- Imai, K., Keele, L. & Tingley, D. (2010). A general approach to causal mediation analysis. *Psychological Methods*, 15(4), 309–334 — the standard reference for the `mediation` R package
+- Killingsworth, M. A., Kahneman, D., & Mellers, B. (2023). Income and emotional well-being: A conflict resolved. Proceedings of the National Academy of Sciences, 120(10), e2208661120. https://doi.org/10.1073/pnas.2208661120
+- World Happiness Report (annual, [worldhappiness.report](https://www.worldhappiness.report/)) — statistical appendices document their approach to decomposing happiness gaps across countries

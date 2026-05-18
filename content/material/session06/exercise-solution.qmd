@@ -1,0 +1,341 @@
+---
+title: "Session 6: Exercise Solution"
+subtitle: "Advanced Data Science · Europa-Universität Flensburg"
+date: "2026-05-28"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    code-fold: true
+    self-contained: true
+    code-tools: true
+  pdf:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+execute:
+  echo: true
+  warning: false
+  message: false
+  eval: true
+  execute-dir: file
+---
+
+::: {.callout-note}
+Make sure `wms_da_textbook.csv` is stored in a `data/` subfolder next to this file.
+Download from <https://osf.io/t6zdp/> if necessary.
+:::
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(fixest)
+library(modelsummary)
+library(flextable)
+
+wms <- read_csv("data/wms_da_textbook.csv", show_col_types = FALSE) |>
+  mutate(log_emp = log(emp_firm))
+```
+
+---
+
+# Data orientation
+
+```{r}
+#| label: data-orientation
+wms |>
+  summarise(
+    n_obs    = n(),
+    n_firms  = n_distinct(firmid),
+    n_waves  = n_distinct(wave),
+    n_cty    = n_distinct(cty),
+    wave_min = min(wave),
+    wave_max = max(wave)
+  ) |>
+  flextable() |> theme_vanilla() |> autofit()
+```
+
+```{r}
+#| label: balance-check
+wms |>
+  count(firmid) |>
+  count(n, name = "n_firms") |>
+  rename(times_observed = n) |>
+  flextable() |> theme_vanilla() |> autofit()
+```
+
+**Answer:** The WMS is a firm-level panel covering 10,282 manufacturing firms across 24 countries, observed in up to 11 waves between 2004 and 2015 (14,277 observations total). The panel is highly **unbalanced**: 7,088 firms (69%) appear only once, another 2,510 appear twice. Only the 3,194 firms observed two or more times contribute to the fixed effects estimates — the effective FE sample is roughly 5,900 observations, about 41% of the raw total.
+
+---
+
+# Task 1 — Pooled OLS as a baseline
+
+```{r}
+#| label: task1-ols
+m_ols <- feols(management ~ degree_nm + log_emp, data = wms)
+
+modelsummary(
+  list("Pooled OLS" = m_ols),
+  coef_map  = c("degree_nm" = "Degree (non-managers)",
+                "log_emp"   = "Log(employees)"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared"),
+  stars     = TRUE,
+  output    = "flextable"
+) |> autofit()
+```
+
+**Interpretation:**
+
+Both predictors are highly significant. A one-percentage-point increase in the share of non-managers with a college degree is associated with a 0.006-point increase in the management score (95% CI: [0.006, 0.007]). Since the management score ranges from 1 to 5, moving from 0% to 100% non-manager degree coverage would predict a 0.6-point improvement — a meaningful but not transformative effect on the cross-section.
+
+Firm size also predicts higher management quality: a 1% increase in employment is associated with a 0.187-point increase in score (95% CI: [0.178, 0.197]). The overall R² of 0.144 means that education and size together explain about 14% of the cross-sectional variation in management quality.
+
+However, this estimate is of limited causal value. It compares firms in different countries, sectors, and founding eras — all of which affect both workforce education and management quality simultaneously. The pooled OLS coefficient conflates any genuine effect of education with these stable background characteristics. This is OVB.
+
+---
+
+# Task 2 — Firm fixed effects
+
+```{r}
+#| label: task2-firm-fe
+m_fe <- feols(management ~ degree_nm + log_emp | firmid,
+              vcov = ~firmid,
+              data = wms)
+
+modelsummary(
+  list("Firm FE" = m_fe),
+  coef_map  = c("degree_nm" = "Degree (non-managers)",
+                "log_emp"   = "Log(employees)"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  output    = "flextable"
+) |> autofit()
+```
+
+**Comparison to Task 1:**
+
+Two large changes when adding firm fixed effects:
+
+**1. The `degree_nm` coefficient drops from 0.006 to 0.002 — a 67% reduction.** The OVB in Task 1 was substantial and positive: firms that are inherently better managed (due to country, sector, culture) also tend to employ more educated workers. Pooled OLS misattributed this firm-quality effect to workforce education. The FE estimate of 0.002 (95% CI: [0.001, 0.003]) is the genuine within-firm association: when the share of college-educated non-managers increases inside the same firm, management quality rises by 0.002 points per percentage point. Still statistically significant — but much smaller than the cross-sectional picture implied.
+
+**2. The `log_emp` coefficient collapses from 0.187*** to 0.020+ (barely significant, 95% CI: [−0.004, 0.044]).** This is informative: the strong cross-sectional size-management relationship is almost entirely between-firm. Once you compare a firm to itself over time, growing larger barely predicts improving management quality. The size effect in Task 1 was mainly picking up that larger firms cluster in better-managed countries and sectors.
+
+**3. The sample drops from 12,793 to 5,938.** The 7,088 singleton firms are effectively removed because they provide no within-unit variation. This is not a problem — FE identification requires firms to appear in at least two waves.
+
+---
+
+# Task 3 — Two-way fixed effects
+
+```{r}
+#| label: task3-twoway-fe
+m_2way <- feols(management ~ degree_nm + log_emp | firmid + wave,
+                vcov = ~firmid,
+                data = wms)
+
+modelsummary(
+  list("Two-way FE" = m_2way),
+  coef_map  = c("degree_nm" = "Degree (non-managers)",
+                "log_emp"   = "Log(employees)"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  output    = "flextable"
+) |> autofit()
+```
+
+**Interpretation:**
+
+Adding wave fixed effects barely changes the results: `degree_nm` remains 0.002*** [0.001, 0.003] and `log_emp` falls slightly to 0.017 [-0.007, 0.042] (no longer significant at conventional levels). The sample shrinks by just 2 observations (5,938 → 5,936), confirming that very few firms are lost because of missing waves.
+
+The near-identical coefficients tell us there are no important global time trends confounding the within-firm education–management relationship. Wave FE absorbs shocks that affected all firms simultaneously — global economic conditions, changes in survey methodology, the diffusion of management consulting practices — but once controlled for, these do not change what within-firm workforce education predicts.
+
+The small change in `log_emp` (0.020 → 0.017) is also informative: what little within-firm size variation existed appears to slightly coincide with common boom years, but the effect was already too weak to be significant.
+
+---
+
+# Task 4 — Side-by-side comparison
+
+```{r}
+#| label: task4-table
+#| tbl-cap: "Management quality and workforce education: three specifications. 95% confidence intervals in brackets."
+
+modelsummary(
+  list(
+    "Pooled OLS"  = m_ols,
+    "Firm FE"     = m_fe,
+    "Two-way FE"  = m_2way
+  ),
+  coef_map  = c("degree_nm" = "Degree (non-managers)",
+                "log_emp"   = "Log(employees)"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  notes     = c(
+    "95% CIs in brackets.",
+    "Pooled OLS: HC1 standard errors.",
+    "Firm FE and Two-way FE: standard errors clustered at firm level.",
+    "Two-way FE includes firm and wave fixed effects."
+  ),
+  output    = "flextable"
+) |> autofit()
+```
+
+**The within-R² and what it tells us:**
+
+The overall R² of 0.763–0.767 in the FE models is misleadingly high — it includes all the variance explained by the firm fixed effects themselves (the stable differences between firms). The **within-R²** is the meaningful statistic: it measures how much of the *within-firm* variation in management quality is explained by the time-varying predictors alone. Here it is **0.005–0.006** — just 0.5–0.6%.
+
+This is very low. Does it mean our model is wrong? No — but it means something substantively important: **workforce education and firm size barely change within firms between survey waves**. The WMS surveys the same firm at intervals of several years; in that time, a firm's educational composition shifts slowly. There is simply not much within-unit variation in `degree_nm` to explain management changes.
+
+The upshot: the statistically significant coefficient on `degree_nm` is real, but changes in workforce education explain almost none of the year-to-year management variation we observe within firms. Most within-firm management change is driven by factors not in our model — a new management team, a strategic overhaul, an ownership transition, a new market shock.
+
+**Does a richer model help?** The WMS also contains `degree_m` (the share of managers with a college degree), which arguably matters more directly for management quality. Adding it gives a more complete picture:
+
+```{r}
+#| label: task4-extended
+m_fe_ext <- feols(management ~ degree_nm + degree_m + log_emp | firmid,
+                  vcov = ~firmid, data = wms)
+
+m_2way_ext <- feols(management ~ degree_nm + degree_m + log_emp | firmid + wave,
+                    vcov = ~firmid, data = wms)
+
+modelsummary(
+  list(
+    "Firm FE (base)"    = m_fe,
+    "Firm FE + deg_m"   = m_fe_ext,
+    "Two-way FE + deg_m"= m_2way_ext
+  ),
+  coef_map  = c("degree_nm" = "Degree (non-managers)",
+                "degree_m"  = "Degree (managers)",
+                "log_emp"   = "Log(employees)"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  notes     = "SEs clustered at firm level throughout.",
+  output    = "flextable"
+) |> autofit()
+```
+
+Manager education (`degree_m`) adds modestly to the within-R² and provides an interesting comparison: does the education of managers or non-managers drive management quality changes within firms? This is the kind of question the WMS panel data is particularly well-suited to answer.
+
+---
+
+# Optional Extension A — Restricted sample comparison
+
+When comparing pooled OLS (N = 12,793) to firm FE (N = 5,938), two things changed simultaneously: the estimator *and* the sample. Firms observed only once cannot contribute to the within-firm FE estimate and are dropped. If these singleton firms are systematically different — perhaps smaller, less stable, or operating in less regulated markets — the coefficient shift could reflect sample selection rather than the FE correction. Disentangling the two is important for understanding what is actually driving the result.
+
+**Strategy:** run pooled OLS on the FE-eligible firms only (those with ≥ 2 observations), then stack three models side by side:
+
+| Column | Estimator | Sample |
+|---|---|---|
+| OLS (full) | Pooled OLS | All 12,793 obs |
+| OLS (FE sample) | Pooled OLS | FE-eligible firms only |
+| Firm FE | Within estimator | FE-eligible firms only |
+
+The OLS (full) → OLS (FE sample) shift isolates the **sample selection effect**. The OLS (FE sample) → Firm FE shift isolates the **genuine FE correction**.
+
+```{r}
+#| label: optional-fe-sample
+fe_firms <- wms |>
+  count(firmid) |>
+  filter(n > 1) |>
+  pull(firmid)
+
+wms_fe <- wms |> filter(firmid %in% fe_firms)
+
+m_ols_fe <- feols(management ~ degree_nm + log_emp, data = wms_fe)
+```
+
+```{r}
+#| label: optional-sample-comparison-table
+#| tbl-cap: "Decomposing the coefficient shift: sample selection vs. FE correction. 95% confidence intervals in brackets."
+
+modelsummary(
+  list(
+    "OLS (full)"      = m_ols,
+    "OLS (FE sample)" = m_ols_fe,
+    "Firm FE"         = m_fe
+  ),
+  coef_map  = c("degree_nm" = "Degree (non-managers)",
+                "log_emp"   = "Log(employees)"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  notes     = c(
+    "95% CIs in brackets.",
+    "OLS models: HC1 standard errors. Firm FE: clustered at firm level.",
+    "OLS (FE sample) restricted to firms observed ≥ 2 times."
+  ),
+  output    = "flextable"
+) |> autofit()
+```
+
+```{r}
+#| label: optional-inline-vals
+#| include: false
+b_ols_fe   <- round(coef(m_ols_fe)[["degree_nm"]], 3)
+b_ols_full <- round(coef(m_ols)[["degree_nm"]], 3)
+b_fe_main  <- round(coef(m_fe)[["degree_nm"]], 3)
+sample_shift_pct  <- round(abs(b_ols_full - b_ols_fe) / b_ols_full * 100)
+fe_shift_pct      <- round(abs(b_ols_fe   - b_fe_main) / b_ols_fe   * 100)
+sample_direction  <- if_else(b_ols_fe > b_ols_full, "upward", "downward")
+n_ols_fe   <- nobs(m_ols_fe)
+```
+
+**Interpretation:**
+
+The OLS (full) coefficient on `degree_nm` is `r b_ols_full`, and the OLS (FE sample) coefficient is `r b_ols_fe` — a `r sample_direction` shift of about `r sample_shift_pct`%. Notably, the coefficient goes *up* when restricting to multi-wave firms: firms observed in ≥ 2 waves have a slightly stronger cross-sectional education–management gradient than the full sample. This tells us that sample selection is *not* responsible for the overall coefficient drop — it is actually working in the opposite direction.
+
+The subsequent shift from OLS (FE sample) to firm FE, from `r b_ols_fe` to `r b_fe_main`, is a `r fe_shift_pct`% reduction. **This is entirely the genuine FE correction** — removing stable between-firm differences that inflate the cross-sectional estimate.
+
+The decomposition gives a clear answer: the `r fe_shift_pct`% drop from the within-firm identification dominates; the `r sample_shift_pct`% sample selection effect is small and goes in the wrong direction to explain the main result. FE is doing real work here. The comparison also makes the main progression more trustworthy: the coefficient drop from Task 1 to Task 2 is not an artefact of which firms are in the sample.
+
+---
+
+# Task 5 — Reflection
+
+**1. Including `ownership` alongside firm fixed effects:**
+
+`ownership` records the type of firm ownership (founder-run, family-controlled, dispersed shareholders, etc.) and in practice barely changes across WMS survey waves — firm ownership transitions are rare events, not year-to-year fluctuations. A variable that is constant within a unit is perfectly collinear with the unit fixed effects after the within-transformation: subtracting the firm mean from a constant leaves zero. `feols()` will either drop it with a warning or, if there is trace within-firm variation in a handful of firms, produce estimates with enormous confidence intervals that are uninformative.
+
+This is not a bug — it is a feature. Firm FE *absorbs* ownership type by construction: whatever effect founder control or family ownership has on management quality is captured inside $\alpha_i$. The trade-off is that we cannot separately estimate that effect.
+
+**2. A time-varying confounder firm FE does not control for:**
+
+*New management team / CEO transition:* if a firm hires a new management team in a given wave, this directly lifts the management score AND may simultaneously prompt a firm-wide upskilling effort (raising `degree_nm`). This is a time-varying within-firm change that affects both outcome and predictor. Firm FE cannot remove it because it is not stable. Addressing it would require either controlling for management team changes explicitly or using an instrumental variable for within-firm education shifts.
+
+---
+
+# Optional Extension B — Country fixed effects
+
+```{r}
+#| label: optional-country-fe
+m_cty <- feols(management ~ degree_nm + log_emp | cty,
+               vcov = ~cty,
+               data = wms)
+
+modelsummary(
+  list(
+    "Pooled OLS" = m_ols,
+    "Country FE" = m_cty,
+    "Firm FE"    = m_fe
+  ),
+  coef_map  = c("degree_nm" = "Degree (non-managers)",
+                "log_emp"   = "Log(employees)"),
+  statistic = "conf.int", conf_level = 0.95,
+  gof_map   = c("nobs", "r.squared", "r2.within"),
+  stars     = TRUE,
+  notes     = "Country FE and Firm FE: standard errors clustered at respective level.",
+  output    = "flextable"
+) |> autofit()
+```
+
+**Country FE vs. firm FE — different questions:**
+
+Country FE (column 2) barely changes the `degree_nm` coefficient relative to pooled OLS (0.006 → 0.006), while firm FE (column 3) reduces it to 0.002. This is revealing: the within-R² for country FE is 0.144 — much higher than the 0.005 for firm FE. Country FE still uses cross-firm variation within countries, and the between-firm variation in education is large. Firm FE collapses the sample to the within-firm changes and the coefficient falls sharply.
+
+**Country FE** answers: within a country, do firms with more educated workforces have better management? It removes stable country differences (business culture, institutional environment, educational systems) but leaves all firm-level differences intact.
+
+**Firm FE** answers: within the same firm over time, does a more educated workforce predict better management? It is a far more demanding test — every stable firm characteristic is controlled for. The lower coefficient and much lower within-R² both reflect the harder identification: changes in workforce education inside a given firm are rare and small, so the signal is weaker, but far less contaminated by omitted variables.

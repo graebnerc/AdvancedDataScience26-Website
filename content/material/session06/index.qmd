@@ -10,23 +10,75 @@ date-modified: last-modified
 
 ## Business question
 
-*Does better management quality lead to better firm performance — and does this relationship hold within countries?*
+*Does rising income make countries happier — and what would it take to interpret that relationship causally?*
 
 ## Learning goals
 
-- Understand the logic of panel data (units observed over time)
-- Apply fixed effects estimation to control for unobserved unit-level heterogeneity
-- Distinguish within- vs. between-variation and interpret each
-- Use `fixest` for efficient fixed effects estimation
+- Understand the logic of panel data: N units × T time periods, indexed $(i,t)$
+- Distinguish within- from between-unit variation and explain why the difference matters
+- Apply fixed effects estimation to control for time-invariant unobserved heterogeneity
+- Recognise what fixed effects cannot fix: time-varying confounders and feedback
+- Connect the FE identification argument to the causal reasoning framework of Session 5
+- Use `fixest::feols()` for efficient FE estimation; cluster standard errors at the unit level
 
-## Dataset
+## Datasets
 
-**wms-management-survey** — manufacturing firms across 24 countries, 2004–2015 (World Management Survey). Management quality scores, firm characteristics, performance indicators.
+**Slides and live demo — World Happiness Report panel**
+
+Country-level panel of life satisfaction and GDP per capita for ~140 countries, 2011–2023. Merges three sources: WHR 2026 (happiness), World Bank WDI (GDP per capita, unemployment, population), and SWIID 9.2 (disposable income Gini).
+
+| Variable | Description |
+|---|---|
+| `happiness` | Life satisfaction (0–10, WHR 3-year average) |
+| `GDP_pc` | GDP per capita, PPP (constant 2017 int'l $) |
+| `gini_disp` | Disposable income Gini coefficient |
+| `unemployment` | Unemployment rate (% of labour force) |
+
+**Exercise — World Management Survey (WMS)**
+
+Manufacturing firms across 24 countries, surveyed in multiple waves 2004–2015 as part of the World Management Survey project.
+
+| Variable | Description |
+|---|---|
+| `management` | Management quality score (1–5 scale) |
+| `degree_nm` | Share of non-managers with a college degree |
+| `emp_firm` | Number of employees |
+| `firmid` | Unique firm identifier |
+| `wave` | Survey wave (year) |
+
+Source: Békés & Kézdi (2021). Download: <https://osf.io/t6zdp/>
+
+## Session outline
+
+- Take-home Task 2 debrief (~30 min)
+- Input: Motivation — the Easterlin paradox; panel data structure; the FE estimator; two-way FE
+- Live demo: the income–happiness panel, model progression, causal interpretation, time-varying confounders
+- Break
+- In-session exercise: firm-level panel, management quality and workforce education
+- Debrief + Quarto skill: reporting panel results with confidence intervals and `modelsummary`
+
+## Materials
+
+| File | Description |
+|---|---|
+| [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_06/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Live demo](lecture_notes.qmd) | Coding document built during the session — Easterlin panel analysis |
+| [Exercise](https://classroom.github.com/a/aNiocTs_) | In-session exercise: firm FE with WMS data (via GitHub Classroom) |
+| [Exercise solution](exercise-solution.qmd) | Example solution (added after session) |
 
 ## Quarto skill introduced this session
 
-Presenting panel model output cleanly with `fixest` and `modelsummary`: handling multiple fixed effects, notes on standard error clustering.
+Presenting panel model results: confidence intervals instead of standard errors, the within-$R^2$, and notes on fixed effects and clustering.
 
-::: {.callout-important}
-Material will be available here before the session.
-:::
+```{{r}}
+modelsummary(
+  list("Pooled OLS" = m0, "Country FE" = m1, "Two-way FE" = m2),
+  statistic  = "conf.int",   # show [lower, upper] instead of (SE)
+  conf_level = 0.95,
+  gof_map    = c("nobs", "r.squared", "r2.within"),
+  notes      = "95% CIs. FE models clustered at country level.",
+  output     = "flextable"
+) |> autofit()
+```
+
+The within-$R^2$ (`r2.within`) measures fit on the demeaned data — the variation the FE model actually uses. Always report it instead of the inflated overall $R^2$.
