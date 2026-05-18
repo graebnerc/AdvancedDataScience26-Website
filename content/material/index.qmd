@@ -4,9 +4,10 @@ title: "Schedule & Overview"
 
 ## General reference
 
-The main textbook for this course is:
+The main textbook for this course is:^[There is no need to buy the book; the materials for each session provided here are self-contained. Still, its a good book that I can recommend reading.]
 
-> TBD
+> Békés, G., & Kézdi, G. (2021). _Data Analysis for Business, Economics, and Policy_. Cambridge University Press. [https://gabors-data-analysis.com/](https://gabors-data-analysis.com/)
+
 
 A complementary reference for R and tidyverse:
 

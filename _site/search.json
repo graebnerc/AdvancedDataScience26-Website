@@ -743,7 +743,7 @@
     "href": "content/material/index.html",
     "title": "Schedule & Overview",
     "section": "",
-    "text": "The main textbook for this course is:\n\nTBD\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz\n\n\nIsmay, C., & Kim, A. Y.-S. (2020). Statistical inference via data science: A ModernDive, into R and the tidyverse. CRC Press, Taylor and Francis Group. https://moderndive.com/index.html\n\nFor more advanced details on the fundamentals of programming in R, I recommend the following:\n\nWickham, H. (2019). Advanced R (Second edition). CRC Press/Taylor & Francis Group. https://adv-r.hadley.nz/\n\n\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An introduction to statistical learning: With applications in R (Second edition). Springer. https://www.statlearning.com/",
+    "text": "The main textbook for this course is:1\n\nBékés, G., & Kézdi, G. (2021). Data Analysis for Business, Economics, and Policy. Cambridge University Press. https://gabors-data-analysis.com/\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz\n\n\nIsmay, C., & Kim, A. Y.-S. (2020). Statistical inference via data science: A ModernDive, into R and the tidyverse. CRC Press, Taylor and Francis Group. https://moderndive.com/index.html\n\nFor more advanced details on the fundamentals of programming in R, I recommend the following:\n\nWickham, H. (2019). Advanced R (Second edition). CRC Press/Taylor & Francis Group. https://adv-r.hadley.nz/\n\n\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An introduction to statistical learning: With applications in R (Second edition). Springer. https://www.statlearning.com/",
     "crumbs": [
       "Material",
       "Overview & Schedule"
@@ -754,7 +754,7 @@
     "href": "content/material/index.html#general-reference",
     "title": "Schedule & Overview",
     "section": "",
-    "text": "The main textbook for this course is:\n\nTBD\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz\n\n\nIsmay, C., & Kim, A. Y.-S. (2020). Statistical inference via data science: A ModernDive, into R and the tidyverse. CRC Press, Taylor and Francis Group. https://moderndive.com/index.html\n\nFor more advanced details on the fundamentals of programming in R, I recommend the following:\n\nWickham, H. (2019). Advanced R (Second edition). CRC Press/Taylor & Francis Group. https://adv-r.hadley.nz/\n\n\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An introduction to statistical learning: With applications in R (Second edition). Springer. https://www.statlearning.com/",
+    "text": "The main textbook for this course is:1\n\nBékés, G., & Kézdi, G. (2021). Data Analysis for Business, Economics, and Policy. Cambridge University Press. https://gabors-data-analysis.com/\n\nA complementary reference for R and tidyverse:\n\nWickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). R for Data Science (2nd ed.). O’Reilly. r4ds.hadley.nz\n\n\nIsmay, C., & Kim, A. Y.-S. (2020). Statistical inference via data science: A ModernDive, into R and the tidyverse. CRC Press, Taylor and Francis Group. https://moderndive.com/index.html\n\nFor more advanced details on the fundamentals of programming in R, I recommend the following:\n\nWickham, H. (2019). Advanced R (Second edition). CRC Press/Taylor & Francis Group. https://adv-r.hadley.nz/\n\n\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An introduction to statistical learning: With applications in R (Second edition). Springer. https://www.statlearning.com/",
     "crumbs": [
       "Material",
       "Overview & Schedule"
@@ -1811,6 +1811,17 @@
     "crumbs": [
       "Take-home Tasks",
       "Task 1 — Earnings & Age"
+    ]
+  },
+  {
+    "objectID": "content/material/index.html#footnotes",
+    "href": "content/material/index.html#footnotes",
+    "title": "Schedule & Overview",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThere is no need to buy the book; the materials for each session provided here are self-contained. Still, its a good book that I can recommend reading.↩︎",
+    "crumbs": [
+      "Material",
+      "Overview & Schedule"
     ]
   }
 ]
