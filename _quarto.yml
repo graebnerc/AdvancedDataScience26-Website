@@ -50,11 +50,9 @@ website:
           - href: content/material/session06/index.qmd
             text: "Session 6 — Panel Data"
           - href: content/material/session07/index.qmd
-            text: "Session 7 — Coding with AI"
-          - href: content/material/session08/index.qmd
-            text: "Session 8 — Data Visualization"
+            text: "Session 7 — AI and Data Visualization"
           - href: content/material/session09/index.qmd
-            text: "Session 9 — Recap"
+            text: "Session 8 — Recap"
       - section: "Take-home Tasks"
         contents:
           - href: content/material/task01/index.qmd

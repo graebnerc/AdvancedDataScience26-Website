@@ -39,9 +39,8 @@ For more advanced details on the fundamentals of programming in R, I recommend t
 | 4 | Thu, 21 May | [What can go wrong: biases and diagnostics](session04/index.qmd) | Diagnostic plots, figure captions, cross-references |
 | 5 | Thu, 28 May | [Causation vs. correlation](session05/index.qmd) | TBD | 
 | 6 | Thu, 04 Jun | [Panel data and fixed effects](session06/index.qmd) | Panel model output with `fixest` |
-| 7 | Thu, 11 Jun | [Communicating data: advanced visualization](session08/index.qmd) | Publication-ready figures, multi-format export, Word output |
+| 7 | Thu, 11 Jun | [Using AI tools: advanced visualizations as an example](session07/index.qmd) | Publication-ready figures; AI-assisted Quarto: debugging, improving prose |
 | 8 | Thu, 18 Jun | [Recap and looking ahead](session09/index.qmd) | |
-| - | Replacement TBD | [Coding smarter: R and AI tools](session07/index.qmd) | AI-assisted Quarto: debugging, improving prose |
 
 ---
 

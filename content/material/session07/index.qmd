@@ -1,5 +1,5 @@
 ---
-title: "Session 7: Coding Smarter — R and AI Tools"
+title: "Session 7: Using AI tools - advanced visualizations as an example"
 date: "2026-06-04"
 date-modified: last-modified
 ---
