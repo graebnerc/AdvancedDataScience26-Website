@@ -64,7 +64,7 @@ Source: Békés & Kézdi (2021). Download: <https://osf.io/t6zdp/>
 | [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_06/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
 | [Live demo](lecture_notes.qmd) | Coding document built during the session — Easterlin panel analysis |
 | [Exercise](https://classroom.github.com/a/aNiocTs_) | In-session exercise: firm FE with WMS data (via GitHub Classroom) |
-| [Exercise solution](exercise-solution.qmd) | Example solution (added after session) |
+| [Exercise solution]() | Example solution (added after session) |
 
 ## Quarto skill introduced this session
 

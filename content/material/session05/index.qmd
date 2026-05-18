@@ -47,10 +47,10 @@ Source: Békés & Kézdi (2021). Full dataset documentation: <https://gabors-dat
 
 | File | Description |
 |---|---|
-| [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_05/session05-slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
+| [Slides](https://data-science-ma.github.io/AdvancedDataScience26-Material/sessions/session_05/slides.html) | Lecture slides — open in browser, press `F` for fullscreen |
 | [Live demo](lecture_notes.qmd) | Coding document built during the session — three models, DAG interpretation |
 | [Exercise](https://classroom.github.com/a/K0h_16lo) | In-session exercise: interpreting the gender wage gap (via GitHub Classroom) |
-| [Exercise solution](exercise-solution.qmd) | Example solution (added after session) |
+| [Exercise solution]() | Example solution (added after session) |
 
 ## Quarto skill introduced this session
 

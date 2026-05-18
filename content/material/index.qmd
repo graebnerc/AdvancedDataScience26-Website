@@ -42,6 +42,23 @@ For more advanced details on the fundamentals of programming in R, I recommend t
 | 7 | Thu, 11 Jun | [Using AI tools: advanced visualizations as an example](session07/index.qmd) | Publication-ready figures; AI-assisted Quarto: debugging, improving prose |
 | 8 | Thu, 18 Jun | [Recap and looking ahead](session09/index.qmd) | |
 
+::: {.callout-warning collapse="true"}
+## First exam: 26.05.2026, 16:00 - 18:00
+The exam takes place in room **MAD 131**.
+The exam lasts 120 minutes, so make sure you are in the classroom at the latest 15:50.
+It is an open book exam that is written via Moodle. 
+Please make sure you register for the exam on time!
+:::
+
+::: {.callout-warning collapse="true"}
+## Second exam: 27.08.2026, 16:00 - 18:00
+The exam takes place in room **HEL 165**.
+The exam lasts 120 minutes, so make sure you are in the classroom at the latest 15:50.
+It is an open book exam that is written via Moodle.
+Please make sure you register for the exam on time!
+:::
+
+
 ---
 
 
